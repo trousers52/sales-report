@@ -1438,12 +1438,23 @@
     }
 
     function rebuild(list, items, changedNames, isRed) {
+      // Preserve the table header (don't nuke it)
+      const header = list.querySelector('.table-header');
+
       const total = items.length;
       const html = items.map((it, i) => isRed ? buildRedRow(it, i, total) : buildBlackRow(it, i, total)).join('');
       const wrap = document.createElement('div');
       wrap.innerHTML = html;
       const newRows = Array.from(wrap.children);
+
+      // Safety: if parse produced nothing or wrong count, abort
+      if (newRows.length === 0 || newRows.length !== total) {
+        console.warn('rebuild aborted: row count mismatch', newRows.length, total);
+        return;
+      }
+
       list.innerHTML = '';
+      if (header) list.appendChild(header);
       newRows.forEach((row) => {
         const name = row.querySelector('.bd-name')?.firstChild?.textContent || '';
         if (changedNames.has(name)) {
