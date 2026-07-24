@@ -703,11 +703,96 @@
     margin: 0 !important;
     padding: 0 !important;
   }
+
+  /* === Splash screen (开屏) === */
+  .splash {
+    position: fixed; inset: 0;
+    z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 30%, rgba(255, 140, 50, 0.4) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 50% 70%, rgba(255, 60, 30, 0.4) 0%, transparent 60%),
+      linear-gradient(180deg, #3a0606 0%, #6b0e0e 30%, #a01616 50%, #6b0e0e 80%, #2a0404 100%);
+    animation: splashFadeIn 0.6s ease-out;
+    transition: opacity 0.6s, visibility 0.6s;
+  }
+  .splash.fade-out { opacity: 0; pointer-events: none; }
+  @keyframes splashFadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .splash-content { text-align: center; color: #fff; padding: 40px 24px; }
+  .splash-icon {
+    font-size: 72px;
+    margin-bottom: 18px;
+    display: inline-block;
+    animation: bounceY 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.7));
+  }
+  .splash-title {
+    font-size: 44px; font-weight: 900;
+    letter-spacing: 8px;
+    background: linear-gradient(180deg, #fff8dc 0%, #ffd700 50%, #8b6914 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    text-shadow: 0 0 30px rgba(255, 200, 50, 0.3);
+    margin-bottom: 10px;
+    animation: titleGlow 3s ease-in-out infinite;
+  }
+  .splash-subtitle {
+    font-size: 14px; color: #f5d76e; letter-spacing: 4px;
+    margin-bottom: 36px; opacity: 0.85;
+  }
+  .splash-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 32px;
+    background: linear-gradient(180deg, #d4af37 0%, #b8860b 100%);
+    color: #2a0a0a;
+    border-radius: 30px;
+    font-size: 15px; font-weight: 800;
+    letter-spacing: 2px;
+    box-shadow: 0 4px 24px rgba(212, 175, 55, 0.6);
+    animation: pulseBtn 1.4s ease-in-out infinite;
+  }
+  @keyframes pulseBtn {
+    0%, 100% { transform: scale(1); box-shadow: 0 4px 24px rgba(212, 175, 55, 0.6); }
+    50%      { transform: scale(1.08); box-shadow: 0 6px 32px rgba(255, 215, 0, 0.8); }
+  }
+  .splash-tip {
+    margin-top: 24px;
+    font-size: 12px; color: rgba(245, 215, 110, 0.6);
+    letter-spacing: 1px;
+  }
+  .splash-corner {
+    position: absolute;
+    top: 18px; left: 18px;
+    font-size: 11px; color: rgba(245, 215, 110, 0.5);
+    letter-spacing: 2px;
+  }
+  .splash-corner.right { left: auto; right: 18px; }
+
+  /* Pause all animations while splash is visible */
+  body:not(.started) .container * { animation-play-state: paused !important; }
+  /* Also pause floating elements (music player, etc) */
+  body:not(.started) .music-player { animation-play-state: paused !important; }
 </style>
 </head>
 <body>
   <div class="bg-base"></div>
   <div class="vignette"></div>
+
+  <!-- Splash screen -->
+  <div class="splash" id="splash">
+    <div class="splash-corner">芯动未来</div>
+    <div class="splash-corner right">仅供内部传阅</div>
+    <div class="splash-content">
+      <div class="splash-icon">🏆</div>
+      <div class="splash-title">7月夏战</div>
+      <div class="splash-subtitle">SALES BATTLE REPORT</div>
+      <div class="splash-btn">
+        <span>▶</span>
+        <span>点击开始</span>
+      </div>
+      <div class="splash-tip">建议佩戴耳机 · 体验更佳</div>
+    </div>
+  </div>
   <div class="particles" id="particles"></div>
   <div class="confetti-layer" id="confettiLayer"></div>
 
@@ -976,6 +1061,41 @@
     }
     // Expose for BGM autoplay / music-button click handlers
     window.__scheduleSfx = scheduleSfx;
+  </script>
+
+  <script>
+    // ====== Splash screen handler ======
+    (function setupSplash() {
+      const splash = document.getElementById('splash');
+      if (!splash) return;
+
+      function startEverything() {
+        if (document.body.classList.contains('started')) return;
+        document.body.classList.add('started');
+
+        // Reset all CSS animations on container elements
+        const targets = document.querySelectorAll('.container *, .music-player');
+        targets.forEach(el => {
+          el.style.animationPlayState = 'running';
+          const computed = getComputedStyle(el).animation;
+          if (computed && computed !== 'none 0s ease 0s 1 normal none running') {
+            el.style.animation = 'none';
+            void el.offsetWidth; // force reflow
+            el.style.animation = '';
+          }
+        });
+
+        // Fade out splash
+        splash.classList.add('fade-out');
+        setTimeout(() => splash.remove(), 700);
+
+        // Start audio (BGM + SFX) — sets up autoplay path
+        ensureSfx();
+        if (window.__scheduleSfx) window.__scheduleSfx();
+      }
+
+      splash.addEventListener('click', startEverything, { once: true });
+    })();
   </script>
 
 <script>
