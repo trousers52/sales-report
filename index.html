@@ -1005,10 +1005,9 @@
   }
   .splash-corner.right { left: auto; right: 18px; }
 
-  /* Pause all animations while splash is visible */
-  body:not(.started) .container * { animation-play-state: paused !important; }
-  /* Also pause floating elements (music player, etc) */
-  body:not(.started) .music-player { animation-play-state: paused !important; }
+  /* Animations play by default. Splash is only for audio unlock. */
+  /* (Previously we paused everything until splash was clicked — caused
+     PC users to see no data if they didn't notice the splash.) */
 </style>
 </head>
 <body>
@@ -1325,6 +1324,10 @@
         if (window.__scheduleSfx) window.__scheduleSfx();
       }
 
+      // Optional: also start when user clicks the music button or the container,
+      // in case the splash is dismissed by other means.
+      // (No-op for now; splash is the primary trigger.)
+
       splash.addEventListener('click', startEverything, { once: true });
     })();
   </script>
@@ -1438,27 +1441,49 @@
     }
 
     function rebuild(list, items, changedNames, isRed) {
-      // Preserve the table header (don't nuke it)
-      const header = list.querySelector('.table-header');
+      // Strategy: update only changed cells in place. Keep existing rows
+      // (and their animation state) intact for unchanged entries.
+      const existing = list.querySelectorAll('.row');
+      const existingByName = new Map();
+      existing.forEach(row => {
+        const n = row.querySelector('.bd-name')?.firstChild?.textContent || '';
+        if (n) existingByName.set(n, row);
+      });
 
       const total = items.length;
-      const html = items.map((it, i) => isRed ? buildRedRow(it, i, total) : buildBlackRow(it, i, total)).join('');
-      const wrap = document.createElement('div');
-      wrap.innerHTML = html;
-      const newRows = Array.from(wrap.children);
+      const header = list.querySelector('.table-header');
 
-      // Safety: if parse produced nothing or wrong count, abort
-      if (newRows.length === 0 || newRows.length !== total) {
-        console.warn('rebuild aborted: row count mismatch', newRows.length, total);
+      // Build new rows in a fragment (not in DOM during construction)
+      const frag = document.createDocumentFragment();
+      const newRowEls = items.map((it, i) => {
+        const wrap = document.createElement('div');
+        wrap.innerHTML = isRed ? buildRedRow(it, i, total) : buildBlackRow(it, i, total);
+        return wrap.firstElementChild;
+      });
+
+      // Safety
+      if (newRowEls.filter(Boolean).length !== total) {
+        console.warn('rebuild aborted: parse failed');
         return;
       }
 
+      // Clear list, restore header
       list.innerHTML = '';
       if (header) list.appendChild(header);
-      newRows.forEach((row) => {
-        const name = row.querySelector('.bd-name')?.firstChild?.textContent || '';
-        if (changedNames.has(name)) {
+
+      // Append rows; reuse existing DOM nodes for unchanged names
+      items.forEach((it, i) => {
+        let row = newRowEls[i];
+        if (existingByName.has(it.name)) {
+          // Reuse existing row to preserve animation/flash state
+          row = existingByName.get(it.name);
+        } else if (changedNames.has(it.name)) {
+          // New entry, flash it
           row.classList.add('updated');
+        }
+        // Remove any leftover "updated" class on unchanged rows
+        if (!changedNames.has(it.name)) {
+          row.classList.remove('updated');
         }
         list.appendChild(row);
       });
