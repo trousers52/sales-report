@@ -152,9 +152,6 @@
     padding: 28px 18px 60px;
   }
 
-  /* Remove old redundant responsive block (handled by new media queries below) */
-  @media (min-width: 768px) { .container { max-width: 600px; } }
-
   /* Top tag */
   .top-tag {
     display: inline-flex; align-items: center; gap: 8px;
@@ -832,6 +829,32 @@
     .container { max-width: 900px; padding: 30px 48px 60px; }
     .title { font-size: 56px; }
     .splash-title { font-size: 60px; }
+  }
+
+  /* ====== Touch target safety (mobile): ensure 44x44 minimum for tappables ====== */
+  @media (hover: none) and (pointer: coarse) {
+    .splash-btn { min-height: 48px; }
+    .music-btn { min-width: 48px; min-height: 48px; }
+  }
+
+  /* ====== High DPI / Retina border crispness ====== */
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .section, .tier-badge, .rank {
+      -webkit-font-smoothing: subpixel-antialiased;
+    }
+  }
+
+  /* ====== Dark mode users (some browsers respect) ====== */
+  @media (prefers-color-scheme: dark) {
+    /* Already dark, just ensure no forced light styles leak in */
+  }
+
+  /* ====== Print: collapse to clean text-only ====== */
+  @media print {
+    .splash, .music-player, .confetti-layer, .particles, .vignette { display: none !important; }
+    .container { max-width: 100%; padding: 20px; color: #000; background: #fff; }
+    body { background: #fff !important; color: #000 !important; }
+    .title, .brand-text { color: #5a0a0a !important; -webkit-text-fill-color: #5a0a0a !important; }
   }
 
   /* Hide platform-injected floating ball (added by deployment platform, not source code) */
