@@ -591,35 +591,6 @@
     background: rgba(212, 175, 55, 0.4);
   }
 
-  /* Replay button */
-  .replay-btn {
-    position: fixed; bottom: 24px; left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    z-index: 50;
-    padding: 12px 28px;
-    background: linear-gradient(180deg, #d4af37 0%, #b8860b 100%);
-    color: #2a0a0a;
-    border: none;
-    border-radius: 30px;
-    font-size: 14px; font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.5);
-    display: inline-flex; align-items: center; gap: 8px;
-    letter-spacing: 2px;
-    transition: transform 0.2s, box-shadow 0.2s;
-    opacity: 0;
-    animation: slideUp 0.5s ease-out 4s forwards;
-  }
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateX(-50%) translateY(100px); }
-    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
-  }
-  .replay-btn:hover {
-    transform: translateX(-50%) translateY(-2px);
-    box-shadow: 0 6px 24px rgba(212, 175, 55, 0.7);
-  }
-  .replay-btn:active { transform: translateX(-50%) translateY(0); }
-
   /* Music player (top-right floating) */
   .music-player {
     position: fixed;
@@ -928,8 +899,6 @@
     </div>
   </div>
 
-  <button class="replay-btn" id="replayBtn">↻ 重新播放</button>
-
   <!-- Music player -->
   <div class="music-player" id="musicPlayer">
     <button class="music-btn" id="musicBtn" title="播放/暂停">▶</button>
@@ -977,15 +946,6 @@
       c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
       layer.appendChild(c);
     }
-  })();
-
-  // Replay button: re-trigger animations by reloading state via class toggle
-  (function setupReplay() {
-    const btn = document.getElementById('replayBtn');
-    btn.addEventListener('click', () => {
-      // Simple approach: reload page — animations will replay
-      window.location.reload();
-    });
   })();
 
   // Background music control
