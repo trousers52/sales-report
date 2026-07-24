@@ -601,6 +601,45 @@
     background: rgba(212, 175, 55, 0.4);
   }
 
+  /* Sync status toast (top-left) */
+  .sync-toast {
+    position: fixed;
+    top: 18px; left: 18px;
+    z-index: 50;
+    padding: 8px 14px;
+    background: linear-gradient(135deg, #2d6a4f, #1b4332);
+    color: #d8f3dc;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border: 1px solid rgba(82, 196, 26, 0.4);
+    box-shadow: 0 2px 12px rgba(45, 106, 79, 0.4);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+    backdrop-filter: blur(8px);
+  }
+  .sync-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+    animation: syncPulse 0.6s ease-out;
+  }
+  .sync-toast.checking { background: linear-gradient(135deg, #444, #222); border-color: rgba(255,255,255,0.2); }
+  @keyframes syncPulse {
+    0% { transform: scale(0.9); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  .row.updated {
+    animation: rowHighlight 1.5s ease-out;
+  }
+  @keyframes rowHighlight {
+    0% { background-color: rgba(255, 215, 0, 0.5); }
+    100% { background-color: transparent; }
+  }
+
   /* Music player (top-right floating) */
   .music-player {
     position: fixed;
@@ -1193,6 +1232,9 @@
     <input type="range" class="music-vol" id="musicVol" min="0" max="1" step="0.05" value="1.0" title="音量" style="display:none">
   </div>
 
+  <!-- Sync toast -->
+  <div class="sync-toast" id="syncToast">已同步</div>
+
   <audio id="bgmAudio" src="bgm.mp3" loop preload="auto"></audio>
 
   <!-- Web Audio API sound effects (no file, synthesized in real time) -->
@@ -1326,6 +1368,110 @@
     }
   })();
 
+  // ====== Auto-sync: poll data.json every 10s, re-render lists if changed ======
+  (function autoSync() {
+    const POLL_MS = 10000;
+    const GROUP_CLASS = { 'KA一组': 'ka1', 'KA二组': 'ka2', 'SMB一组': 'smb1', 'SMB-二组': 'smb2' };
+    const RANK_TIER = [
+      [1, '最强王者', 'tier-king'],
+      [2, '至尊星耀', 'tier-star'],
+      [3, '永恒钻石', 'tier-diamond'],
+      [4, '尊贵铂金', 'tier-platinum'],
+      [5, '荣耀黄金', 'tier-gold'],
+      [6, '秩序白银', 'tier-silver'],
+    ];
+
+    function getRankTier(rank, actual) {
+      if (actual <= 0) return ['倔强青铜', 'tier-bronze'];
+      for (const [r, n, c] of RANK_TIER) if (rank === r) return [n, c];
+      return ['秩序白银', 'tier-silver'];
+    }
+
+    function buildRedRow(it, idx, total) {
+      const rank = it.rank;
+      const gcls = GROUP_CLASS[it.group] || 'ka1';
+      const rowCls = rank === 1 ? 'row rank-1-row' : 'row';
+      const lastCls = idx === total - 1 ? ' last-row' : '';
+      const rankCls = rank <= 3 ? `rank-${rank}` : 'rank-other';
+      const [tn, tc] = getRankTier(rank, it.actual);
+      const stars = it.actual > 0 ? '★'.repeat(it.actual) : '';
+      let tag = '';
+      if (it.tag) {
+        const tcls = it.tag === '上分' ? 'bd-tag up' : 'bd-tag';
+        tag = `<span class="${tcls}">${it.tag}</span>`;
+      }
+      return `<div class="${rowCls}${lastCls}"><div><div class="rank ${rankCls}">${rank}</div></div><div><span class="group ${gcls}">${it.group}</span></div><div class="bd-name">${it.name}${tag}</div><div class="num">${it.target}</div><div><span class="num actual">${it.actual}</span></div><div><span class="tier-badge ${tc}"><span class="tier-name">${tn}</span>${stars ? `<span class="tier-stars">${stars}</span>` : ''}</span></div></div>`;
+    }
+
+    function buildBlackRow(it, idx, total) {
+      const gcls = GROUP_CLASS[it.group] || 'ka1';
+      const rowCls = 'row black-row';
+      const lastCls = idx === total - 1 ? ' last-row' : '';
+      const gap = it.target - it.actual;
+      const [tn, tc] = getRankTier(0, 0);
+      const gapHtml = gap > 0 ? `<span class="gap">-${gap}</span>` : '<span class="gap dash">—</span>';
+      return `<div class="${rowCls}${lastCls}"><div><div class="rank rank-black">${it.rank}</div></div><div><span class="group ${gcls}">${it.group}</span></div><div class="bd-name">${it.name}</div><div class="num">${it.target}</div><div><span class="num actual-zero">0</span></div><div class="black-tier-cell"><span class="tier-badge ${tc}"><span class="tier-name">${tn}</span></span>${gapHtml}</div></div>`;
+    }
+
+    function rebuild(list, items, isRed) {
+      const total = items.length;
+      const oldNames = new Set(Array.from(list.querySelectorAll('.bd-name')).map(el => el.firstChild?.textContent || ''));
+      const html = items.map((it, i) => isRed ? buildRedRow(it, i, total) : buildBlackRow(it, i, total)).join('');
+      const wrap = document.createElement('div');
+      wrap.innerHTML = html;
+      const newRows = Array.from(wrap.children);
+      list.innerHTML = '';
+      newRows.forEach((row, i) => {
+        const newName = row.querySelector('.bd-name')?.firstChild?.textContent || '';
+        if (!oldNames.has(newName) || !isRed) {
+          row.classList.add('updated');
+        }
+        list.appendChild(row);
+      });
+    }
+
+    function showToast(msg, ok = true) {
+      const el = document.getElementById('syncToast');
+      if (!el) return;
+      el.textContent = msg;
+      el.classList.toggle('checking', !ok);
+      el.classList.add('show');
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => el.classList.remove('show'), 2200);
+    }
+
+    let lastHash = '';
+    try {
+      const tag = document.getElementById('war-data');
+      if (tag) lastHash = JSON.stringify(JSON.parse(tag.textContent));
+    } catch (e) {}
+
+    async function poll() {
+      try {
+        const r = await fetch('data.json?t=' + Date.now(), { cache: 'no-store' });
+        if (!r.ok) return;
+        const d = await r.json();
+        const h = JSON.stringify(d);
+        if (h === lastHash) return;
+        lastHash = h;
+        const redBody = document.querySelector('.red-section .section-body');
+        const blackBody = document.querySelector('.black-section .section-body');
+        if (redBody && d.red_list) rebuild(redBody, d.red_list, true);
+        if (blackBody && d.black_list) rebuild(blackBody, d.black_list, false);
+        // Update counts in headers
+        const redHeader = document.querySelector('.red-section .section-header span:nth-child(2)');
+        const blackHeader = document.querySelector('.black-section .section-header span:nth-child(2)');
+        if (redHeader) redHeader.textContent = `销 售 红 榜（${d.red_list.length}人）`;
+        if (blackHeader) blackHeader.textContent = `销 售 黑 榜（${d.black_list.length}人）`;
+        showToast('🆕 数据已更新');
+      } catch (e) { /* silent */ }
+    }
+
+    setInterval(poll, POLL_MS);
+    // Also poll once shortly after load to catch any rapid changes
+    setTimeout(poll, 5000);
+  })();
+
   // Background music control
   (function setupMusic() {
     const audio = document.getElementById('bgmAudio');
@@ -1380,5 +1526,6 @@
     document.addEventListener('touchstart', tryAutoplay, { once: true });
   })();
 </script>
+<script type="application/json" id="war-data">{"brand":"芯动未来","top_tag":"7月夏战","title_line1":"乘胜再追击","title_line2":"连战皆大捷","date":"2026.07.24","date_event":"24日新签达成 · 龙虎榜","red_list":[{"rank":1,"group":"SMB-二组","name":"廖闻涛","target":10,"actual":3},{"rank":2,"group":"SMB一组","name":"谭康","target":2,"actual":2,"tag":"上分"},{"rank":3,"group":"SMB-二组","name":"陈锦鹏","target":2,"actual":2,"tag":"达标"},{"rank":4,"group":"SMB一组","name":"李亚洁","target":3,"actual":2},{"rank":5,"group":"KA一组","name":"沈中堂","target":3,"actual":2},{"rank":6,"group":"KA一组","name":"张超","target":1,"actual":1},{"rank":7,"group":"SMB-二组","name":"马钰","target":2,"actual":1},{"rank":8,"group":"KA一组","name":"燕小一","target":1,"actual":1,"tag":"+达标","last":true}],"black_list":[{"rank":1,"group":"KA二组","name":"张琪","target":1,"actual":0},{"rank":2,"group":"KA二组","name":"杨竟竟","target":2,"actual":0},{"rank":3,"group":"SMB一组","name":"张耿淳","target":0,"actual":0},{"rank":4,"group":"SMB一组","name":"徐哲","target":0,"actual":0,"last":true}],"footer_left":"战鼓已响，使命必达","footer_right":"决战24日 · 数据截止当日"}</script>
 </body>
 </html>
