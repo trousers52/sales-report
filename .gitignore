@@ -1,0 +1,17 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Build artifacts (not needed in git, regenerate locally)
+# Actually we DO want index.html in git for GitHub Pages to serve
+# Uncomment the line below if you prefer to commit only data.json and regenerate
+# index.html
+
+# Python
+__pycache__/
+*.pyc

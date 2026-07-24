@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>战报 · 芯动未来 · 24日新签达成 · 龙虎榜</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+  html, body { min-height: 100%; }
+
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #1a0505;
+    color: #fff;
+    overflow-x: hidden;
+  }
+
+  /* ===== Keyframes ===== */
+  @keyframes float {
+    0%   { transform: translateY(0) translateX(0); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { transform: translateY(-110vh) translateX(40px); opacity: 0; }
+  }
+  @keyframes drift {
+    0%   { transform: translate(0, 0) scale(1); opacity: 0.4; }
+    50%  { transform: translate(30px, -40px) scale(1.2); opacity: 0.9; }
+    100% { transform: translate(0, 0) scale(1); opacity: 0.4; }
+  }
+  @keyframes titleGlow {
+    0%, 100% { filter: drop-shadow(0 0 6px rgba(255, 200, 50, 0.5)) drop-shadow(0 2px 4px rgba(0,0,0,0.4)); }
+    50%      { filter: drop-shadow(0 0 18px rgba(255, 220, 100, 0.9)) drop-shadow(0 2px 4px rgba(0,0,0,0.4)); }
+  }
+  @keyframes charReveal {
+    0%   { opacity: 0; transform: translateY(40px) scale(0.4) rotate(-10deg); }
+    70%  { opacity: 1; transform: translateY(-6px) scale(1.1) rotate(2deg); }
+    100% { opacity: 1; transform: translateY(0) scale(1) rotate(0); }
+  }
+  @keyframes shineSweep {
+    0%   { left: -120%; }
+    60%  { left: 200%; }
+    100% { left: 200%; }
+  }
+  @keyframes bounceY {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-4px); }
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes flicker {
+    0%, 100% { opacity: 0.6; }
+    50%      { opacity: 1; }
+  }
+  @keyframes slideInRight {
+    0%   { opacity: 0; transform: translateX(80px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slideInLeft {
+    0%   { opacity: 0; transform: translateX(-80px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes scaleIn {
+    0%   { opacity: 0; transform: scale(0.4); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes scaleInBig {
+    0%   { opacity: 0; transform: scale(0.2); }
+    60%  { opacity: 1; transform: scale(1.15); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes rankPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+    50%      { transform: scale(1.12); box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+  }
+  @keyframes confetti {
+    0%   { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+  @keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  @keyframes fire {
+    0%, 100% { transform: scale(1) rotate(-3deg); opacity: 0.85; }
+    50%      { transform: scale(1.15) rotate(3deg); opacity: 1; }
+  }
+  @keyframes warningBlink {
+    0%, 49%, 100% { background: #1a1a1a; color: #d4af37; }
+    50%, 99%      { background: #2a0a0a; color: #ff5252; }
+  }
+  @keyframes numberPop {
+    0%   { transform: scale(0.3); opacity: 0; }
+    60%  { transform: scale(1.3); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+  @keyframes countUp {
+    from { --num: 0; }
+    to   { --num: var(--target); }
+  }
+
+  /* ===== Background ===== */
+  .bg-base {
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255, 140, 50, 0.35) 0%, transparent 60%),
+      radial-gradient(ellipse 80% 50% at 50% 100%, rgba(255, 60, 30, 0.35) 0%, transparent 60%),
+      linear-gradient(180deg, #3a0606 0%, #6b0e0e 20%, #a01616 50%, #6b0e0e 80%, #2a0404 100%);
+  }
+  .vignette {
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.5) 100%);
+  }
+
+  /* Floating golden particles */
+  .particles {
+    position: fixed; inset: 0; z-index: 2; pointer-events: none; overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    background: radial-gradient(circle, #ffd700 0%, rgba(255, 215, 0, 0.4) 40%, transparent 70%);
+    border-radius: 50%;
+    bottom: -20px;
+    animation: float linear infinite;
+  }
+
+  /* Confetti */
+  .confetti-layer {
+    position: fixed; inset: 0; z-index: 99; pointer-events: none; overflow: hidden;
+  }
+  .confetti {
+    position: absolute; top: -20px;
+    animation: confetti linear infinite;
+  }
+
+  /* ===== Container ===== */
+  .container {
+    position: relative; z-index: 10;
+    max-width: 420px; margin: 0 auto;
+    padding: 28px 18px 60px;
+  }
+
+  /* Top tag */
+  .top-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 16px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(212, 175, 55, 0.6);
+    border-radius: 30px;
+    color: #f5d76e;
+    font-size: 11px; letter-spacing: 3px; font-weight: 500;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 0 16px rgba(212, 175, 55, 0.2);
+    position: relative; z-index: 5;
+    opacity: 0;
+    animation: scaleIn 0.6s ease-out 0.1s forwards;
+  }
+  .top-tag-wrap { text-align: center; margin-bottom: 22px; }
+  .star { color: #d4af37; animation: flicker 1.5s ease-in-out infinite; display: inline-block; }
+  .star:nth-child(3) { animation-delay: 0.5s; }
+
+  /* Brand header */
+  .brand-banner {
+    display: flex; flex-direction: column; align-items: center;
+    margin-bottom: 18px;
+    padding: 8px 0 10px;
+    position: relative; z-index: 5;
+    opacity: 0;
+    animation: brandReveal 0.7s ease-out 0.05s forwards;
+  }
+  .brand-banner::before, .brand-banner::after {
+    content: '';
+    position: absolute; left: 50%; transform: translateX(-50%);
+    width: 60%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.6), transparent);
+  }
+  .brand-banner::before { top: 0; }
+  .brand-banner::after  { bottom: 0; }
+  .brand-row {
+    display: flex; align-items: center; justify-content: center;
+    gap: 10px;
+    position: relative;
+  }
+  .brand-line {
+    display: inline-block;
+    width: 28px; height: 1px;
+    background: linear-gradient(90deg, transparent, #d4af37);
+  }
+  .brand-line.right { background: linear-gradient(90deg, #d4af37, transparent); }
+  .brand-icon {
+    font-size: 16px;
+    color: #ffd700;
+    filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.8));
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .brand-text {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 6px;
+    background: linear-gradient(90deg, #fff8dc 0%, #ffd700 40%, #d4af37 70%, #b8860b 100%);
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.4));
+    padding: 0 2px;
+  }
+  .brand-tagline {
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: rgba(245, 215, 110, 0.85);
+    font-weight: 600;
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+  @keyframes brandReveal {
+    0%   { opacity: 0; transform: translateY(-20px) scale(0.9); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Title */
+  .title {
+    text-align: center;
+    font-size: 46px; font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 26px;
+    letter-spacing: 4px;
+    background: linear-gradient(180deg, #ffe066 0%, #ffb700 25%, #d4af37 60%, #8b6914 100%);
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+    position: relative; z-index: 5;
+    animation: titleGlow 3s ease-in-out infinite;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6), 0 0 16px rgba(255, 200, 50, 0.4);
+  }
+  .title .row { display: block; }
+  .title .char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(40px) scale(0.4) rotate(-10deg);
+    animation: charReveal 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  /* Date badge */
+  .date-badge {
+    display: inline-flex; flex-direction: column; align-items: center; gap: 2px;
+    margin: 0 auto 28px;
+    padding: 8px 24px 10px;
+    background: linear-gradient(180deg, #f5d76e 0%, #d4af37 50%, #b8860b 100%);
+    border-radius: 16px;
+    color: #2a0a0a;
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    position: relative; z-index: 5; overflow: hidden;
+    opacity: 0;
+    animation: scaleInBig 0.5s ease-out 1.3s forwards;
+  }
+  .date-full {
+    font-size: 18px; font-weight: 900;
+    letter-spacing: 3px;
+    line-height: 1.1;
+  }
+  .date-event {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 2px;
+    opacity: 0.75;
+    margin-top: 2px;
+    border-top: 1px dashed rgba(42, 10, 10, 0.3);
+    padding-top: 3px;
+    width: 100%;
+  }
+  .date-badge::after {
+    content: '';
+    position: absolute; top: 0; left: -120%; width: 60%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+    animation: shineSweep 3s ease-in-out 1.5s infinite;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 22px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(212, 175, 55, 0.15);
+    opacity: 0;
+    animation: scaleIn 0.5s ease-out forwards;
+    position: relative; z-index: 1;
+  }
+  .section.red-section { animation-delay: 1.3s; }
+  .section.black-section { animation-delay: 2.4s; }
+
+  .section-header {
+    padding: 14px 16px;
+    text-align: center;
+    font-size: 22px; font-weight: 800;
+    color: #fff; letter-spacing: 4px;
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    position: relative; overflow: hidden;
+  }
+  .section-header.red {
+    background: linear-gradient(180deg, #ffd700 0%, #d4af37 50%, #b8860b 100%);
+    color: #2a0a0a;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+  .section-header.red::after {
+    content: '';
+    position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    animation: shineSweep 4s ease-in-out 2s infinite;
+  }
+  .section-header.black {
+    background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 50%, #0a0a0a 100%);
+    color: #d4af37;
+    border: 1px solid #3a3a3a;
+    border-bottom: none;
+    animation: warningBlink 2s ease-in-out infinite;
+  }
+  .trophy {
+    font-size: 22px; display: inline-block;
+    animation: bounceY 1.5s ease-in-out infinite;
+  }
+  .trophy.spin-slow { animation: spin 4s linear infinite; }
+  .warning-icon {
+    font-size: 20px; display: inline-block;
+    animation: fire 0.8s ease-in-out infinite;
+  }
+
+  .section-body {
+    background: linear-gradient(180deg, rgba(60, 8, 8, 0.85) 0%, rgba(40, 4, 4, 0.9) 100%);
+    color: #f5d76e;
+    padding: 12px 10px;
+    /* no position: relative — 保持普通流，避免覆盖上面的标题 */
+  }
+  .section-body.black-body {
+    background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
+    color: #d4af37;
+    /* no position: relative */
+  }
+
+  /* Table */
+  .table-header {
+    display: grid;
+    grid-template-columns: 50px 1fr 1.1fr 0.7fr 0.7fr 1fr;
+    gap: 4px;
+    padding: 6px 4px 8px;
+    font-size: 11px; font-weight: 700;
+    color: #f5d76e;
+    text-align: center;
+    border-bottom: 1px dashed rgba(212, 175, 55, 0.4);
+    margin-bottom: 6px;
+  }
+  .table-header.black-header {
+    color: #d4af37;
+    border-bottom-color: rgba(212, 175, 55, 0.3);
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 50px 1fr 1.1fr 0.7fr 0.7fr 1fr;
+    gap: 4px;
+    align-items: center;
+    padding: 7px 4px;
+    background: rgba(120, 20, 20, 0.45);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    color: #fff8dc;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    text-align: center;
+    font-size: 12.5px;
+    opacity: 0;
+    animation: slideInRight 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  .row.black-row {
+    background: rgba(50, 50, 50, 0.6);
+    animation-name: slideInLeft;
+  }
+  .row.last-row { margin-bottom: 0; }
+
+  /* Row 1 special */
+  .row.rank-1-row {
+    background: linear-gradient(90deg, rgba(180, 130, 20, 0.35), rgba(255, 200, 50, 0.55), rgba(180, 130, 20, 0.35));
+    background-size: 200% 100%;
+    animation: slideInRight 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards, shimmer 3s linear infinite;
+    border: 1px solid rgba(255, 215, 0, 0.6);
+    color: #fff8dc;
+  }
+
+  /* Rank badge */
+  .rank {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    font-weight: 800; font-size: 12.5px;
+    color: #fff;
+    margin: 0 auto;
+  }
+  .rank-1 { background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%); box-shadow: 0 2px 8px rgba(255, 140, 0, 0.5); animation: rankPulse 1.5s ease-in-out infinite; }
+  .rank-2 { background: linear-gradient(135deg, #e0e0e0 0%, #909090 100%); }
+  .rank-3 { background: linear-gradient(135deg, #cd7f32 0%, #8b4513 100%); }
+  .rank-other { background: #6b5a4a; }
+  .rank-black { background: #444; color: #999; }
+
+  /* Group tag */
+  .group {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 8px;
+    font-size: 10px; font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+  }
+  .group.ka1 { background: #6b46c1; }
+  .group.ka2 { background: #2c5282; }
+  .group.smb1 { background: #2d6a4f; }
+  .group.smb2 { background: #c1121f; }
+
+  /* BD name */
+  .bd-name {
+    font-weight: 600;
+    position: relative;
+    display: inline-block;
+    padding-right: 2px;
+    color: #fff8dc;
+  }
+  .bd-tag {
+    position: absolute;
+    top: -7px; right: -6px;
+    font-size: 8px;
+    padding: 1px 4px;
+    border-radius: 4px;
+    background: #d4af37;
+    color: #2a0a0a;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+  .bd-tag.up { background: #16a34a; color: #fff; }
+
+  /* Numbers */
+  .num {
+    font-weight: 700; font-size: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+  .num.actual {
+    color: #ffd700;
+    font-size: 16px;
+    font-weight: 800;
+    display: inline-block;
+    animation: numberPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  }
+  .num.actual-zero { color: #777; font-size: 14px; }
+  .num { color: #f5d76e; }
+
+  /* Completion */
+  .completion {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: 700; font-size: 11px;
+    color: #fff;
+    min-width: 38px;
+  }
+  .completion.c-100 { background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%); box-shadow: 0 2px 6px rgba(212, 175, 55, 0.5); animation: rankPulse 2s ease-in-out infinite; color: #2a0a0a; }
+  .completion.c-50  { background: #f59e0b; }
+  .completion.c-33  { background: #fb923c; }
+  .completion.c-20  { background: #ef4444; }
+
+  .gap {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: 700; font-size: 11px;
+    background: #444;
+    color: #fca5a5;
+    min-width: 30px;
+  }
+  .gap.dash { background: transparent; color: #555; font-weight: 400; }
+
+  /* Divider */
+  .divider {
+    text-align: center;
+    color: #d4af37;
+    font-size: 12px;
+    padding: 10px 0 14px;
+    letter-spacing: 2px;
+    opacity: 0;
+    animation: scaleIn 0.5s ease-out 2.2s forwards;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 22px;
+    padding: 14px 16px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 10px;
+    color: #f5d76e;
+    font-size: 11.5px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    animation: scaleIn 0.5s ease-out 3.5s forwards;
+  }
+  .footer-icon {
+    color: #c1121f;
+    font-size: 14px; font-weight: 900;
+  }
+  .footer-divider {
+    width: 1px; height: 12px;
+    background: rgba(212, 175, 55, 0.4);
+  }
+
+  /* Replay button */
+  .replay-btn {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    z-index: 50;
+    padding: 12px 28px;
+    background: linear-gradient(180deg, #d4af37 0%, #b8860b 100%);
+    color: #2a0a0a;
+    border: none;
+    border-radius: 30px;
+    font-size: 14px; font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.5);
+    display: inline-flex; align-items: center; gap: 8px;
+    letter-spacing: 2px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    opacity: 0;
+    animation: slideUp 0.5s ease-out 4s forwards;
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateX(-50%) translateY(100px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+  .replay-btn:hover {
+    transform: translateX(-50%) translateY(-2px);
+    box-shadow: 0 6px 24px rgba(212, 175, 55, 0.7);
+  }
+  .replay-btn:active { transform: translateX(-50%) translateY(0); }
+
+  /* Hide button state */
+  body.replay-mode .replay-btn { animation: none; opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* Reduce motion */
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01s !important; transition-duration: 0.01s !important; }
+  }
+
+  /* Hide platform-injected floating ball (added by deployment platform, not source code) */
+  #minimax-floating-ball,
+  .minimax-ball-content,
+  .minimax-logo-wave,
+  .minimax-ball-text,
+  .minimax-close-icon {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+</style>
+</head>
+<body>
+  <div class="bg-base"></div>
+  <div class="vignette"></div>
+  <div class="particles" id="particles"></div>
+  <div class="confetti-layer" id="confettiLayer"></div>
+
+  <div class="container">
+    <!-- Brand header -->
+    <div class="brand-banner">
+      <div class="brand-row">
+        <span class="brand-line"></span>
+        <span class="brand-icon">⚡</span>
+        <span class="brand-text">芯动未来</span>
+        <span class="brand-icon">⚡</span>
+        <span class="brand-line right"></span>
+      </div>
+      <div class="brand-tagline">SALES BATTLE REPORT</div>
+    </div>
+
+    <!-- Top tag -->
+    <div class="top-tag-wrap">
+      <div class="top-tag">
+        <span class="star">★</span>
+        <span>7月夏战</span>
+        <span class="star">★</span>
+      </div>
+    </div>
+
+    <!-- Title -->
+    <h1 class="title">
+      <span class="row">
+        <span class="char" style="animation-delay: 0.20s">乘</span><span class="char" style="animation-delay: 0.30s">胜</span><span class="char" style="animation-delay: 0.40s">再</span><span class="char" style="animation-delay: 0.50s">追</span><span class="char" style="animation-delay: 0.60s">击</span>
+      </span>
+      <span class="row">
+        <span class="char" style="animation-delay: 0.75s">连</span><span class="char" style="animation-delay: 0.85s">战</span><span class="char" style="animation-delay: 0.95s">皆</span><span class="char" style="animation-delay: 1.05s">大</span><span class="char" style="animation-delay: 1.15s">捷</span>
+      </span>
+    </h1>
+
+    <!-- Date badge -->
+    <div style="text-align: center;">
+      <div class="date-badge">
+        <div class="date-full">2026.07.24</div>
+        <div class="date-event">24日新签达成 · 龙虎榜</div>
+      </div>
+    </div>
+
+    <!-- Red list -->
+    <div class="section red-section">
+      <div class="section-header red">
+        <span class="trophy">🏆</span>
+        <span>销 售 红 榜</span>
+        <span class="trophy spin-slow">🏆</span>
+      </div>
+      <div class="section-body">
+        <div class="table-header">
+          <div>排名</div>
+          <div>组别</div>
+          <div>BD</div>
+          <div>目标</div>
+          <div>实际</div>
+          <div>完成率</div>
+        </div>
+
+                <div class="row rank-1-row" style="animation-delay: 1.50s">
+          <div><div class="rank rank-1">1</div></div>
+          <div><span class="group smb2">SMB-二组</span></div>
+          <div class="bd-name">廖闻涛</div>
+          <div class="num">10</div>
+          <div><span class="num actual" style="animation-delay: 1.70s">3</span></div>
+          <div><span class="completion c-33">30%</span></div>
+        </div>
+        <div class="row" style="animation-delay: 1.65s">
+          <div><div class="rank rank-2">2</div></div>
+          <div><span class="group smb1">SMB一组</span></div>
+          <div class="bd-name">谭康<span class="bd-tag up">上分</span></div>
+          <div class="num">2</div>
+          <div><span class="num actual" style="animation-delay: 1.85s">1</span></div>
+          <div><span class="completion c-50">50%</span></div>
+        </div>
+        <div class="row" style="animation-delay: 1.80s">
+          <div><div class="rank rank-3">3</div></div>
+          <div><span class="group smb2">SMB-二组</span></div>
+          <div class="bd-name">陈锦鹏</div>
+          <div class="num">2</div>
+          <div><span class="num actual" style="animation-delay: 2.00s">1</span></div>
+          <div><span class="completion c-50">50%</span></div>
+        </div>
+        <div class="row" style="animation-delay: 1.95s">
+          <div><div class="rank rank-other">4</div></div>
+          <div><span class="group smb1">SMB一组</span></div>
+          <div class="bd-name">李亚洁</div>
+          <div class="num">3</div>
+          <div><span class="num actual" style="animation-delay: 2.15s">1</span></div>
+          <div><span class="completion c-33">33%</span></div>
+        </div>
+        <div class="row" style="animation-delay: 2.10s">
+          <div><div class="rank rank-other">5</div></div>
+          <div><span class="group smb2">SMB-二组</span></div>
+          <div class="bd-name">马钰</div>
+          <div class="num">2</div>
+          <div><span class="num actual" style="animation-delay: 2.30s">1</span></div>
+          <div><span class="completion c-50">50%</span></div>
+        </div>
+        <div class="row last-row" style="animation-delay: 2.25s">
+          <div><div class="rank rank-other">6</div></div>
+          <div><span class="group ka1">KA一组</span></div>
+          <div class="bd-name">燕小一<span class="bd-tag">+达标</span></div>
+          <div class="num">1</div>
+          <div><span class="num actual" style="animation-delay: 2.45s">1</span></div>
+          <div><span class="completion c-100">100%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider">— 以下为黑榜（实际达成 0）—</div>
+
+    <!-- Black list -->
+    <div class="section black-section">
+      <div class="section-header black">
+        <span class="warning-icon">⚠</span>
+        <span>销 售 黑 榜</span>
+        <span class="warning-icon">⚠</span>
+      </div>
+      <div class="section-body black-body">
+        <div class="table-header black-header">
+          <div>排名</div>
+          <div>组别</div>
+          <div>BD</div>
+          <div>目标</div>
+          <div>实际</div>
+          <div>差距</div>
+        </div>
+
+                <div class="row black-row" style="animation-delay: 2.60s">
+          <div><div class="rank rank-black">1</div></div>
+          <div><span class="group ka1">KA一组</span></div>
+          <div class="bd-name">张超</div>
+          <div class="num">1</div>
+          <div><span class="num actual-zero">0</span></div>
+          <div><span class="gap">-1</span></div>
+        </div>
+        <div class="row black-row" style="animation-delay: 2.75s">
+          <div><div class="rank rank-black">2</div></div>
+          <div><span class="group ka2">KA二组</span></div>
+          <div class="bd-name">张琪</div>
+          <div class="num">1</div>
+          <div><span class="num actual-zero">0</span></div>
+          <div><span class="gap">-1</span></div>
+        </div>
+        <div class="row black-row" style="animation-delay: 2.90s">
+          <div><div class="rank rank-black">3</div></div>
+          <div><span class="group ka2">KA二组</span></div>
+          <div class="bd-name">杨竟竟</div>
+          <div class="num">2</div>
+          <div><span class="num actual-zero">0</span></div>
+          <div><span class="gap">-2</span></div>
+        </div>
+        <div class="row black-row" style="animation-delay: 3.05s">
+          <div><div class="rank rank-black">4</div></div>
+          <div><span class="group ka1">KA一组</span></div>
+          <div class="bd-name">沈中堂</div>
+          <div class="num">3</div>
+          <div><span class="num actual-zero">0</span></div>
+          <div><span class="gap">-3</span></div>
+        </div>
+        <div class="row black-row" style="animation-delay: 3.20s">
+          <div><div class="rank rank-black">5</div></div>
+          <div><span class="group smb1">SMB一组</span></div>
+          <div class="bd-name">张耿淳</div>
+          <div class="num">0</div>
+          <div><span class="num actual-zero">0</span></div>
+          <div><span class="gap dash">—</span></div>
+        </div>
+        <div class="row black-row last-row" style="animation-delay: 3.35s">
+          <div><div class="rank rank-black">6</div></div>
+          <div><span class="group smb1">SMB一组</span></div>
+          <div class="bd-name">徐哲</div>
+          <div class="num">0</div>
+          <div><span class="num actual-zero">0</span></div>
+          <div><span class="gap dash">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <span class="footer-icon">✕</span>
+      <span>战鼓已响，使命必达</span>
+      <span class="footer-divider"></span>
+      <span>决战24日 · 数据截止当日</span>
+    </div>
+  </div>
+
+  <button class="replay-btn" id="replayBtn">↻ 重新播放</button>
+
+<script>
+  // Generate floating golden particles
+  (function makeParticles() {
+    const box = document.getElementById('particles');
+    const count = 36;
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const size = 2 + Math.random() * 5;
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.animationDuration = (8 + Math.random() * 10) + 's';
+      p.style.animationDelay = (Math.random() * 10) + 's';
+      p.style.opacity = 0.4 + Math.random() * 0.5;
+      box.appendChild(p);
+    }
+  })();
+
+  // Confetti for #1 (delayed, after red list rows appear)
+  (function confettiBlast() {
+    const layer = document.getElementById('confettiLayer');
+    const colors = ['#ffd700', '#ff6b6b', '#c1121f', '#f5d76e', '#d4af37', '#fff8dc', '#ff8c00'];
+    const pieces = 60;
+    for (let i = 0; i < pieces; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = Math.random() * 100 + '%';
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+      c.style.animationDuration = (3.5 + Math.random() * 3) + 's';
+      c.style.animationDelay = (1.5 + Math.random() * 1.5) + 's';
+      const w = 6 + Math.random() * 8;
+      c.style.width = w + 'px';
+      c.style.height = (6 + Math.random() * 12) + 'px';
+      c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      layer.appendChild(c);
+    }
+  })();
+
+  // Replay button: re-trigger animations by reloading state via class toggle
+  (function setupReplay() {
+    const btn = document.getElementById('replayBtn');
+    btn.addEventListener('click', () => {
+      // Simple approach: reload page — animations will replay
+      window.location.reload();
+    });
+  })();
+</script>
+</body>
+</html>
