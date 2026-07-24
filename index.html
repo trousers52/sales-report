@@ -1105,23 +1105,11 @@
         if (document.body.classList.contains('started')) return;
         document.body.classList.add('started');
 
-        // Reset all CSS animations on container elements
-        const targets = document.querySelectorAll('.container *, .music-player');
-        targets.forEach(el => {
-          el.style.animationPlayState = 'running';
-          const computed = getComputedStyle(el).animation;
-          if (computed && computed !== 'none 0s ease 0s 1 normal none running') {
-            el.style.animation = 'none';
-            void el.offsetWidth; // force reflow
-            el.style.animation = '';
-          }
-        });
-
         // Fade out splash
         splash.classList.add('fade-out');
         setTimeout(() => splash.remove(), 700);
 
-        // Start audio (BGM + SFX) — sets up autoplay path
+        // Start audio (BGM + SFX)
         ensureSfx();
         if (window.__scheduleSfx) window.__scheduleSfx();
       }
