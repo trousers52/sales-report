@@ -1413,17 +1413,40 @@
       return `<div class="${rowCls}${lastCls}"><div><div class="rank rank-black">${it.rank}</div></div><div><span class="group ${gcls}">${it.group}</span></div><div class="bd-name">${it.name}</div><div class="num">${it.target}</div><div><span class="num actual-zero">0</span></div><div class="black-tier-cell"><span class="tier-badge ${tc}"><span class="tier-name">${tn}</span></span>${gapHtml}</div></div>`;
     }
 
-    function rebuild(list, items, isRed) {
+    // Canonical hash: key-order independent, JSON-format independent
+    function canonicalHash(d) {
+      if (d === null || typeof d !== 'object') return JSON.stringify(d);
+      if (Array.isArray(d)) return '[' + d.map(canonicalHash).join(',') + ']';
+      const keys = Object.keys(d).sort();
+      return '{' + keys.map(k => JSON.stringify(k) + ':' + canonicalHash(d[k])).join(',') + '}';
+    }
+
+    // Compare two arrays of BD items, return list of names whose actual changed
+    function findChangedNames(oldList, newList) {
+      const oldMap = new Map();
+      (oldList || []).forEach(it => oldMap.set(it.name, `${it.actual}|${it.target}|${it.group}|${it.tag || ''}`));
+      const changed = new Set();
+      (newList || []).forEach(it => {
+        const k = `${it.actual}|${it.target}|${it.group}|${it.tag || ''}`;
+        if (!oldMap.has(it.name)) {
+          changed.add(it.name); // new
+        } else if (oldMap.get(it.name) !== k) {
+          changed.add(it.name); // changed
+        }
+      });
+      return changed;
+    }
+
+    function rebuild(list, items, changedNames, isRed) {
       const total = items.length;
-      const oldNames = new Set(Array.from(list.querySelectorAll('.bd-name')).map(el => el.firstChild?.textContent || ''));
       const html = items.map((it, i) => isRed ? buildRedRow(it, i, total) : buildBlackRow(it, i, total)).join('');
       const wrap = document.createElement('div');
       wrap.innerHTML = html;
       const newRows = Array.from(wrap.children);
       list.innerHTML = '';
-      newRows.forEach((row, i) => {
-        const newName = row.querySelector('.bd-name')?.firstChild?.textContent || '';
-        if (!oldNames.has(newName) || !isRed) {
+      newRows.forEach((row) => {
+        const name = row.querySelector('.bd-name')?.firstChild?.textContent || '';
+        if (changedNames.has(name)) {
           row.classList.add('updated');
         }
         list.appendChild(row);
@@ -1440,10 +1463,15 @@
       showToast._t = setTimeout(() => el.classList.remove('show'), 2200);
     }
 
+    // Initialize from embedded data
+    let currentData = null;
     let lastHash = '';
     try {
       const tag = document.getElementById('war-data');
-      if (tag) lastHash = JSON.stringify(JSON.parse(tag.textContent));
+      if (tag) {
+        currentData = JSON.parse(tag.textContent);
+        lastHash = canonicalHash(currentData);
+      }
     } catch (e) {}
 
     async function poll() {
@@ -1451,25 +1479,38 @@
         const r = await fetch('data.json?t=' + Date.now(), { cache: 'no-store' });
         if (!r.ok) return;
         const d = await r.json();
-        const h = JSON.stringify(d);
-        if (h === lastHash) return;
+        const h = canonicalHash(d);
+        if (h === lastHash) return; // no change, silent
         lastHash = h;
+
+        // Compute row-level changes (only highlight rows whose actual/target/group/tag changed)
+        const redChanged = findChangedNames(currentData?.red_list, d.red_list);
+        const blackChanged = findChangedNames(currentData?.black_list, d.black_list);
+        const totalChanged = redChanged.size + blackChanged.size;
+
         const redBody = document.querySelector('.red-section .section-body');
         const blackBody = document.querySelector('.black-section .section-body');
-        if (redBody && d.red_list) rebuild(redBody, d.red_list, true);
-        if (blackBody && d.black_list) rebuild(blackBody, d.black_list, false);
-        // Update counts in headers
+        if (redBody && d.red_list) rebuild(redBody, d.red_list, redChanged, true);
+        if (blackBody && d.black_list) rebuild(blackBody, d.black_list, blackChanged, false);
+
+        // Update header counts
         const redHeader = document.querySelector('.red-section .section-header span:nth-child(2)');
         const blackHeader = document.querySelector('.black-section .section-header span:nth-child(2)');
         if (redHeader) redHeader.textContent = `销 售 红 榜（${d.red_list.length}人）`;
         if (blackHeader) blackHeader.textContent = `销 售 黑 榜（${d.black_list.length}人）`;
-        showToast('🆕 数据已更新');
+
+        currentData = d;
+        if (totalChanged > 0) {
+          showToast(`🆕 ${totalChanged} 行已更新`);
+        } else {
+          // Structural change (e.g. list length) but no row changed — still notify
+          showToast('🆕 数据已更新');
+        }
       } catch (e) { /* silent */ }
     }
 
     setInterval(poll, POLL_MS);
-    // Also poll once shortly after load to catch any rapid changes
-    setTimeout(poll, 5000);
+    setTimeout(poll, 5000); // first poll after 5s
   })();
 
   // Background music control
