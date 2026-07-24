@@ -2,7 +2,9 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#5a0a0a">
+<meta name="format-detection" content="telephone=no">
 <title>战报 · 芯动未来 · 24日新签达成 · 龙虎榜</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
@@ -10,10 +12,18 @@
   html, body { min-height: 100%; }
 
   body {
-    font-family: "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "HarmonyOS Sans SC", "MI LanTing", sans-serif;
     background: #1a0505;
     color: #fff;
     overflow-x: hidden;
+    /* iOS safe area (notch, home indicator) */
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    /* Better font rendering on Android (Huawei/Xiaomi) */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* Remove tap highlight on mobile */
+    -webkit-tap-highlight-color: transparent;
   }
 
   /* ===== Keyframes ===== */
@@ -141,6 +151,9 @@
     max-width: 420px; margin: 0 auto;
     padding: 28px 18px 60px;
   }
+
+  /* Remove old redundant responsive block (handled by new media queries below) */
+  @media (min-width: 768px) { .container { max-width: 600px; } }
 
   /* Top tag */
   .top-tag {
@@ -686,6 +699,139 @@
   /* Reduce motion */
   @media (prefers-reduced-motion: reduce) {
     * { animation-duration: 0.01s !important; transition-duration: 0.01s !important; }
+  }
+
+  /* ====== Responsive: small phone (default, 320-374px) ====== */
+  .container {
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 24px 16px 60px;
+  }
+  .title { font-size: 42px; }
+  .brand-text { font-size: 20px; }
+  .splash-title { font-size: 40px; }
+  .splash-icon { font-size: 64px; }
+  .splash-btn { font-size: 14px; padding: 12px 26px; }
+
+  /* ====== Large phones (>= 375px) ====== */
+  @media (min-width: 375px) {
+    .container { max-width: 440px; }
+    .title { font-size: 46px; }
+  }
+
+  /* ====== iPhone Pro Max / Xiaomi large (>= 414px) ====== */
+  @media (min-width: 414px) {
+    .container { max-width: 480px; padding: 28px 20px 70px; }
+    .title { font-size: 50px; }
+    .brand-text { font-size: 22px; }
+    .splash-title { font-size: 48px; }
+  }
+
+  /* ====== Small tablets / Foldable unfolded (>= 600px) ====== */
+  @media (min-width: 600px) {
+    .container {
+      max-width: 540px;
+      padding: 36px 28px 80px;
+    }
+    .title { font-size: 54px; letter-spacing: 5px; }
+    .brand-text { font-size: 24px; }
+    .splash-title { font-size: 56px; }
+    .splash-icon { font-size: 80px; }
+    .splash-btn { font-size: 16px; padding: 14px 32px; }
+    .section-header { font-size: 24px; }
+    .row { font-size: 13.5px; padding: 8px 6px; }
+    .bd-name { font-size: 14px; }
+    .tier-badge { min-width: 56px; padding: 4px 8px; font-size: 11px; }
+    .date-full { font-size: 20px; }
+  }
+
+  /* ====== iPad / large tablets (>= 768px) ====== */
+  @media (min-width: 768px) {
+    .container {
+      max-width: 620px;
+      padding: 48px 40px 100px;
+    }
+    .title { font-size: 60px; }
+    .brand-text { font-size: 26px; }
+    .splash-title { font-size: 64px; }
+    .splash-icon { font-size: 96px; }
+    .splash-btn { font-size: 17px; padding: 16px 40px; }
+    .splash-tip { font-size: 14px; }
+    .splash-credit { padding: 6px 18px; }
+    .section-header { font-size: 26px; padding: 18px 16px; }
+    .row { font-size: 14px; padding: 9px 8px; }
+    .bd-name { font-size: 15px; }
+    .tier-badge { min-width: 64px; padding: 5px 10px; font-size: 12px; }
+    .tier-stars { font-size: 10px; }
+    .num.actual { font-size: 18px; }
+    .date-full { font-size: 22px; }
+    .date-event { font-size: 12px; }
+    .music-btn { width: 48px; height: 48px; font-size: 18px; }
+    .footer { font-size: 13px; padding: 18px 20px; }
+  }
+
+  /* ====== Desktop / iPad Pro landscape (>= 1024px) ====== */
+  @media (min-width: 1024px) {
+    .container {
+      max-width: 720px;
+      padding: 60px 56px 120px;
+    }
+    .bg-base, .vignette {
+      background-attachment: fixed;
+    }
+    .title { font-size: 64px; }
+    .brand-text { font-size: 28px; }
+    .splash-title { font-size: 72px; }
+    .splash-icon { font-size: 108px; }
+    .splash-btn { font-size: 18px; padding: 18px 44px; }
+    .splash-tip { font-size: 15px; }
+    .section-header { font-size: 28px; }
+    .row { font-size: 15px; padding: 11px 10px; }
+    .bd-name { font-size: 16px; }
+    .tier-badge { min-width: 70px; padding: 6px 12px; font-size: 13px; }
+    .tier-stars { font-size: 11px; }
+    .num.actual { font-size: 20px; }
+    .num { font-size: 16px; }
+    .date-full { font-size: 24px; }
+  }
+
+  /* ====== Very wide screens (>= 1440px) — cap content width ====== */
+  @media (min-width: 1440px) {
+    .container { max-width: 800px; padding: 80px 64px 140px; }
+    .title { font-size: 72px; }
+    .splash-title { font-size: 80px; }
+  }
+
+  /* ====== Foldable phone inner display — portrait (e.g. Galaxy Fold closed ≈ 280px) ====== */
+  @media (max-width: 320px) {
+    .container { padding: 18px 12px 50px; }
+    .title { font-size: 36px; letter-spacing: 3px; }
+    .brand-text { font-size: 18px; letter-spacing: 5px; }
+    .splash-title { font-size: 34px; }
+    .splash-icon { font-size: 56px; }
+    .row { font-size: 11.5px; padding: 6px 3px; }
+    .tier-badge { min-width: 42px; padding: 2px 5px; font-size: 9px; }
+    .tier-stars { font-size: 8px; }
+    .music-btn { width: 36px; height: 36px; font-size: 14px; }
+  }
+
+  /* ====== Landscape phone (short height, e.g. iPhone landscape) ====== */
+  @media (max-height: 480px) and (orientation: landscape) {
+    .splash-content { padding: 16px 24px; }
+    .splash-icon { font-size: 44px; margin-bottom: 8px; }
+    .splash-title { font-size: 28px; margin-bottom: 4px; }
+    .splash-subtitle { font-size: 11px; margin-bottom: 16px; letter-spacing: 3px; }
+    .splash-btn { font-size: 13px; padding: 8px 22px; }
+    .splash-tip { font-size: 11px; margin-top: 12px; }
+    .splash-credit { margin-top: 10px; }
+    .splash-corner { font-size: 10px; }
+  }
+
+  /* ====== iPad landscape (>= 1024px wide AND < 1366px) ====== */
+  @media (min-width: 1024px) and (max-height: 800px) and (orientation: landscape) {
+    .container { max-width: 900px; padding: 30px 48px 60px; }
+    .title { font-size: 56px; }
+    .splash-title { font-size: 60px; }
   }
 
   /* Hide platform-injected floating ball (added by deployment platform, not source code) */
