@@ -847,26 +847,36 @@
 
   /* ====== Kill count (毛笔字体) ====== */
   .kill-cell {
-    display: flex; align-items: baseline; justify-content: center; gap: 2px;
-    font-family: "Long Cang", "Ma Shan Zheng", "ZCOOL QingKe HuangYou", "STKaiti", "KaiTi", "华文行楷", "STXingkai", "楷体", cursive;
+    display: flex; align-items: baseline; justify-content: center; gap: 3px;
     line-height: 1;
   }
   .kill-num {
-    font-family: "ZCOOL QingKe HuangYou", "Impact", "Arial Black", "Microsoft YaHei", sans-serif;
-    font-size: 22px;
+    font-family: "ZCOOL QingKe HuangYou", "Long Cang", "Ma Shan Zheng", "STXingkai", "华文行楷", "STKaiti", "KaiTi", "楷体", "Impact", "Arial Black", "Microsoft YaHei", sans-serif;
+    font-size: 26px;
     font-weight: 900;
-    color: #ff5252;
-    text-shadow: 0 0 6px rgba(255, 82, 82, 0.6), 0 2px 0 #000;
+    color: #ff3838;
+    text-shadow:
+      0 0 8px rgba(255, 56, 56, 0.7),
+      0 0 2px rgba(255, 200, 100, 0.5),
+      1px 1px 0 #4a0000,
+      -1px -1px 0 #000;
+    -webkit-text-stroke: 1px #1a0000;
   }
   .kill-word {
-    font-size: 18px;
-    color: #ff6b6b;
+    font-family: "Long Cang", "Ma Shan Zheng", "ZCOOL KuaiLe", "STXingkai", "华文行楷", "STKaiti", "KaiTi", "楷体", cursive, sans-serif;
+    font-size: 24px;
+    color: #ff6b35;
     font-weight: 700;
+    text-shadow:
+      0 0 6px rgba(255, 107, 53, 0.6),
+      1px 1px 0 #4a0000;
+    transform: rotate(-3deg);
+    display: inline-block;
   }
-  .row.today-row.podium-1 .kill-num { color: #ffd700; text-shadow: 0 0 8px rgba(255, 215, 0, 0.7), 0 2px 0 #000; }
-  .row.today-row.podium-1 .kill-word { color: #ffe56b; }
-  .row.today-row.zero-row .kill-num { color: #888; text-shadow: none; }
-  .row.today-row.zero-row .kill-word { color: #888; }
+  .row.today-row.podium-1 .kill-num { color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 1px 1px 0 #4a3500, -1px -1px 0 #000; }
+  .row.today-row.podium-1 .kill-word { color: #ffe56b; text-shadow: 0 0 8px rgba(255, 229, 107, 0.7), 1px 1px 0 #4a3500; }
+  .row.today-row.zero-row .kill-num { color: #555; text-shadow: none; -webkit-text-stroke: 0; }
+  .row.today-row.zero-row .kill-word { color: #555; text-shadow: none; transform: none; }
 
   /* BD name - 固定 3 字宽 (3em), 让所有名字 + 进度条统一长度 */
   .bd-name {
