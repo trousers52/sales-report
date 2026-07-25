@@ -752,6 +752,9 @@
     white-space: nowrap;
     text-shadow: 0 0 2px rgba(0,0,0,0.8);
   }
+  .row.today-row {
+    grid-template-columns: 50px 1.2fr 0.6fr 0.7fr 0.6fr 0.9fr;
+  }
   .row.today-row .bd-name,
   .row.black-row .bd-name,
   .row.rank-1-row .bd-name {
@@ -877,6 +880,33 @@
   .row.today-row.podium-1 .kill-word { color: #ffe56b; text-shadow: 0 0 8px rgba(255, 229, 107, 0.7), 1px 1px 0 #4a3500; }
   .row.today-row.zero-row .kill-num { color: #555; text-shadow: none; -webkit-text-stroke: 0; }
   .row.today-row.zero-row .kill-word { color: #555; text-shadow: none; transform: none; }
+
+  /* ====== Title (称号 - 毛笔字) ====== */
+  .bd-title {
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: "Long Cang", "Ma Shan Zheng", "STXingkai", "华文行楷", "STKaiti", "KaiTi", "楷体", cursive;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    line-height: 1.1;
+  }
+  .bd-title.title-zero { color: #888; background: rgba(80,80,80,0.4); border: 1px solid #555; }
+  .bd-title.title-fight { color: #ff6b35; background: rgba(255,107,53,0.15); border: 1px solid rgba(255,107,53,0.4); }
+  .bd-title.title-novice { color: #ffd700; background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.4); }
+  .bd-title.title-perfect { color: #fff; background: linear-gradient(135deg, #00c853, #00e676); border: 1px solid #00e676; }
+  .bd-title.title-god {
+    color: #fff;
+    background: linear-gradient(135deg, #ff3838, #ff8c00);
+    border: 1px solid #ffd700;
+    text-shadow: 0 0 6px rgba(255,56,56,0.7), 1px 1px 0 #4a0000;
+    animation: titleGlow 1.6s ease-in-out infinite alternate;
+  }
+  @keyframes titleGlow {
+    from { box-shadow: 0 0 4px rgba(255,56,56,0.5); }
+    to { box-shadow: 0 0 12px rgba(255,215,0,0.8); }
+  }
 
   /* BD name - 固定 3 字宽 (3em), 让所有名字 + 进度条统一长度 */
   .bd-name {
@@ -1593,8 +1623,9 @@
           <div>排名</div>
           <div>BD</div>
           <div>目标</div>
-          <div>杀数</div>
+          <div>实际</div>
           <div>完成率</div>
+          <div>称号</div>
         </div>
 
                 <div class="row today-row podium-1" data-name="燕小一" style="animation-delay: 1.40s">
@@ -1603,6 +1634,7 @@
           <div class="num">5</div>
           <div><div class="kill-cell"><span class="kill-num">2</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell">40%</span></div>
+          <div><span class="bd-title title-fight">继续努力</span></div>
         </div>
         <div class="row today-row podium-2" data-name="陈锦鹏" style="animation-delay: 1.50s">
           <div><div class="rank rank-2">2</div></div>
@@ -1610,6 +1642,7 @@
           <div class="num">2</div>
           <div><div class="kill-cell"><span class="kill-num">2</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell over-100">100%</span></div>
+          <div><span class="bd-title title-perfect">完美击杀</span></div>
         </div>
         <div class="row today-row podium-3" data-name="杨竟竟" style="animation-delay: 1.60s">
           <div><div class="rank rank-3">3</div></div>
@@ -1617,6 +1650,7 @@
           <div class="num">3</div>
           <div><div class="kill-cell"><span class="kill-num">1</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell">33%</span></div>
+          <div><span class="bd-title title-fight">继续努力</span></div>
         </div>
         <div class="row today-row" data-name="马钰" style="animation-delay: 1.70s">
           <div><div class="rank rank-4">4</div></div>
@@ -1624,6 +1658,7 @@
           <div class="num">2</div>
           <div><div class="kill-cell"><span class="kill-num">1</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell">50%</span></div>
+          <div><span class="bd-title title-novice">小试牛刀</span></div>
         </div>
         <div class="row today-row" data-name="廖闻涛" style="animation-delay: 1.80s">
           <div><div class="rank rank-5">5</div></div>
@@ -1631,6 +1666,7 @@
           <div class="num">15</div>
           <div><div class="kill-cell"><span class="kill-num">0</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
+          <div><span class="bd-title title-zero">战五渣</span></div>
         </div>
         <div class="row today-row" data-name="谭康" style="animation-delay: 1.90s">
           <div><div class="rank rank-6">6</div></div>
@@ -1638,6 +1674,7 @@
           <div class="num">4</div>
           <div><div class="kill-cell"><span class="kill-num">0</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
+          <div><span class="bd-title title-zero">战五渣</span></div>
         </div>
         <div class="row today-row" data-name="李亚洁" style="animation-delay: 2.00s">
           <div><div class="rank rank-7">7</div></div>
@@ -1645,6 +1682,7 @@
           <div class="num">3</div>
           <div><div class="kill-cell"><span class="kill-num">0</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
+          <div><span class="bd-title title-zero">战五渣</span></div>
         </div>
         <div class="row today-row" data-name="沈中堂" style="animation-delay: 2.10s">
           <div><div class="rank rank-8">8</div></div>
@@ -1652,6 +1690,7 @@
           <div class="num">3</div>
           <div><div class="kill-cell"><span class="kill-num">0</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
+          <div><span class="bd-title title-zero">战五渣</span></div>
         </div>
         <div class="row today-row" data-name="张超" style="animation-delay: 2.20s">
           <div><div class="rank rank-9">9</div></div>
@@ -1659,6 +1698,7 @@
           <div class="num">2</div>
           <div><div class="kill-cell"><span class="kill-num">0</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
+          <div><span class="bd-title title-zero">战五渣</span></div>
         </div>
         <div class="row today-row" data-name="张琪" style="animation-delay: 2.30s">
           <div><div class="rank rank-10">10</div></div>
@@ -1666,6 +1706,7 @@
           <div class="num">1</div>
           <div><div class="kill-cell"><span class="kill-num">0</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
+          <div><span class="bd-title title-zero">战五渣</span></div>
         </div>
         <div class="row today-row" data-name="张耿淳" style="animation-delay: 2.40s">
           <div><div class="rank rank-11">11</div></div>
@@ -1673,6 +1714,7 @@
           <div class="num">1</div>
           <div><div class="kill-cell"><span class="kill-num">0</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
+          <div><span class="bd-title title-zero">战五渣</span></div>
         </div>
         <div class="row today-row last-row" data-name="徐哲" style="animation-delay: 2.50s">
           <div><div class="rank rank-12">12</div></div>
@@ -1680,6 +1722,7 @@
           <div class="num">1</div>
           <div><div class="kill-cell"><span class="kill-num">0</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
+          <div><span class="bd-title title-zero">战五渣</span></div>
         </div>
       </div>
     </div>
@@ -2005,6 +2048,15 @@
       if (TEAM_TIER_MAP[0]) return TEAM_TIER_MAP[0];
       return ['倔强青铜', 'tier-bronze'];
     }
+    function getTitleForItem(it) {
+      const a = it.actual || 0, t = it.target || 0;
+      if (a <= 0 || t <= 0) return { name: '战五渣', cls: 'zero' };
+      const r = a / t;
+      if (r > 1.0) return { name: '超神杀手', cls: 'god' };
+      if (r >= 1.0) return { name: '完美击杀', cls: 'perfect' };
+      if (r >= 0.5) return { name: '小试牛刀', cls: 'novice' };
+      return { name: '继续努力', cls: 'fight' };
+    }
 
     function buildRedRow(it, idx, total) {
       const pos = idx + 1;
@@ -2174,7 +2226,7 @@
         }
         // Otherwise create new
         const rowCls = ['row', 'today-row', (rank === 1 ? 'podium-1' : rank === 2 ? 'podium-2' : rank === 3 ? 'podium-3' : ''), (it.target === 0 && it.actual === 0 ? 'zero-row' : '')].filter(Boolean).join(' ');
-        // 25日 实时榜: kill cell (毛笔字体)
+        // 25日 实时榜: kill cell (毛笔字体) + 称号
         const killHtml = `<div class="kill-cell"><span class="kill-num">${it.actual}</span><span class="kill-word">杀</span></div>`;
         let rateHtml;
         if (it.target > 0) {
@@ -2184,6 +2236,9 @@
         } else {
           rateHtml = '<span class="rate-cell zero-rate">—</span>';
         }
+        // 称号 (按完成度)
+        const titleName = getTitleForItem(it);
+        const titleHtml = `<span class="bd-title title-${titleName.cls}">${titleName.name}</span>`;
         const wrap = document.createElement('div');
         wrap.innerHTML = `<div class="${rowCls}" data-name="${it.name}" style="animation-delay: ${(1.4 + i * 0.10).toFixed(2)}s">
           <div><div class="rank rank-${rank}">${rank}</div></div>
@@ -2191,6 +2246,7 @@
           <div class="num">${it.target}</div>
           <div>${killHtml}</div>
           <div>${rateHtml}</div>
+          <div>${titleHtml}</div>
         </div>`;
         return { name: it.name, el: wrap.firstElementChild, newBuild: true };
       });
