@@ -564,10 +564,12 @@
     background: rgba(180, 60, 20, 0.25);
   }
   .row.today-row {
-    grid-template-columns: 50px 1.3fr 0.7fr 0.7fr 0.7fr 0.9fr 1.1fr;
+    grid-template-columns: 36px 1.3fr 0.6fr 0.7fr 0.6fr 0.9fr;
     justify-items: center;
     align-items: center;
     animation: slideInRight 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    padding: 8px 6px;
+    gap: 4px;
   }
   .row.today-row.podium-1 {
     background: linear-gradient(90deg, rgba(255, 200, 50, 0.3), rgba(255, 215, 0, 0.5), rgba(255, 200, 50, 0.3));
@@ -752,9 +754,7 @@
     white-space: nowrap;
     text-shadow: 0 0 2px rgba(0,0,0,0.8);
   }
-  .row.today-row {
-    grid-template-columns: 50px 1.2fr 0.6fr 0.7fr 0.6fr 0.9fr;
-  }
+
   .row.today-row .bd-name,
   .row.black-row .bd-name,
   .row.rank-1-row .bd-name {
@@ -1249,6 +1249,45 @@
   body.replay-mode .replay-btn { animation: none; opacity: 1; transform: translateX(-50%) translateY(0); }
 
   /* Reduce motion */
+
+  /* ====== Mobile responsive: today list 优化 ====== */
+  @media (max-width: 600px) {
+    .row.today-row {
+      grid-template-columns: 28px 1.4fr 0.5fr 0.7fr 0.5fr 0.8fr;
+      padding: 6px 4px;
+      gap: 3px;
+      font-size: 10px;
+    }
+    .row.today-row .rank { width: 24px; height: 24px; font-size: 11px; }
+    .row.today-row .bd-name { min-width: 2.8em; font-size: 11px; }
+    .row.today-row .bd-progress { width: 2.8em; }
+    .row.today-row .kill-cell .kill-num { font-size: 18px; }
+    .row.today-row .kill-cell .kill-word { font-size: 16px; }
+    .row.today-row .bd-title { font-size: 12px; padding: 2px 4px; }
+    .row.today-row .num { font-size: 12px; }
+    .row.today-row .rate-cell { font-size: 11px; }
+    .table-header.today-header { font-size: 10px; padding: 5px 4px; }
+  }
+  @media (max-width: 380px) {
+    .row.today-row {
+      grid-template-columns: 24px 1.4fr 0.5fr 0.7fr 0.5fr 0.7fr;
+      padding: 5px 3px;
+      gap: 2px;
+    }
+    .row.today-row .rank { width: 22px; height: 22px; font-size: 10px; }
+    .row.today-row .kill-cell .kill-num { font-size: 16px; }
+    .row.today-row .kill-cell .kill-word { font-size: 14px; }
+    .row.today-row .bd-title { font-size: 11px; padding: 2px 3px; }
+  }
+  @media (max-width: 320px) {
+    .row.today-row {
+      grid-template-columns: 22px 1.3fr 0.4fr 0.6fr 0.4fr 0.6fr;
+      padding: 4px 2px;
+      gap: 2px;
+    }
+    .row.today-row .rank { width: 20px; height: 20px; font-size: 9px; }
+    .row.today-row .bd-title { font-size: 10px; padding: 2px 2px; }
+  }
   @media (prefers-reduced-motion: reduce) {
     * { animation-duration: 0.01s !important; transition-duration: 0.01s !important; }
   }
