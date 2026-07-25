@@ -572,24 +572,54 @@
     padding: 8px 6px;
     gap: 4px;
   }
-  /* ====== 第一名 蓝色冰霜特效 ====== */
+  /* ====== 第一名 雷电特效 ====== */
   .row.today-row.podium-1 .bd-name {
-    background: linear-gradient(90deg, #00d4ff 0%, #4dffff 25%, #00aaff 50%, #4dffff 75%, #00d4ff 100%);
-    background-size: 200% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    animation: iceFlow 3s linear infinite;
-    filter: drop-shadow(0 0 4px #00d4ff) drop-shadow(0 0 10px #0088ff) drop-shadow(0 0 18px #0066cc);
+    position: relative;
+    color: #e0f7ff;
     font-weight: 800;
+    text-shadow:
+      0 0 1px #fff,
+      0 0 2px #00d4ff,
+      0 0 4px #0088ff;
+    -webkit-text-stroke: 0.5px #00d4ff;
+    animation: electricFlicker 2.4s steps(1) infinite;
   }
-  .row.today-row.podium-1 .bd-progress-fill {
-    box-shadow: 0 0 6px #00d4ff, 0 0 12px #0088ff;
+  /* 雷电 SVG 装饰 - 名字左右 */
+  .row.today-row.podium-1 .bd-name::before,
+  .row.today-row.podium-1 .bd-name::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 14px;
+    height: 22px;
+    transform: translateY(-50%);
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 22'><path d='M8 0 L0 13 L5 13 L3 22 L14 8 L8 8 L11 0 Z' fill='%2300d4ff' stroke='%23ffffff' stroke-width='0.5' opacity='0.9'/></svg>") no-repeat center / contain;
+    filter: drop-shadow(0 0 3px #00d4ff);
+    animation: boltFlicker 1.6s ease-in-out infinite;
   }
-  @keyframes iceFlow {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 200% 50%; }
+  .row.today-row.podium-1 .bd-name::before {
+    left: -18px;
+  }
+  .row.today-row.podium-1 .bd-name::after {
+    right: -18px;
+    transform: translateY(-50%) scaleX(-1);
+    animation-delay: 0.4s;
+  }
+  @keyframes electricFlicker {
+    0%, 100% { opacity: 1; filter: brightness(1); }
+    10% { opacity: 0.6; filter: brightness(1.5); }
+    12% { opacity: 1; filter: brightness(1); }
+    45% { opacity: 0.85; filter: brightness(1.2); }
+    50% { opacity: 1; filter: brightness(1); }
+    80% { opacity: 0.7; filter: brightness(1.4); }
+    82% { opacity: 1; filter: brightness(1); }
+  }
+  @keyframes boltFlicker {
+    0%, 100% { opacity: 0.6; transform: translateY(-50%) scale(1); }
+    30% { opacity: 1; transform: translateY(-50%) scale(1.15); }
+    35% { opacity: 0.4; transform: translateY(-50%) scale(0.95); }
+    40% { opacity: 1; transform: translateY(-50%) scale(1.2); }
+    70% { opacity: 0.7; }
   }
   .row.today-row.podium-1 {
     background: linear-gradient(90deg, rgba(255, 200, 50, 0.3), rgba(255, 215, 0, 0.5), rgba(255, 200, 50, 0.3));
