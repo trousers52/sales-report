@@ -652,11 +652,19 @@
     0%   { background-position: 0% 50%; }
     100% { background-position: 200% 50%; }
   }
-  /* 名字容器: 持有 7 色渐变 + 强光晕 (跨字连续) */
+  /* 名字容器: 强光晕 (背景 7 色由 .bd-char 持有) */
   .row.today-row.podium-1 .bd-name-text {
     display: inline-block;
     font-weight: 800;
     letter-spacing: 1px;
+    filter:
+      drop-shadow(0 0 4px rgba(255, 255, 255, 0.8))
+      drop-shadow(0 0 8px currentColor)
+      drop-shadow(0 0 14px currentColor);
+  }
+  /* 字体跳动: 每个字独立跳 2em 高度 (跳满: 50% 时间在高点) */
+  .row.today-row.podium-1 .bd-char {
+    display: inline-block;
     background: linear-gradient(
       90deg,
       #ff3838 0%, #ff8c00 16%, #ffd700 33%,
@@ -667,17 +675,10 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
-    filter:
-      drop-shadow(0 0 4px rgba(255, 255, 255, 0.8))
-      drop-shadow(0 0 8px currentColor)
-      drop-shadow(0 0 14px currentColor);
-    animation: nameRainbow 2.5s linear infinite;
-  }
-  /* 字体跳动: 每个字独立跳 2em 高度 (跳满: 50% 时间在高点) */
-  .row.today-row.podium-1 .bd-char {
-    display: inline-block;
-    animation: charBounce 1.2s ease-in-out infinite;
-    animation-delay: calc(var(--i) * 0.15s);
+    animation: 
+      charBounce 1.2s ease-in-out infinite,
+      nameRainbow 2.5s linear infinite;
+    animation-delay: calc(var(--i) * 0.15s), 0s;
   }
   @keyframes charBounce {
     0%   { transform: translateY(0); }
