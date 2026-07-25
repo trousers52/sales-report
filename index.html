@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#5a0a0a">
 <meta name="format-detection" content="telephone=no">
-<title>战报 · 芯动未来 · 24日新签达成 · 龙虎榜</title>
+<title>战报 · 芯动未来 · 25日实时战况 · 决战正在进行</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
@@ -421,6 +421,212 @@
     animation-name: slideInLeft;
   }
   .row.last-row { margin-bottom: 0; }
+
+  /* ====== Today hero (25日实时) ====== */
+  .hero-today {
+    background: linear-gradient(135deg, rgba(120, 20, 20, 0.55), rgba(60, 10, 10, 0.85));
+    border: 1.5px solid rgba(255, 215, 0, 0.4);
+    border-radius: 16px;
+    padding: 20px 18px 22px;
+    margin: 14px 0 18px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 30px rgba(255, 100, 0, 0.25), inset 0 0 30px rgba(255, 200, 50, 0.05);
+    animation: scaleIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    animation-delay: 0.5s;
+    opacity: 0;
+  }
+  .hero-today::before {
+    content: ''; position: absolute; top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255, 200, 50, 0.15) 0%, transparent 50%);
+    animation: spin 12s linear infinite;
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: linear-gradient(90deg, #ff4444, #ff8800);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 8px rgba(255, 100, 0, 0.4);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 2px 8px rgba(255, 100, 0, 0.4); }
+    50% { transform: scale(1.05); box-shadow: 0 4px 16px rgba(255, 100, 0, 0.7); }
+  }
+  .hero-slogan {
+    color: #ffd700;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    margin-bottom: 12px;
+    text-shadow: 0 0 12px rgba(255, 200, 50, 0.5);
+  }
+  .hero-numbers {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 8px;
+    margin: 8px 0 14px;
+    font-family: 'Arial Black', 'PingFang SC', sans-serif;
+  }
+  .hero-actual {
+    font-size: 56px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+    text-shadow: 0 0 20px rgba(255, 200, 50, 0.8), 0 2px 4px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+  }
+  .hero-actual.bump {
+    animation: numberPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .hero-divider {
+    font-size: 32px;
+    color: rgba(255, 215, 0, 0.6);
+    font-weight: 300;
+  }
+  .hero-target {
+    font-size: 28px;
+    font-weight: 700;
+    color: rgba(255, 248, 220, 0.7);
+  }
+  .progress-bar {
+    position: relative;
+    height: 14px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 7px;
+    overflow: hidden;
+    margin: 10px 0 8px;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff4444 0%, #ff8800 40%, #ffd700 80%, #ffffaa 100%);
+    background-size: 200% 100%;
+    border-radius: 7px;
+    width: 0%;
+    transition: width 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 0 12px rgba(255, 200, 50, 0.6);
+    position: relative;
+  }
+  .progress-fill::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+    background-size: 200% 100%;
+    animation: shineSweep 2s linear infinite;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: space-between;
+    color: #fff8dc;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  .hero-percent {
+    color: #ffd700;
+    font-weight: 800;
+    font-size: 14px;
+  }
+  .hero-remaining {
+    color: rgba(255, 248, 220, 0.7);
+  }
+
+  /* ====== Today leaderboard (25日实时榜) ====== */
+  .section.today-section {
+    animation-delay: 1.0s;
+  }
+  .section.today-section .section-header {
+    background: linear-gradient(90deg, #c92a2a, #ff6b35, #c92a2a);
+    background-size: 200% 100%;
+    animation: slideInRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards, shimmer 4s linear infinite;
+  }
+  .table-header.today-header {
+    grid-template-columns: 50px 1.1fr 1.2fr 0.7fr 0.7fr 0.9fr 1fr;
+    font-size: 11px;
+    background: rgba(180, 60, 20, 0.25);
+  }
+  .row.today-row {
+    grid-template-columns: 50px 1.1fr 1.2fr 0.7fr 0.7fr 0.9fr 1fr;
+    animation: slideInRight 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  .row.today-row.podium-1 {
+    background: linear-gradient(90deg, rgba(255, 200, 50, 0.3), rgba(255, 215, 0, 0.5), rgba(255, 200, 50, 0.3));
+    background-size: 200% 100%;
+    border: 1px solid rgba(255, 215, 0, 0.6);
+    animation: slideInRight 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards, shimmer 3s linear infinite;
+  }
+  .row.today-row.podium-2 {
+    background: linear-gradient(90deg, rgba(180, 180, 200, 0.3), rgba(220, 220, 230, 0.4), rgba(180, 180, 200, 0.3));
+    background-size: 200% 100%;
+    border: 1px solid rgba(220, 220, 230, 0.5);
+  }
+  .row.today-row.podium-3 {
+    background: linear-gradient(90deg, rgba(205, 127, 50, 0.3), rgba(230, 150, 70, 0.4), rgba(205, 127, 50, 0.3));
+    background-size: 200% 100%;
+    border: 1px solid rgba(230, 150, 70, 0.5);
+  }
+  .row.today-row.zero-row {
+    background: rgba(40, 40, 40, 0.5);
+    color: rgba(255, 248, 220, 0.5);
+  }
+  .rate-cell {
+    color: #ffd700;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .rate-cell.over-100 {
+    color: #00ff88;
+    text-shadow: 0 0 8px rgba(0, 255, 136, 0.6);
+  }
+  .rate-cell.zero-rate {
+    color: rgba(255, 248, 220, 0.3);
+  }
+
+  /* ====== Yesterday divider ====== */
+  .yesterday-divider {
+    text-align: center;
+    margin: 24px 0 14px;
+    position: relative;
+    color: rgba(255, 215, 0, 0.7);
+    font-size: 12px;
+    letter-spacing: 3px;
+    font-weight: 600;
+    animation: scaleIn 0.5s ease forwards;
+    animation-delay: 2.8s;
+    opacity: 0;
+  }
+  .yesterday-divider::before,
+  .yesterday-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 30%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.4), transparent);
+  }
+  .yesterday-divider::before { left: 0; }
+  .yesterday-divider::after { right: 0; }
+
+  /* Number pop animation for actual changes */
+  @keyframes numberPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.4); color: #ffd700; text-shadow: 0 0 20px #ffd700; }
+    100% { transform: scale(1); }
+  }
+  .num-flash {
+    animation: numberPop 0.6s ease;
+  }
+
+  /* Row 1 special */
 
   /* Row 1 special */
   .row.rank-1-row {
@@ -1062,29 +1268,179 @@
     <!-- Title -->
     <h1 class="title">
       <span class="row">
-        <span class="char" style="animation-delay: 0.20s">乘</span><span class="char" style="animation-delay: 0.30s">胜</span><span class="char" style="animation-delay: 0.40s">再</span><span class="char" style="animation-delay: 0.50s">追</span><span class="char" style="animation-delay: 0.60s">击</span>
+        <span class="char" style="animation-delay: 0.20s">一</span><span class="char" style="animation-delay: 0.30s">鼓</span><span class="char" style="animation-delay: 0.40s">作</span><span class="char" style="animation-delay: 0.50s">气</span>
       </span>
       <span class="row">
-        <span class="char" style="animation-delay: 0.75s">连</span><span class="char" style="animation-delay: 0.85s">战</span><span class="char" style="animation-delay: 0.95s">皆</span><span class="char" style="animation-delay: 1.05s">大</span><span class="char" style="animation-delay: 1.15s">捷</span>
+        <span class="char" style="animation-delay: 0.75s">寸</span><span class="char" style="animation-delay: 0.85s">土</span><span class="char" style="animation-delay: 0.95s">必</span><span class="char" style="animation-delay: 1.05s">争</span>
       </span>
     </h1>
 
     <!-- Date badge -->
     <div style="text-align: center;">
       <div class="date-badge">
-        <div class="date-full">2026.07.24</div>
-        <div class="date-event">24日新签达成 · 龙虎榜</div>
+        <div class="date-full">2026.07.25</div>
+        <div class="date-event">25日实时战况 · 决战正在进行</div>
       </div>
     </div>
 
-    <!-- Red list -->
+    <!-- ====== 25日 实时战况 (HERO) ====== -->
+    <div class="hero-today">
+      <div class="hero-tag">🔥 25日实时</div>
+      <div class="hero-slogan">一鼓作气 · 寸土必争</div>
+      <div class="hero-numbers">
+        <span class="hero-actual" id="heroActual">0</span>
+        <span class="hero-divider">/</span>
+        <span class="hero-target" id="heroTarget">0</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="hero-stats">
+        <span class="hero-percent" id="heroPercent">0%</span>
+        <span class="hero-remaining" id="heroRemaining">距目标还差 0 单</span>
+      </div>
+    </div>
+
+    <!-- ====== 25日 实时榜 ====== -->
+    <div class="section today-section">
+      <div class="section-header red">
+        <span class="trophy">⚡</span>
+        <span>25日 实时榜</span>
+        <span class="trophy spin-slow">⚡</span>
+      </div>
+      <div class="section-body" id="todayBody">
+        <div class="table-header today-header">
+          <div>排名</div>
+          <div>组别</div>
+          <div>BD</div>
+          <div>目标</div>
+          <div>已签</div>
+          <div>完成率</div>
+          <div>段位 ★</div>
+        </div>
+
+                <div class="row today-row podium-1" data-name="廖闻涛" style="animation-delay: 1.40s">
+          <div><div class="rank rank-1">1</div></div>
+          <div><span class="group smb2">SMB-二组</span></div>
+          <div class="bd-name">廖闻涛</div>
+          <div class="num">10</div>
+          <div><span class="num actual">0</span></div>
+          <div><span class="rate-cell zero-rate">0%</span></div>
+          <div><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span></div>
+        </div>
+        <div class="row today-row podium-2" data-name="李亚洁" style="animation-delay: 1.50s">
+          <div><div class="rank rank-2">2</div></div>
+          <div><span class="group smb1">SMB一组</span></div>
+          <div class="bd-name">李亚洁</div>
+          <div class="num">3</div>
+          <div><span class="num actual">0</span></div>
+          <div><span class="rate-cell zero-rate">0%</span></div>
+          <div><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span></div>
+        </div>
+        <div class="row today-row podium-3" data-name="沈中堂" style="animation-delay: 1.60s">
+          <div><div class="rank rank-3">3</div></div>
+          <div><span class="group ka1">KA一组</span></div>
+          <div class="bd-name">沈中堂</div>
+          <div class="num">3</div>
+          <div><span class="num actual">0</span></div>
+          <div><span class="rate-cell zero-rate">0%</span></div>
+          <div><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span></div>
+        </div>
+        <div class="row today-row" data-name="谭康" style="animation-delay: 1.70s">
+          <div><div class="rank rank-other">4</div></div>
+          <div><span class="group smb1">SMB一组</span></div>
+          <div class="bd-name">谭康</div>
+          <div class="num">2</div>
+          <div><span class="num actual">0</span></div>
+          <div><span class="rate-cell zero-rate">0%</span></div>
+          <div><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span></div>
+        </div>
+        <div class="row today-row" data-name="陈锦鹏" style="animation-delay: 1.80s">
+          <div><div class="rank rank-other">5</div></div>
+          <div><span class="group smb2">SMB-二组</span></div>
+          <div class="bd-name">陈锦鹏</div>
+          <div class="num">2</div>
+          <div><span class="num actual">0</span></div>
+          <div><span class="rate-cell zero-rate">0%</span></div>
+          <div><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span></div>
+        </div>
+        <div class="row today-row" data-name="马钰" style="animation-delay: 1.90s">
+          <div><div class="rank rank-other">6</div></div>
+          <div><span class="group smb2">SMB-二组</span></div>
+          <div class="bd-name">马钰</div>
+          <div class="num">2</div>
+          <div><span class="num actual">0</span></div>
+          <div><span class="rate-cell zero-rate">0%</span></div>
+          <div><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span></div>
+        </div>
+        <div class="row today-row" data-name="杨竟竟" style="animation-delay: 2.00s">
+          <div><div class="rank rank-other">7</div></div>
+          <div><span class="group ka2">KA二组</span></div>
+          <div class="bd-name">杨竟竟</div>
+          <div class="num">2</div>
+          <div><span class="num actual">0</span></div>
+          <div><span class="rate-cell zero-rate">0%</span></div>
+          <div><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span></div>
+        </div>
+        <div class="row today-row" data-name="张超" style="animation-delay: 2.10s">
+          <div><div class="rank rank-other">8</div></div>
+          <div><span class="group ka1">KA一组</span></div>
+          <div class="bd-name">张超</div>
+          <div class="num">1</div>
+          <div><span class="num actual">0</span></div>
+          <div><span class="rate-cell zero-rate">0%</span></div>
+          <div><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span></div>
+        </div>
+        <div class="row today-row" data-name="燕小一" style="animation-delay: 2.20s">
+          <div><div class="rank rank-other">9</div></div>
+          <div><span class="group ka1">KA一组</span></div>
+          <div class="bd-name">燕小一</div>
+          <div class="num">1</div>
+          <div><span class="num actual">0</span></div>
+          <div><span class="rate-cell zero-rate">0%</span></div>
+          <div><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span></div>
+        </div>
+        <div class="row today-row" data-name="张琪" style="animation-delay: 2.30s">
+          <div><div class="rank rank-other">10</div></div>
+          <div><span class="group ka2">KA二组</span></div>
+          <div class="bd-name">张琪</div>
+          <div class="num">1</div>
+          <div><span class="num actual">0</span></div>
+          <div><span class="rate-cell zero-rate">0%</span></div>
+          <div><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span></div>
+        </div>
+        <div class="row today-row zero-row" data-name="张耿淳" style="animation-delay: 2.40s">
+          <div><div class="rank rank-other">11</div></div>
+          <div><span class="group smb1">SMB一组</span></div>
+          <div class="bd-name">张耿淳</div>
+          <div class="num">0</div>
+          <div><span class="num actual">0</span></div>
+          <div><span class="rate-cell zero-rate">—</span></div>
+          <div><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span></div>
+        </div>
+        <div class="row today-row zero-row last-row" data-name="徐哲" style="animation-delay: 2.50s">
+          <div><div class="rank rank-other">12</div></div>
+          <div><span class="group smb1">SMB一组</span></div>
+          <div class="bd-name">徐哲</div>
+          <div class="num">0</div>
+          <div><span class="num actual">0</span></div>
+          <div><span class="rate-cell zero-rate">—</span></div>
+          <div><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== 历史归档 (24日) ====== -->
+    <div class="yesterday-divider">— 24日 战绩 归档 —</div>
+
+    <!-- 24日 红榜 -->
     <div class="section red-section">
       <div class="section-header red">
         <span class="trophy">🏆</span>
-        <span>销 售 红 榜</span>
+        <span>24日 红榜</span>
         <span class="trophy spin-slow">🏆</span>
       </div>
-      <div class="section-body">
+      <div class="section-body" id="redBody">
         <div class="table-header">
           <div>排名</div>
           <div>组别</div>
@@ -1094,84 +1450,81 @@
           <div>段位 ★</div>
         </div>
 
-                <div class="row rank-1-row" style="animation-delay: 1.50s">
+                <div class="row rank-1-row" style="animation-delay: 3.00s">
           <div><div class="rank rank-1">1</div></div>
           <div><span class="group smb2">SMB-二组</span></div>
           <div class="bd-name">廖闻涛<span class="bd-tag">新签</span></div>
           <div class="num">10</div>
-          <div><span class="num actual" style="animation-delay: 1.70s">4</span></div>
+          <div><span class="num actual" style="animation-delay: 3.20s">4</span></div>
           <div><span class="tier-badge tier-king"><span class="tier-name">最强王者</span><span class="tier-stars">★★★★</span></span></div>
         </div>
-        <div class="row" style="animation-delay: 1.65s">
+        <div class="row" style="animation-delay: 3.12s">
           <div><div class="rank rank-2">2</div></div>
           <div><span class="group smb1">SMB一组</span></div>
           <div class="bd-name">谭康<span class="bd-tag up">上分</span></div>
           <div class="num">2</div>
-          <div><span class="num actual" style="animation-delay: 1.85s">2</span></div>
+          <div><span class="num actual" style="animation-delay: 3.32s">2</span></div>
           <div><span class="tier-badge tier-star"><span class="tier-name">至尊星耀</span><span class="tier-stars">★★</span></span></div>
         </div>
-        <div class="row" style="animation-delay: 1.80s">
+        <div class="row" style="animation-delay: 3.24s">
           <div><div class="rank rank-3">3</div></div>
           <div><span class="group smb2">SMB-二组</span></div>
           <div class="bd-name">陈锦鹏<span class="bd-tag">达标</span></div>
           <div class="num">2</div>
-          <div><span class="num actual" style="animation-delay: 2.00s">2</span></div>
+          <div><span class="num actual" style="animation-delay: 3.44s">2</span></div>
           <div><span class="tier-badge tier-diamond"><span class="tier-name">永恒钻石</span><span class="tier-stars">★★</span></span></div>
         </div>
-        <div class="row" style="animation-delay: 1.95s">
+        <div class="row" style="animation-delay: 3.36s">
           <div><div class="rank rank-other">4</div></div>
           <div><span class="group smb1">SMB一组</span></div>
           <div class="bd-name">李亚洁</div>
           <div class="num">3</div>
-          <div><span class="num actual" style="animation-delay: 2.15s">2</span></div>
+          <div><span class="num actual" style="animation-delay: 3.56s">2</span></div>
           <div><span class="tier-badge tier-platinum"><span class="tier-name">尊贵铂金</span><span class="tier-stars">★★</span></span></div>
         </div>
-        <div class="row" style="animation-delay: 2.10s">
+        <div class="row" style="animation-delay: 3.48s">
           <div><div class="rank rank-other">5</div></div>
           <div><span class="group ka1">KA一组</span></div>
           <div class="bd-name">沈中堂</div>
           <div class="num">3</div>
-          <div><span class="num actual" style="animation-delay: 2.30s">2</span></div>
+          <div><span class="num actual" style="animation-delay: 3.68s">2</span></div>
           <div><span class="tier-badge tier-gold"><span class="tier-name">荣耀黄金</span><span class="tier-stars">★★</span></span></div>
         </div>
-        <div class="row" style="animation-delay: 2.25s">
+        <div class="row" style="animation-delay: 3.60s">
           <div><div class="rank rank-other">6</div></div>
           <div><span class="group ka1">KA一组</span></div>
           <div class="bd-name">张超</div>
           <div class="num">1</div>
-          <div><span class="num actual" style="animation-delay: 2.45s">1</span></div>
+          <div><span class="num actual" style="animation-delay: 3.80s">1</span></div>
           <div><span class="tier-badge tier-silver"><span class="tier-name">秩序白银</span><span class="tier-stars">★</span></span></div>
         </div>
-        <div class="row" style="animation-delay: 2.40s">
+        <div class="row" style="animation-delay: 3.72s">
           <div><div class="rank rank-other">7</div></div>
           <div><span class="group smb2">SMB-二组</span></div>
           <div class="bd-name">马钰</div>
           <div class="num">2</div>
-          <div><span class="num actual" style="animation-delay: 2.60s">1</span></div>
+          <div><span class="num actual" style="animation-delay: 3.92s">1</span></div>
           <div><span class="tier-badge tier-silver"><span class="tier-name">秩序白银</span><span class="tier-stars">★</span></span></div>
         </div>
-        <div class="row last-row" style="animation-delay: 2.55s">
+        <div class="row last-row" style="animation-delay: 3.84s">
           <div><div class="rank rank-other">8</div></div>
           <div><span class="group ka1">KA一组</span></div>
           <div class="bd-name">燕小一<span class="bd-tag">+达标</span></div>
           <div class="num">1</div>
-          <div><span class="num actual" style="animation-delay: 2.75s">1</span></div>
+          <div><span class="num actual" style="animation-delay: 4.04s">1</span></div>
           <div><span class="tier-badge tier-silver"><span class="tier-name">秩序白银</span><span class="tier-stars">★</span></span></div>
         </div>
       </div>
     </div>
 
-    <!-- Divider -->
-    <div class="divider">— 以下为黑榜（实际达成 0）—</div>
-
-    <!-- Black list -->
+    <!-- 24日 黑榜 -->
     <div class="section black-section">
       <div class="section-header black">
         <span class="warning-icon">⚠</span>
-        <span>销 售 黑 榜</span>
+        <span>24日 黑榜</span>
         <span class="warning-icon">⚠</span>
       </div>
-      <div class="section-body black-body">
+      <div class="section-body black-body" id="blackBody">
         <div class="table-header black-header">
           <div>排名</div>
           <div>组别</div>
@@ -1181,7 +1534,7 @@
           <div>段位</div>
         </div>
 
-                <div class="row black-row" style="animation-delay: 2.60s">
+                <div class="row black-row" style="animation-delay: 3.80s">
           <div><div class="rank rank-black">1</div></div>
           <div><span class="group ka2">KA二组</span></div>
           <div class="bd-name">张琪</div>
@@ -1189,7 +1542,7 @@
           <div><span class="num actual-zero">0</span></div>
           <div class="black-tier-cell"><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span><span class="gap">-1</span></div>
         </div>
-        <div class="row black-row" style="animation-delay: 2.75s">
+        <div class="row black-row" style="animation-delay: 3.92s">
           <div><div class="rank rank-black">2</div></div>
           <div><span class="group ka2">KA二组</span></div>
           <div class="bd-name">杨竟竟</div>
@@ -1197,7 +1550,7 @@
           <div><span class="num actual-zero">0</span></div>
           <div class="black-tier-cell"><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span><span class="gap">-2</span></div>
         </div>
-        <div class="row black-row" style="animation-delay: 2.90s">
+        <div class="row black-row" style="animation-delay: 4.04s">
           <div><div class="rank rank-black">3</div></div>
           <div><span class="group smb1">SMB一组</span></div>
           <div class="bd-name">张耿淳</div>
@@ -1205,7 +1558,7 @@
           <div><span class="num actual-zero">0</span></div>
           <div class="black-tier-cell"><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span><span class="gap dash">—</span></div>
         </div>
-        <div class="row black-row last-row" style="animation-delay: 3.05s">
+        <div class="row black-row last-row" style="animation-delay: 4.16s">
           <div><div class="rank rank-black">4</div></div>
           <div><span class="group smb1">SMB一组</span></div>
           <div class="bd-name">徐哲</div>
@@ -1221,7 +1574,7 @@
       <span class="footer-icon">✕</span>
       <span>战鼓已响，使命必达</span>
       <span class="footer-divider"></span>
-      <span>决战24日 · 数据截止当日</span>
+      <span>决战25日 · 数据实时刷新</span>
     </div>
   </div>
 
@@ -1489,6 +1842,147 @@
       });
     }
 
+    // === Update hero section (25日 实时战况) ===
+    function updateHero(todayList) {
+      const totalTarget = todayList.reduce((s, it) => s + (it.target || 0), 0);
+      const totalActual = todayList.reduce((s, it) => s + (it.actual || 0), 0);
+      const pct = totalTarget > 0 ? (totalActual / totalTarget) * 100 : 0;
+      const remaining = Math.max(0, totalTarget - totalActual);
+
+      const actualEl = document.getElementById('heroActual');
+      const targetEl = document.getElementById('heroTarget');
+      const fillEl = document.getElementById('progressFill');
+      const percentEl = document.getElementById('heroPercent');
+      const remEl = document.getElementById('heroRemaining');
+
+      if (!actualEl) return;
+
+      // Animate actual number if changed
+      const prev = parseInt(actualEl.textContent, 10) || 0;
+      actualEl.textContent = totalActual;
+      if (totalActual !== prev) {
+        actualEl.classList.remove('bump');
+        void actualEl.offsetWidth; // force reflow
+        actualEl.classList.add('bump');
+      }
+
+      targetEl.textContent = totalTarget;
+      fillEl.style.width = Math.min(100, pct) + '%';
+      percentEl.textContent = Math.floor(pct) + '%';
+      remEl.textContent = remaining > 0 ? `距目标还差 ${remaining} 单` : '🎉 今日目标已达成！';
+    }
+
+    // === Rebuild today list (sortable, in-place) ===
+    function rebuildToday(list, items) {
+      // Sort by actual desc, then target desc (tiebreaker)
+      const sorted = [...items].sort((a, b) =>
+        (b.actual - a.actual) || (b.target - a.target)
+      );
+      // Track which rows have changed actual values
+      const existing = list.querySelectorAll('.row.today-row');
+      const existingByName = new Map();
+      existing.forEach(row => {
+        const n = row.dataset.name;
+        if (n) existingByName.set(n, { row, actual: parseInt(row.querySelector('.num.actual')?.textContent, 10) || 0 });
+      });
+
+      // Track which names had their actual increase
+      const increased = new Set();
+      sorted.forEach(it => {
+        const prev = existingByName.get(it.name)?.actual;
+        if (prev !== undefined && it.actual > prev) {
+          increased.add(it.name);
+        }
+      });
+
+      // Build/update rows
+      const header = list.querySelector('.table-header');
+      const newRows = sorted.map((it, i) => {
+        const rank = i + 1;
+        // Reuse existing row if possible (preserve animation state)
+        if (existingByName.has(it.name)) {
+          return { name: it.name, el: existingByName.get(it.name).row, newBuild: false };
+        }
+        // Otherwise create new
+        const gcls = GROUP_CLASS[it.group] || 'ka1';
+        const rowCls = ['row', 'today-row', (rank === 1 ? 'podium-1' : rank === 2 ? 'podium-2' : rank === 3 ? 'podium-3' : ''), (it.target === 0 && it.actual === 0 ? 'zero-row' : '')].filter(Boolean).join(' ');
+        const rankCls = rank <= 3 ? `rank-${rank}` : 'rank-other';
+        const tn_tc = (function(){ for (const [t, n, c] of [[0,'倔强青铜','tier-bronze'],[1,'秩序白银','tier-silver'],[2,'荣耀黄金','tier-gold'],[3,'尊贵铂金','tier-platinum'],[4,'永恒钻石','tier-diamond'],[5,'至尊星耀','tier-star'],[6,'最强王者','tier-king']]) if (it.actual <= t) return [n, c]; return ['最强王者','tier-king']; })();
+        const stars = it.actual > 0 ? '★'.repeat(Math.min(it.actual, 6)) : '';
+        const starsHtml = stars ? `<span class="tier-stars">${stars}</span>` : '';
+        let rateHtml;
+        if (it.target > 0) {
+          const p = Math.floor((it.actual / it.target) * 100);
+          const rc = p >= 100 ? 'rate-cell over-100' : (p === 0 ? 'rate-cell zero-rate' : 'rate-cell');
+          rateHtml = `<span class="${rc}">${p}%</span>`;
+        } else {
+          rateHtml = '<span class="rate-cell zero-rate">—</span>';
+        }
+        const wrap = document.createElement('div');
+        wrap.innerHTML = `<div class="${rowCls}" data-name="${it.name}" style="animation-delay: ${(1.4 + i * 0.10).toFixed(2)}s">
+          <div><div class="rank ${rankCls}">${rank}</div></div>
+          <div><span class="group ${gcls}">${it.group}</span></div>
+          <div class="bd-name">${it.name}</div>
+          <div class="num">${it.target}</div>
+          <div><span class="num actual">${it.actual}</span></div>
+          <div>${rateHtml}</div>
+          <div><span class="tier-badge ${tn_tc[1]}"><span class="tier-name">${tn_tc[0]}</span>${starsHtml}</span></div>
+        </div>`;
+        return { name: it.name, el: wrap.firstElementChild, newBuild: true };
+      });
+
+      // Clear list, restore header
+      list.innerHTML = '';
+      if (header) list.appendChild(header);
+
+      // Append in sorted order
+      newRows.forEach(r => {
+        list.appendChild(r.el);
+        // Flash if actual increased
+        if (increased.has(r.name)) {
+          const actualEl = r.el.querySelector('.num.actual');
+          if (actualEl) {
+            actualEl.classList.remove('num-flash');
+            void actualEl.offsetWidth;
+            actualEl.classList.add('num-flash');
+          }
+        }
+      });
+    }
+
+    // === Rebuild yesterday lists (in-place, like before) ===
+    function rebuildYesterday(list, items, changedNames, isRed) {
+      const existing = list.querySelectorAll('.row');
+      const existingByName = new Map();
+      existing.forEach(row => {
+        const n = row.querySelector('.bd-name')?.firstChild?.textContent || '';
+        if (n) existingByName.set(n, row);
+      });
+      const total = items.length;
+      const header = list.querySelector('.table-header');
+      const newRowEls = items.map((it, i) => {
+        const wrap = document.createElement('div');
+        wrap.innerHTML = isRed ? buildRedRow(it, i, total) : buildBlackRow(it, i, total);
+        return wrap.firstElementChild;
+      });
+      if (newRowEls.filter(Boolean).length !== total) {
+        console.warn('rebuildYesterday aborted: parse failed');
+        return;
+      }
+      list.innerHTML = '';
+      if (header) list.appendChild(header);
+      items.forEach((it, i) => {
+        let row = newRowEls[i];
+        if (existingByName.has(it.name)) {
+          row = existingByName.get(it.name);
+        }
+        if (!changedNames.has(it.name)) {
+          row.classList.remove('updated');
+        }
+        list.appendChild(row);
+      });
+    }
+
     function showToast(msg, ok = true) {
       const el = document.getElementById('syncToast');
       if (!el) return;
@@ -1507,6 +2001,11 @@
       if (tag) {
         currentData = JSON.parse(tag.textContent);
         lastHash = canonicalHash(currentData);
+        // Fill hero immediately on first load
+        if (currentData?.today?.list) {
+          // Defer to next tick so DOM is fully ready
+          setTimeout(() => updateHero(currentData.today.list), 50);
+        }
       }
     } catch (e) {}
 
@@ -1519,27 +2018,34 @@
         if (h === lastHash) return; // no change, silent
         lastHash = h;
 
-        // Compute row-level changes (only highlight rows whose actual/target/group/tag changed)
-        const redChanged = findChangedNames(currentData?.red_list, d.red_list);
-        const blackChanged = findChangedNames(currentData?.black_list, d.black_list);
-        const totalChanged = redChanged.size + blackChanged.size;
+        const oldToday = currentData?.today || { list: [] };
+        const oldYesterday = currentData?.yesterday || { red_list: [], black_list: [] };
+        const newToday = d.today || { list: [] };
+        const newYesterday = d.yesterday || { red_list: [], black_list: [] };
 
-        const redBody = document.querySelector('.red-section .section-body');
-        const blackBody = document.querySelector('.black-section .section-body');
-        if (redBody && d.red_list) rebuild(redBody, d.red_list, redChanged, true);
-        if (blackBody && d.black_list) rebuild(blackBody, d.black_list, blackChanged, false);
+        // Row-level changes
+        const todayChanged = findChangedNames(oldToday.list, newToday.list);
+        const redChanged = findChangedNames(oldYesterday.red_list, newYesterday.red_list);
+        const blackChanged = findChangedNames(oldYesterday.black_list, newYesterday.black_list);
+        const totalChanged = todayChanged.size + redChanged.size + blackChanged.size;
 
-        // Update header counts
-        const redHeader = document.querySelector('.red-section .section-header span:nth-child(2)');
-        const blackHeader = document.querySelector('.black-section .section-header span:nth-child(2)');
-        if (redHeader) redHeader.textContent = `销 售 红 榜（${d.red_list.length}人）`;
-        if (blackHeader) blackHeader.textContent = `销 售 黑 榜（${d.black_list.length}人）`;
+        // Update today's leaderboard (sortable)
+        const todayBody = document.getElementById('todayBody');
+        if (todayBody && newToday.list) rebuildToday(todayBody, newToday.list);
+
+        // Update yesterday's red/black (in-place)
+        const redBody = document.getElementById('redBody');
+        const blackBody = document.getElementById('blackBody');
+        if (redBody && newYesterday.red_list) rebuildYesterday(redBody, newYesterday.red_list, redChanged, true);
+        if (blackBody && newYesterday.black_list) rebuildYesterday(blackBody, newYesterday.black_list, blackChanged, false);
+
+        // Update hero (25日 实时战况)
+        updateHero(newToday.list);
 
         currentData = d;
         if (totalChanged > 0) {
           showToast(`🆕 ${totalChanged} 行已更新`);
         } else {
-          // Structural change (e.g. list length) but no row changed — still notify
           showToast('🆕 数据已更新');
         }
       } catch (e) { /* silent */ }
@@ -1603,6 +2109,6 @@
     document.addEventListener('touchstart', tryAutoplay, { once: true });
   })();
 </script>
-<script type="application/json" id="war-data">{"brand":"芯动未来","top_tag":"7月夏战","title_line1":"乘胜再追击","title_line2":"连战皆大捷","date":"2026.07.24","date_event":"24日新签达成 · 龙虎榜","red_list":[{"rank":1,"group":"SMB-二组","name":"廖闻涛","target":10,"actual":4,"tag":"新签"},{"rank":2,"group":"SMB一组","name":"谭康","target":2,"actual":2,"tag":"上分"},{"rank":3,"group":"SMB-二组","name":"陈锦鹏","target":2,"actual":2,"tag":"达标"},{"rank":4,"group":"SMB一组","name":"李亚洁","target":3,"actual":2},{"rank":5,"group":"KA一组","name":"沈中堂","target":3,"actual":2},{"rank":6,"group":"KA一组","name":"张超","target":1,"actual":1},{"rank":7,"group":"SMB-二组","name":"马钰","target":2,"actual":1},{"rank":8,"group":"KA一组","name":"燕小一","target":1,"actual":1,"tag":"+达标","last":true}],"black_list":[{"rank":1,"group":"KA二组","name":"张琪","target":1,"actual":0},{"rank":2,"group":"KA二组","name":"杨竟竟","target":2,"actual":0},{"rank":3,"group":"SMB一组","name":"张耿淳","target":0,"actual":0},{"rank":4,"group":"SMB一组","name":"徐哲","target":0,"actual":0,"last":true}],"footer_left":"战鼓已响，使命必达","footer_right":"决战24日 · 数据截止当日"}</script>
+<script type="application/json" id="war-data">{"brand":"芯动未来","top_tag":"7月夏战","title_line1":"一鼓作气","title_line2":"寸土必争","today":{"date":"2026.07.25","date_event":"25日实时战况 · 决战正在进行","slogan_top":"一鼓作气","slogan_bottom":"寸土必争","list":[{"group":"SMB-二组","name":"廖闻涛","target":10,"actual":0},{"group":"SMB一组","name":"谭康","target":2,"actual":0},{"group":"SMB-二组","name":"陈锦鹏","target":2,"actual":0},{"group":"SMB一组","name":"李亚洁","target":3,"actual":0},{"group":"KA一组","name":"沈中堂","target":3,"actual":0},{"group":"KA一组","name":"张超","target":1,"actual":0},{"group":"SMB-二组","name":"马钰","target":2,"actual":0},{"group":"KA一组","name":"燕小一","target":1,"actual":0},{"group":"KA二组","name":"张琪","target":1,"actual":0},{"group":"KA二组","name":"杨竟竟","target":2,"actual":0},{"group":"SMB一组","name":"张耿淳","target":0,"actual":0},{"group":"SMB一组","name":"徐哲","target":0,"actual":0,"last":true}]},"yesterday":{"date":"2026.07.24","date_event":"24日新签达成 · 龙虎榜","slogan_top":"乘胜再追击","slogan_bottom":"连战皆大捷","red_list":[{"rank":1,"group":"SMB-二组","name":"廖闻涛","target":10,"actual":4,"tag":"新签"},{"rank":2,"group":"SMB一组","name":"谭康","target":2,"actual":2,"tag":"上分"},{"rank":3,"group":"SMB-二组","name":"陈锦鹏","target":2,"actual":2,"tag":"达标"},{"rank":4,"group":"SMB一组","name":"李亚洁","target":3,"actual":2},{"rank":5,"group":"KA一组","name":"沈中堂","target":3,"actual":2},{"rank":6,"group":"KA一组","name":"张超","target":1,"actual":1},{"rank":7,"group":"SMB-二组","name":"马钰","target":2,"actual":1},{"rank":8,"group":"KA一组","name":"燕小一","target":1,"actual":1,"tag":"+达标","last":true}],"black_list":[{"rank":1,"group":"KA二组","name":"张琪","target":1,"actual":0},{"rank":2,"group":"KA二组","name":"杨竟竟","target":2,"actual":0},{"rank":3,"group":"SMB一组","name":"张耿淳","target":0,"actual":0},{"rank":4,"group":"SMB一组","name":"徐哲","target":0,"actual":0,"last":true}]},"footer_left":"战鼓已响，使命必达","footer_right":"决战25日 · 数据实时刷新"}</script>
 </body>
 </html>
