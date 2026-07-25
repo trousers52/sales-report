@@ -932,22 +932,26 @@
     display: inline-block;
     padding: 4px 6px;
   }
-  /* The actual orbit — applied to the row, not the name, so it circles the row */
+  /* The actual orbit — applied to the row, circling around the BD name area */
+  .row.today-row.name-met-row {
+    overflow: visible;
+  }
   .row.today-row.name-met-row::before {
     content: '🐉';
     position: absolute;
-    top: 8px; left: 60px;
+    top: 50%; left: 32%;
     font-size: 18px;
     line-height: 1;
-    transform-origin: 60px 12px;
+    margin-top: -9px;
+    transform-origin: 0 0;
     animation: dragon-orbit 3.5s linear infinite, dragon-pulse 1.5s ease-in-out infinite;
     filter: drop-shadow(0 0 4px gold) drop-shadow(0 0 8px rgba(255, 200, 50, 0.7));
     pointer-events: none;
     z-index: 12;
   }
   @keyframes dragon-orbit {
-    from { transform: rotate(0deg) translateX(40px) rotate(0deg); }
-    to   { transform: rotate(360deg) translateX(40px) rotate(-360deg); }
+    from { transform: rotate(0deg) translateX(48px) rotate(0deg); }
+    to   { transform: rotate(360deg) translateX(48px) rotate(-360deg); }
   }
   @keyframes dragon-pulse {
     0%, 100% { font-size: 18px; }
