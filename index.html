@@ -572,30 +572,25 @@
     padding: 8px 6px;
     gap: 4px;
   }
-  /* ====== 第一名 金色文字特效 (简洁冠军字效) ====== */
+  /* ====== 第一名 七色循环文字特效 ====== */
   .row.today-row.podium-1 .bd-name {
-    color: #fff5b3;
+    color: #ff3838;
     font-weight: 800;
     letter-spacing: 1px;
     text-shadow:
-      0 1px 0 #b8860b,
-      0 0 4px rgba(255, 215, 0, 0.6),
-      0 0 8px rgba(255, 200, 0, 0.3);
-    animation: goldShine 3s ease-in-out infinite;
+      0 1px 0 rgba(0, 0, 0, 0.6),
+      0 0 5px currentColor,
+      0 0 12px currentColor;
+    animation: rainbowColor 5s linear infinite;
   }
-  @keyframes goldShine {
-    0%, 100% {
-      text-shadow:
-        0 1px 0 #b8860b,
-        0 0 4px rgba(255, 215, 0, 0.6),
-        0 0 8px rgba(255, 200, 0, 0.3);
-    }
-    50% {
-      text-shadow:
-        0 1px 0 #b8860b,
-        0 0 6px rgba(255, 230, 100, 0.8),
-        0 0 14px rgba(255, 215, 0, 0.5);
-    }
+  @keyframes rainbowColor {
+    0%   { color: #ff3838; }  /* 红 */
+    16%  { color: #ff8c00; }  /* 橙 */
+    33%  { color: #ffd700; }  /* 黄 */
+    50%  { color: #00e676; }  /* 绿 */
+    66%  { color: #00d4ff; }  /* 青 */
+    83%  { color: #7c4dff; }  /* 紫 */
+    100% { color: #ff3838; }  /* 回到红 */
   }
   .row.today-row.podium-1 {
     background: linear-gradient(90deg, rgba(255, 200, 50, 0.3), rgba(255, 215, 0, 0.5), rgba(255, 200, 50, 0.3));
