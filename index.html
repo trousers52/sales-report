@@ -748,12 +748,14 @@
     gap: 2px;
   }
   /* Bottom 3 (last 3 in black list) — red highlight + flame icon */
-  .row.black-row .bd-name.bottom-name {
-    color: #ff4444;
-    font-weight: 800;
+  /* Use higher specificity to override the .bd-name nameFlash animation */
+  .row.black-row.is-bottom .bd-name {
+    color: #ff2222 !important;
+    font-weight: 800 !important;
     text-shadow: 0 0 8px rgba(255, 50, 50, 0.7);
+    animation: none !important;
   }
-  .row.black-row .bd-name.bottom-name::before {
+  .row.black-row.is-bottom .bd-name::before {
     content: '🚨 ';
     font-size: 11px;
     margin-right: 2px;
