@@ -898,6 +898,29 @@
     z-index: 5;
   }
   .bd-tag.up { background: #16a34a; color: #fff; }
+  /* Today leaderboard: 达标 (target met) and 超额 (exceeded) */
+  .bd-tag.tag-met {
+    background: linear-gradient(135deg, #16a34a 0%, #22c55e 50%, #4ade80 100%);
+    color: #fff;
+    font-weight: 800;
+    letter-spacing: 1px;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+    animation: tag-glow 1.5s ease-in-out infinite alternate;
+  }
+  .bd-tag.tag-met::before { content: '✅ '; }
+  .bd-tag.tag-extra {
+    background: linear-gradient(135deg, #ff8800 0%, #ffd700 50%, #ffff00 100%);
+    color: #2a0a0a;
+    font-weight: 800;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+    animation: tag-glow 1.2s ease-in-out infinite alternate;
+  }
+  .bd-tag.tag-extra::before { content: '🔥 '; }
+  @keyframes tag-glow {
+    from { filter: brightness(1) drop-shadow(0 0 4px currentColor); }
+    to   { filter: brightness(1.2) drop-shadow(0 0 10px currentColor); }
+  }
 
   /* Numbers */
   .num {
@@ -1498,7 +1521,7 @@
         <div class="row today-row podium-2" data-name="陈锦鹏" style="animation-delay: 1.50s">
           <div><div class="rank rank-2">2</div></div>
           <div><span class="group smb2">SMB-二组</span></div>
-          <div class="bd-name">陈锦鹏<div class="bd-progress"><div class="bd-progress-label">2/2</div><div class="bd-progress-fill good" style="width: 100%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">陈锦鹏<span class="bd-tag tag-met">达标</span><div class="bd-progress"><div class="bd-progress-label">2/2</div><div class="bd-progress-fill good" style="width: 100%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">2</div>
           <div><span class="num actual">2</span></div>
           <div><span class="rate-cell over-100">100%</span></div>
