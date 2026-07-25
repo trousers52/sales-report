@@ -36,15 +36,14 @@
       "black_list": [
         {"rank": 1, "group": "SMB一组", "name": "徐哲", "target": 32, "actual": 1, "rate": 0.03, "tag": "需努力"},
         {"rank": 2, "group": "SMB一组", "name": "张耿淳", "target": 32, "actual": 2, "rate": 0.06, "tag": "需努力"},
-        {"rank": 3, "group": "SMB一组", "name": "杜杨", "target": 32, "actual": 3, "rate": 0.09, "tag": "需努力"},
-        {"rank": 4, "group": "SMB-二组", "name": "马钰", "target": 32, "actual": 9, "rate": 0.28, "tag": "需努力"},
-        {"rank": 5, "group": "KA二组", "name": "杨竟竟", "target": 15, "actual": 5, "rate": 0.33, "tag": "需努力"},
-        {"rank": 6, "group": "SMB一组", "name": "李亚洁", "target": 32, "actual": 11, "rate": 0.34, "tag": "需努力"},
-        {"rank": 7, "group": "KA二组", "name": "张琪", "target": 15, "actual": 6, "rate": 0.40, "tag": "需努力"},
-        {"rank": 8, "group": "SMB-二组", "name": "陈锦鹏", "target": 32, "actual": 13, "rate": 0.41, "tag": "需努力"},
-        {"rank": 9, "group": "SMB一组", "name": "谭康", "target": 32, "actual": 13, "rate": 0.41, "tag": "需努力"},
-        {"rank": 10, "group": "KA一组", "name": "燕小一", "target": 15, "actual": 7, "rate": 0.47, "tag": "需努力"},
-        {"rank": 11, "group": "KA一组", "name": "沈中堂", "target": 15, "actual": 7, "rate": 0.47, "tag": "需努力"}
+        {"rank": 3, "group": "SMB-二组", "name": "马钰", "target": 32, "actual": 9, "rate": 0.28, "tag": "需努力"},
+        {"rank": 4, "group": "KA二组", "name": "杨竟竟", "target": 15, "actual": 5, "rate": 0.33, "tag": "需努力"},
+        {"rank": 5, "group": "SMB一组", "name": "李亚洁", "target": 32, "actual": 11, "rate": 0.34, "tag": "需努力"},
+        {"rank": 6, "group": "KA二组", "name": "张琪", "target": 15, "actual": 6, "rate": 0.40, "tag": "需努力"},
+        {"rank": 7, "group": "SMB-二组", "name": "陈锦鹏", "target": 32, "actual": 13, "rate": 0.41, "tag": "需努力"},
+        {"rank": 8, "group": "SMB一组", "name": "谭康", "target": 32, "actual": 13, "rate": 0.41, "tag": "需努力"},
+        {"rank": 9, "group": "KA一组", "name": "燕小一", "target": 15, "actual": 7, "rate": 0.47, "tag": "需努力"},
+        {"rank": 10, "group": "KA一组", "name": "沈中堂", "target": 15, "actual": 7, "rate": 0.47, "tag": "需努力"}
       ]
     }
   ],
