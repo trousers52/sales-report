@@ -30,7 +30,7 @@
       "slogan_top": "截至 25日",
       "slogan_bottom": "本月总数据 · 50% 完成率为分水岭",
       "red_list": [
-        {"rank": 1, "group": "KA一组", "name": "张超", "target": 15, "actual": 9, "rate": 0.60, "tag": "超额完成"},
+        {"rank": 1, "group": "KA一组", "name": "张超", "target": 15, "actual": 9, "rate": 0.60, "tag": "稳定达成"},
         {"rank": 2, "group": "SMB-二组", "name": "廖闻涛", "target": 32, "actual": 19, "rate": 0.59, "tag": "遥遥领先"}
       ],
       "black_list": [
