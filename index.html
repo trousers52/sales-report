@@ -775,6 +775,24 @@
     border: 1px solid rgba(255, 50, 50, 0.4);
     box-shadow: 0 0 12px rgba(255, 50, 50, 0.3);
   }
+  /* 挂机中 (AFK/Idle) tag — purple, with loading shimmer */
+  @keyframes idle-shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  .bd-tag.tag-idle {
+    background: linear-gradient(90deg, #6a1b9a 0%, #aa00ff 25%, #6a1b9a 50%, #4a148c 75%, #6a1b9a 100%);
+    background-size: 200% 100%;
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 1px;
+    animation: idle-shimmer 2.5s linear infinite;
+    box-shadow: 0 0 8px rgba(170, 0, 255, 0.5);
+  }
+  .bd-tag.tag-idle::before {
+    content: '💤 ';
+    margin-right: 1px;
+  }
 
   /* Row 1 special */
   .row.rank-1-row {
@@ -1703,7 +1721,7 @@
         <div class="row black-row is-bottom" style="animation-delay: 4.76s">
           <div><div class="rank rank-black">9</div></div>
           <div><span class="group smb1">SMB一组</span></div>
-          <div class="bd-name bottom-name">杜杨<span class="bd-tag">差 13 单进红榜</span><div class="bd-progress"><div class="bd-progress-label">3/32</div><div class="bd-progress-fill critical" style="width: 9%"></div></div></div>
+          <div class="bd-name bottom-name">杜杨<span class="bd-tag tag-idle">挂机中</span><div class="bd-progress"><div class="bd-progress-label">3/32</div><div class="bd-progress-fill critical" style="width: 9%"></div></div></div>
           <div class="num">32</div>
           <div><span class="num actual-zero" style="color:#ff8c66">3</span></div>
           <div class="black-tier-cell"><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span><span class="tier-stars">★★★</span></span><span class="gap">-29</span></div>
@@ -1711,7 +1729,7 @@
         <div class="row black-row is-bottom" style="animation-delay: 4.88s">
           <div><div class="rank rank-black">10</div></div>
           <div><span class="group smb1">SMB一组</span></div>
-          <div class="bd-name bottom-name">张耿淳<span class="bd-tag">差 14 单进红榜</span><div class="bd-progress"><div class="bd-progress-label">2/32</div><div class="bd-progress-fill critical" style="width: 6%"></div></div></div>
+          <div class="bd-name bottom-name">张耿淳<span class="bd-tag tag-idle">挂机中</span><div class="bd-progress"><div class="bd-progress-label">2/32</div><div class="bd-progress-fill critical" style="width: 6%"></div></div></div>
           <div class="num">32</div>
           <div><span class="num actual-zero" style="color:#ff8c66">2</span></div>
           <div class="black-tier-cell"><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span><span class="tier-stars">★★</span></span><span class="gap">-30</span></div>
@@ -1719,7 +1737,7 @@
         <div class="row black-row last-row is-bottom" style="animation-delay: 5.00s">
           <div><div class="rank rank-black">11</div></div>
           <div><span class="group smb1">SMB一组</span></div>
-          <div class="bd-name bottom-name">徐哲<span class="bd-tag">差 15 单进红榜</span><div class="bd-progress"><div class="bd-progress-label">1/32</div><div class="bd-progress-fill critical" style="width: 3%"></div></div></div>
+          <div class="bd-name bottom-name">徐哲<span class="bd-tag tag-idle">挂机中</span><div class="bd-progress"><div class="bd-progress-label">1/32</div><div class="bd-progress-fill critical" style="width: 3%"></div></div></div>
           <div class="num">32</div>
           <div><span class="num actual-zero" style="color:#ff8c66">1</span></div>
           <div class="black-tier-cell"><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span><span class="tier-stars">★</span></span><span class="gap">-31</span></div>
