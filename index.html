@@ -1996,18 +1996,25 @@
     // Initialize from embedded data
     let currentData = null;
     let lastHash = '';
-    try {
-      const tag = document.getElementById('war-data');
-      if (tag) {
+    function initFromEmbedded() {
+      try {
+        const tag = document.getElementById('war-data');
+        if (!tag) { console.warn('[war-report] no war-data tag'); return; }
         currentData = JSON.parse(tag.textContent);
         lastHash = canonicalHash(currentData);
-        // Fill hero immediately on first load
         if (currentData?.today?.list) {
-          // Defer to next tick so DOM is fully ready
-          setTimeout(() => updateHero(currentData.today.list), 50);
+          updateHero(currentData.today.list);
         }
+      } catch (e) {
+        console.error('[war-report] init failed:', e);
       }
-    } catch (e) {}
+    }
+    // Defer to after parsing so the war-data <script> tag is in the DOM
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initFromEmbedded);
+    } else {
+      initFromEmbedded();
+    }
 
     async function poll() {
       try {
