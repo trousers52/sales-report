@@ -575,7 +575,8 @@
   /* ====== 第一名 整行 7 色 + 字体跳动 ====== */
   /* 整行只跑 7 色 (不跳, 让 row 静止, 子元素相对 row 跳) */
   .row.today-row.podium-1 {
-    animation: rowRainbow 2.5s linear infinite !important;
+    opacity: 1 !important;  /* 覆盖 .row.today-row opacity: 0 入场初始 */
+    animation: rowRainbow 2.5s linear infinite;
   }
   @keyframes rowRainbow {
     0%   { color: #ff3838; }
