@@ -922,40 +922,44 @@
     to   { filter: brightness(1.2) drop-shadow(0 0 10px currentColor); }
   }
 
-  /* ====== Small gold dragon orbiting 100% achievers ====== */
+  /* ====== Gold dragon swimming around 100% achievers ====== */
   .row.today-row.name-met-row {
     position: relative;
+    overflow: visible;
   }
-  /* Wrap the name text in a positioned span for the orbit center */
   .row.today-row.name-met-row .bd-name.name-met-target {
     position: relative;
     display: inline-block;
     padding: 4px 6px;
   }
-  /* The actual orbit — applied to the row, circling around the BD name area */
-  .row.today-row.name-met-row {
-    overflow: visible;
-  }
+  /* The dragon is gold-tinted and swims in a serpentine (S-curve) path */
   .row.today-row.name-met-row::before {
     content: '🐉';
     position: absolute;
-    top: 50%; left: 32%;
-    font-size: 18px;
+    top: 50%; left: 28%;
+    font-size: 17px;
     line-height: 1;
     margin-top: -9px;
-    transform-origin: 0 0;
-    animation: dragon-orbit 3.5s linear infinite, dragon-pulse 1.5s ease-in-out infinite;
-    filter: drop-shadow(0 0 4px gold) drop-shadow(0 0 8px rgba(255, 200, 50, 0.7));
+    /* Make the dragon gold: shift hue, boost saturation, brighten */
+    filter: hue-rotate(45deg) saturate(3) brightness(1.15)
+            drop-shadow(0 0 4px #ffd700)
+            drop-shadow(0 0 8px rgba(255, 215, 0, 0.7));
     pointer-events: none;
     z-index: 12;
+    /* Serpentine swimming: S-curve with body undulation */
+    animation: dragon-swim 3.2s ease-in-out infinite;
   }
-  @keyframes dragon-orbit {
-    from { transform: rotate(0deg) translateX(48px) rotate(0deg); }
-    to   { transform: rotate(360deg) translateX(48px) rotate(-360deg); }
-  }
-  @keyframes dragon-pulse {
-    0%, 100% { font-size: 18px; }
-    50% { font-size: 22px; }
+  @keyframes dragon-swim {
+    /* Path traces an S-curve, body tilts with the wave */
+    0%   { transform: translateX(-20px) translateY(0)    rotate(-15deg); }
+    12%  { transform: translateX(-12px) translateY(-4px) rotate(0deg); }
+    25%  { transform: translateX(0)    translateY(0)    rotate(15deg); }
+    37%  { transform: translateX(12px)  translateY(4px)  rotate(0deg); }
+    50%  { transform: translateX(20px)  translateY(0)    rotate(-15deg); }
+    62%  { transform: translateX(12px)  translateY(-4px) rotate(0deg); }
+    75%  { transform: translateX(0)    translateY(0)    rotate(15deg); }
+    87%  { transform: translateX(-12px) translateY(4px)  rotate(0deg); }
+    100% { transform: translateX(-20px) translateY(0)    rotate(-15deg); }
   }
 
   /* Numbers */
