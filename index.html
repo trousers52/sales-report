@@ -573,7 +573,7 @@
     gap: 4px;
   }
   /* ====== 第一名 整行 7 色 + 字体跳动 ====== */
-  /* 整行 color 7 色 + 同步跳动 -1em (!important 覆盖 .row.today-row slideInRight) */
+  /* 整行 color 7 色 + 同步跳动 -0.5em (!important 覆盖 .row.today-row slideInRight) */
   .row.today-row.podium-1 {
     animation: 
       rowRainbow 2.5s linear infinite,
@@ -588,10 +588,10 @@
     83%  { color: #7c4dff; }
     100% { color: #ff3838; }
   }
-  /* 整行跳动 -1em (与字配合) */
+  /* 整行跳动 -0.5em (与字配合) */
   @keyframes rowBounce {
     0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(-1em); }
+    50%      { transform: translateY(-0.5em); }
   }
   /* 排名 1 → 皇冠: 金色背景 + 👑 + 3D 旋转 */
   .row.today-row.podium-1 .rank {
