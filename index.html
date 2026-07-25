@@ -1955,26 +1955,25 @@
       [6, '秩序白银', 'tier-silver'],
     ];
 
-    // Tier by rate: <50%=青铜, 50-99%=白银, >=100%=黄金; star = actual mod 5
-    function tierByRate(actual, target) {
-      if (target <= 0 || actual <= 0) return ['倔强青铜', 'tier-bronze'];
-      const r = actual / target;
-      if (r >= 1.0) return ['荣耀黄金', 'tier-gold'];
-      if (r >= 0.5) return ['秩序白银', 'tier-silver'];
+    // Tier from team tier_map (injected as #tier-map JSON: actual -> [tier_name, tier_class])
+    let TEAM_TIER_MAP = {};
+    try {
+      const tm = document.getElementById('tier-map');
+      if (tm) TEAM_TIER_MAP = JSON.parse(tm.textContent);
+    } catch (e) { console.error('tier-map parse failed', e); }
+    function tierByMap(actual) {
+      const key = String(actual);
+      if (TEAM_TIER_MAP[key]) return TEAM_TIER_MAP[key];
+      if (TEAM_TIER_MAP[0]) return TEAM_TIER_MAP[0];
       return ['倔强青铜', 'tier-bronze'];
-    }
-    function starsByActual(actual) {
-      if (actual <= 0) return 0;
-      return actual % 5;
     }
 
     function buildRedRow(it, idx, total) {
       const pos = idx + 1;
       const rowCls = pos === 1 ? 'row rank-1-row' : 'row';
       const lastCls = idx === total - 1 ? ' last-row' : '';
-      const [tn, tc] = tierByRate(it.actual, it.target);
-      const starCount = starsByActual(it.actual);
-      const stars = starCount > 0 ? '★'.repeat(starCount) : '';
+      const [tn, tc] = tierByMap(it.actual);
+      const stars = '';
       let tag = '';
       if (it.tag) {
         const tcls = it.tag === '上分' ? 'bd-tag up' : 'bd-tag';
@@ -1992,9 +1991,8 @@
       const rowCls = 'row black-row';
       const lastCls = idx === total - 1 ? ' last-row' : '';
       const gap = it.target - it.actual;
-      const [tn, tc] = tierByRate(it.actual, it.target);
-      const starCount = starsByActual(it.actual);
-      const stars = starCount > 0 ? '★'.repeat(starCount) : '';
+      const [tn, tc] = tierByMap(it.actual);
+      const stars = '';
       const gapHtml = gap > 0 ? `<span class="gap">-${gap}</span>` : '<span class="gap dash">—</span>';
       const isMet = it.target > 0 && it.actual >= it.target;
       const nameCls = isMet ? 'bd-name name-met' : 'bd-name';
@@ -2138,8 +2136,8 @@
         }
         // Otherwise create new
         const rowCls = ['row', 'today-row', (rank === 1 ? 'podium-1' : rank === 2 ? 'podium-2' : rank === 3 ? 'podium-3' : ''), (it.target === 0 && it.actual === 0 ? 'zero-row' : '')].filter(Boolean).join(' ');
-        const [tn_pos, tc_pos] = tierByRate(it.actual, it.target);
-        const starCount = starsByActual(it.actual);
+        const [tn_pos, tc_pos] = tierByMap(it.actual);
+        const starCount = 0;
         const shortTier = tn_pos.slice(-2);
         const stars = starCount > 0 ? '★'.repeat(starCount) : '';
         const starsHtml = stars ? `<span class="tier-stars">${stars}</span>` : '';
