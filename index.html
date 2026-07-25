@@ -652,10 +652,23 @@
     0%   { background-position: 0% 50%; }
     100% { background-position: 200% 50%; }
   }
-  /* 字体跳动 (脉冲) */
-  @keyframes nameBounce {
-    0%, 100% { transform: scaleY(1); }
-    50%      { transform: scaleY(1.08); }
+  /* 字体跳动: 每个字独立跳 2em 高度 */
+  .row.today-row.podium-1 .bd-name-text {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 1px;
+  }
+  .row.today-row.podium-1 .bd-char {
+    display: inline-block;
+    animation: charBounce 1s cubic-bezier(0.5, -0.5, 0.5, 1.5) infinite;
+    animation-delay: calc(var(--i) * 0.12s);
+  }
+  @keyframes charBounce {
+    0%   { transform: translateY(0); }
+    30%  { transform: translateY(-2em); }  /* 跳 2 倍高度 */
+    60%  { transform: translateY(0); }
+    75%  { transform: translateY(-0.3em); }
+    100% { transform: translateY(0); }
   }
   /* 数字/完成率/称号/杀字 单独应用 7 色动画 (独立运行, 同步循环) */
   .row.today-row.podium-1 .num,
@@ -1825,7 +1838,7 @@
 
                 <div class="row today-row podium-1" data-name="燕小一" style="animation-delay: 1.40s">
           <div><div class="rank rank-1">1</div></div>
-          <div class="bd-name">燕小一<div class="bd-progress"><div class="bd-progress-label">4/5</div><div class="bd-progress-fill good" style="width: 80%"></div></div></div>
+          <div class="bd-name"><span class="bd-name-text"><span class="bd-char" style="--i: 0">燕</span><span class="bd-char" style="--i: 1">小</span><span class="bd-char" style="--i: 2">一</span></span><div class="bd-progress"><div class="bd-progress-label">4/5</div><div class="bd-progress-fill good" style="width: 80%"></div></div></div>
           <div class="num">5</div>
           <div><div class="kill-cell"><span class="kill-num">4</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell">80%</span></div>
@@ -1833,7 +1846,7 @@
         </div>
         <div class="row today-row podium-2" data-name="陈锦鹏" style="animation-delay: 1.50s">
           <div><div class="rank rank-2">2</div></div>
-          <div class="bd-name name-met">陈锦鹏<span class="bd-tag tag-met">达标</span><div class="bd-progress"><div class="bd-progress-label">2/2</div><div class="bd-progress-fill good" style="width: 100%"></div></div></div>
+          <div class="bd-name name-met"><span class="bd-name-text"><span class="bd-char" style="--i: 0">陈</span><span class="bd-char" style="--i: 1">锦</span><span class="bd-char" style="--i: 2">鹏</span></span><span class="bd-tag tag-met">达标</span><div class="bd-progress"><div class="bd-progress-label">2/2</div><div class="bd-progress-fill good" style="width: 100%"></div></div></div>
           <div class="num">2</div>
           <div><div class="kill-cell"><span class="kill-num">2</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell over-100">100%</span></div>
@@ -1841,7 +1854,7 @@
         </div>
         <div class="row today-row podium-3" data-name="廖闻涛" style="animation-delay: 1.60s">
           <div><div class="rank rank-3">3</div></div>
-          <div class="bd-name">廖闻涛<div class="bd-progress"><div class="bd-progress-label">1/15</div><div class="bd-progress-fill critical" style="width: 7%"></div></div></div>
+          <div class="bd-name"><span class="bd-name-text"><span class="bd-char" style="--i: 0">廖</span><span class="bd-char" style="--i: 1">闻</span><span class="bd-char" style="--i: 2">涛</span></span><div class="bd-progress"><div class="bd-progress-label">1/15</div><div class="bd-progress-fill critical" style="width: 7%"></div></div></div>
           <div class="num">15</div>
           <div><div class="kill-cell"><span class="kill-num">1</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell">6%</span></div>
@@ -1849,7 +1862,7 @@
         </div>
         <div class="row today-row" data-name="杨竟竟" style="animation-delay: 1.70s">
           <div><div class="rank rank-4">4</div></div>
-          <div class="bd-name">杨竟竟<div class="bd-progress"><div class="bd-progress-label">1/3</div><div class="bd-progress-fill warning" style="width: 33%"></div></div></div>
+          <div class="bd-name"><span class="bd-name-text"><span class="bd-char" style="--i: 0">杨</span><span class="bd-char" style="--i: 1">竟</span><span class="bd-char" style="--i: 2">竟</span></span><div class="bd-progress"><div class="bd-progress-label">1/3</div><div class="bd-progress-fill warning" style="width: 33%"></div></div></div>
           <div class="num">3</div>
           <div><div class="kill-cell"><span class="kill-num">1</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell">33%</span></div>
@@ -1857,7 +1870,7 @@
         </div>
         <div class="row today-row" data-name="马钰" style="animation-delay: 1.80s">
           <div><div class="rank rank-5">5</div></div>
-          <div class="bd-name">马钰<div class="bd-progress"><div class="bd-progress-label">1/2</div><div class="bd-progress-fill good" style="width: 50%"></div></div></div>
+          <div class="bd-name"><span class="bd-name-text"><span class="bd-char" style="--i: 0">马</span><span class="bd-char" style="--i: 1">钰</span></span><div class="bd-progress"><div class="bd-progress-label">1/2</div><div class="bd-progress-fill good" style="width: 50%"></div></div></div>
           <div class="num">2</div>
           <div><div class="kill-cell"><span class="kill-num">1</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell">50%</span></div>
@@ -1865,7 +1878,7 @@
         </div>
         <div class="row today-row" data-name="张琪" style="animation-delay: 1.90s">
           <div><div class="rank rank-6">6</div></div>
-          <div class="bd-name name-met">张琪<span class="bd-tag tag-met">达标</span><div class="bd-progress"><div class="bd-progress-label">1/1</div><div class="bd-progress-fill good" style="width: 100%"></div></div></div>
+          <div class="bd-name name-met"><span class="bd-name-text"><span class="bd-char" style="--i: 0">张</span><span class="bd-char" style="--i: 1">琪</span></span><span class="bd-tag tag-met">达标</span><div class="bd-progress"><div class="bd-progress-label">1/1</div><div class="bd-progress-fill good" style="width: 100%"></div></div></div>
           <div class="num">1</div>
           <div><div class="kill-cell"><span class="kill-num">1</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell over-100">100%</span></div>
@@ -1873,7 +1886,7 @@
         </div>
         <div class="row today-row" data-name="徐哲" style="animation-delay: 2.00s">
           <div><div class="rank rank-7">7</div></div>
-          <div class="bd-name name-met">徐哲<span class="bd-tag tag-met">达标</span><div class="bd-progress"><div class="bd-progress-label">1/1</div><div class="bd-progress-fill good" style="width: 100%"></div></div></div>
+          <div class="bd-name name-met"><span class="bd-name-text"><span class="bd-char" style="--i: 0">徐</span><span class="bd-char" style="--i: 1">哲</span></span><span class="bd-tag tag-met">达标</span><div class="bd-progress"><div class="bd-progress-label">1/1</div><div class="bd-progress-fill good" style="width: 100%"></div></div></div>
           <div class="num">1</div>
           <div><div class="kill-cell"><span class="kill-num">1</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell over-100">100%</span></div>
@@ -1881,7 +1894,7 @@
         </div>
         <div class="row today-row" data-name="谭康" style="animation-delay: 2.10s">
           <div><div class="rank rank-8">8</div></div>
-          <div class="bd-name">谭康<div class="bd-progress"><div class="bd-progress-label">0/4</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
+          <div class="bd-name"><span class="bd-name-text"><span class="bd-char" style="--i: 0">谭</span><span class="bd-char" style="--i: 1">康</span></span><div class="bd-progress"><div class="bd-progress-label">0/4</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
           <div class="num">4</div>
           <div><div class="kill-cell idle"><span class="kill-emoji">💤</span><span class="kill-idle">挂机中</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
@@ -1889,7 +1902,7 @@
         </div>
         <div class="row today-row" data-name="李亚洁" style="animation-delay: 2.20s">
           <div><div class="rank rank-9">9</div></div>
-          <div class="bd-name">李亚洁<div class="bd-progress"><div class="bd-progress-label">0/3</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
+          <div class="bd-name"><span class="bd-name-text"><span class="bd-char" style="--i: 0">李</span><span class="bd-char" style="--i: 1">亚</span><span class="bd-char" style="--i: 2">洁</span></span><div class="bd-progress"><div class="bd-progress-label">0/3</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
           <div class="num">3</div>
           <div><div class="kill-cell idle"><span class="kill-emoji">💤</span><span class="kill-idle">挂机中</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
@@ -1897,7 +1910,7 @@
         </div>
         <div class="row today-row" data-name="沈中堂" style="animation-delay: 2.30s">
           <div><div class="rank rank-10">10</div></div>
-          <div class="bd-name">沈中堂<div class="bd-progress"><div class="bd-progress-label">0/3</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
+          <div class="bd-name"><span class="bd-name-text"><span class="bd-char" style="--i: 0">沈</span><span class="bd-char" style="--i: 1">中</span><span class="bd-char" style="--i: 2">堂</span></span><div class="bd-progress"><div class="bd-progress-label">0/3</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
           <div class="num">3</div>
           <div><div class="kill-cell idle"><span class="kill-emoji">💤</span><span class="kill-idle">挂机中</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
@@ -1905,7 +1918,7 @@
         </div>
         <div class="row today-row" data-name="张超" style="animation-delay: 2.40s">
           <div><div class="rank rank-11">11</div></div>
-          <div class="bd-name">张超<div class="bd-progress"><div class="bd-progress-label">0/2</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
+          <div class="bd-name"><span class="bd-name-text"><span class="bd-char" style="--i: 0">张</span><span class="bd-char" style="--i: 1">超</span></span><div class="bd-progress"><div class="bd-progress-label">0/2</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
           <div class="num">2</div>
           <div><div class="kill-cell idle"><span class="kill-emoji">💤</span><span class="kill-idle">挂机中</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
@@ -1913,7 +1926,7 @@
         </div>
         <div class="row today-row last-row" data-name="张耿淳" style="animation-delay: 2.50s">
           <div><div class="rank rank-12">12</div></div>
-          <div class="bd-name">张耿淳<div class="bd-progress"><div class="bd-progress-label">0/1</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
+          <div class="bd-name"><span class="bd-name-text"><span class="bd-char" style="--i: 0">张</span><span class="bd-char" style="--i: 1">耿</span><span class="bd-char" style="--i: 2">淳</span></span><div class="bd-progress"><div class="bd-progress-label">0/1</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
           <div class="num">1</div>
           <div><div class="kill-cell idle"><span class="kill-emoji">💤</span><span class="kill-idle">挂机中</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
