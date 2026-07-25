@@ -922,6 +922,34 @@
     to   { filter: brightness(1.2) drop-shadow(0 0 10px currentColor); }
   }
 
+  /* ====== Gold name effect for 100% / over-target BDs ====== */
+  .bd-name.name-met {
+    color: #ffd700 !important;
+    font-weight: 800 !important;
+    text-shadow:
+      0 0 6px rgba(255, 215, 0, 0.8),
+      0 0 12px rgba(255, 200, 50, 0.5);
+    animation: name-glow 1.8s ease-in-out infinite alternate !important;
+  }
+  .bd-name.name-met::before {
+    content: '👑 ';
+    font-size: 11px;
+    margin-right: 2px;
+  }
+  @keyframes name-glow {
+    from {
+      text-shadow:
+        0 0 6px rgba(255, 215, 0, 0.8),
+        0 0 12px rgba(255, 200, 50, 0.5);
+    }
+    to {
+      text-shadow:
+        0 0 10px rgba(255, 215, 0, 1),
+        0 0 20px rgba(255, 200, 50, 0.7),
+        0 0 30px rgba(255, 180, 0, 0.4);
+    }
+  }
+
   /* Numbers */
   .num {
     font-weight: 700; font-size: 14px;
@@ -1518,7 +1546,7 @@
         </div>
         <div class="row today-row podium-2" data-name="陈锦鹏" style="animation-delay: 1.50s">
           <div><div class="rank rank-2">2</div></div>
-          <div class="bd-name">陈锦鹏<span class="bd-tag tag-met">达标</span><div class="bd-progress"><div class="bd-progress-label">2/2</div><div class="bd-progress-fill good" style="width: 100%"></div></div></div>
+          <div class="bd-name name-met">陈锦鹏<span class="bd-tag tag-met">达标</span><div class="bd-progress"><div class="bd-progress-label">2/2</div><div class="bd-progress-fill good" style="width: 100%"></div></div></div>
           <div class="num">2</div>
           <div><span class="num actual">2</span></div>
           <div><span class="rate-cell over-100">100%</span></div>
@@ -1910,7 +1938,6 @@
 
     function buildRedRow(it, idx, total) {
       const rank = it.rank;
-      const gcls = GROUP_CLASS[it.group] || 'ka1';
       const rowCls = rank === 1 ? 'row rank-1-row' : 'row';
       const lastCls = idx === total - 1 ? ' last-row' : '';
       const rankCls = rank <= 3 ? `rank-${rank}` : 'rank-other';
@@ -1921,17 +1948,20 @@
         const tcls = it.tag === '上分' ? 'bd-tag up' : 'bd-tag';
         tag = `<span class="${tcls}">${it.tag}</span>`;
       }
-      return `<div class="${rowCls}${lastCls}"><div><div class="rank ${rankCls}">${rank}</div></div><div class="bd-name">${it.name}${tag}</div><div class="num">${it.target}</div><div><span class="num actual">${it.actual}</span></div><div><span class="tier-badge ${tc}"><span class="tier-name">${tn}</span>${stars ? `<span class="tier-stars">${stars}</span>` : ''}</span></div></div>`;
+      const isMet = it.target > 0 && it.actual >= it.target;
+      const nameCls = isMet ? 'bd-name name-met' : 'bd-name';
+      return `<div class="${rowCls}${lastCls}"><div><div class="rank ${rankCls}">${rank}</div></div><div class="${nameCls}">${it.name}${tag}</div><div class="num">${it.target}</div><div><span class="num actual">${it.actual}</span></div><div><span class="tier-badge ${tc}"><span class="tier-name">${tn}</span>${stars ? `<span class="tier-stars">${stars}</span>` : ''}</span></div></div>`;
     }
 
     function buildBlackRow(it, idx, total) {
-      const gcls = GROUP_CLASS[it.group] || 'ka1';
       const rowCls = 'row black-row';
       const lastCls = idx === total - 1 ? ' last-row' : '';
       const gap = it.target - it.actual;
       const [tn, tc] = getRankTier(0, 0);
       const gapHtml = gap > 0 ? `<span class="gap">-${gap}</span>` : '<span class="gap dash">—</span>';
-      return `<div class="${rowCls}${lastCls}"><div><div class="rank rank-black">${it.rank}</div></div><div class="bd-name">${it.name}</div><div class="num">${it.target}</div><div><span class="num actual-zero">0</span></div><div class="black-tier-cell"><span class="tier-badge ${tc}"><span class="tier-name">${tn}</span></span>${gapHtml}</div></div>`;
+      const isMet = it.target > 0 && it.actual >= it.target;
+      const nameCls = isMet ? 'bd-name name-met' : 'bd-name';
+      return `<div class="${rowCls}${lastCls}"><div><div class="rank rank-black">${it.rank}</div></div><div class="${nameCls}">${it.name}</div><div class="num">${it.target}</div><div><span class="num actual-zero">0</span></div><div class="black-tier-cell"><span class="tier-badge ${tc}"><span class="tier-name">${tn}</span></span>${gapHtml}</div></div>`;
     }
 
     // Canonical hash: key-order independent, JSON-format independent
