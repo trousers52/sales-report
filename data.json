@@ -1,26 +1,118 @@
 {
   "brand": "芯动未来",
   "top_tag": "7月夏战",
-  "title_line1": "一鼓作气",
-  "title_line2": "寸土必争",
+  "title_line1": "旗开得胜",
+  "title_line2": "势如破竹",
   "today": {
     "date": "2026.07.25",
-    "date_event": "25日实时战况 · 决战正在进行",
+    "date_event": "25日实时战况 · 全部达标",
     "slogan_top": "一鼓作气",
     "slogan_bottom": "寸土必争",
     "list": [
-      {"group": "KA一组", "name": "燕小一", "target": 5, "actual": 2},
-      {"group": "SMB-二组", "name": "陈锦鹏", "target": 2, "actual": 2},
-      {"group": "KA二组", "name": "杨竟竟", "target": 3, "actual": 1},
-      {"group": "SMB-二组", "name": "马钰", "target": 2, "actual": 1},
-      {"group": "SMB-二组", "name": "廖闻涛", "target": 15, "actual": 0},
-      {"group": "SMB一组", "name": "谭康", "target": 4, "actual": 0},
-      {"group": "SMB一组", "name": "李亚洁", "target": 3, "actual": 0},
-      {"group": "KA一组", "name": "沈中堂", "target": 3, "actual": 0},
-      {"group": "KA一组", "name": "张超", "target": 2, "actual": 0},
-      {"group": "KA二组", "name": "张琪", "target": 1, "actual": 0},
-      {"group": "SMB一组", "name": "张耿淳", "target": 1, "actual": 0},
-      {"group": "SMB一组", "name": "徐哲", "target": 1, "actual": 0}
+      {
+        "name": "燕小一",
+        "group": "KA一组",
+        "target": 0,
+        "actual": 4,
+        "month_gmv": 4152,
+        "today_gmv": 1040,
+        "stores": [
+          "渔相识木桶鱼中餐火锅",
+          "芬芬川味面馆",
+          "青川里成都清油火锅",
+          "小辣红成都冷锅串串"
+        ]
+      },
+      {
+        "name": "陈锦鹏",
+        "group": "SMB-二组",
+        "target": 0,
+        "actual": 2,
+        "month_gmv": 735.4,
+        "today_gmv": 419.9,
+        "stores": [
+          "瑞普速非体重管理(马营社区店)",
+          "叮当鞋店"
+        ]
+      },
+      {
+        "name": "陈静",
+        "group": "SMB-二组",
+        "target": 0,
+        "actual": 2,
+        "month_gmv": 859,
+        "today_gmv": 201,
+        "stores": [
+          "乐尔乐特价批发超市(亳州中路店)",
+          "乐尔乐特价批发超市(亳州南路店)"
+        ]
+      },
+      {
+        "name": "崔子昭",
+        "group": "SMB-二组",
+        "target": 0,
+        "actual": 1,
+        "month_gmv": 495,
+        "today_gmv": 12.9,
+        "stores": [
+          "喵Miao coffee"
+        ]
+      },
+      {
+        "name": "廖闻涛",
+        "group": "SMB一组",
+        "target": 0,
+        "actual": 1,
+        "month_gmv": 254.4,
+        "today_gmv": 189.6,
+        "stores": [
+          "魔方体炒姿身材管理"
+        ]
+      },
+      {
+        "name": "马钰",
+        "group": "SMB一组",
+        "target": 0,
+        "actual": 1,
+        "month_gmv": 1196,
+        "today_gmv": 1977,
+        "stores": [
+          "渔和木桶鱼(紫柏路店)"
+        ]
+      },
+      {
+        "name": "徐哲",
+        "group": "SMB-二组",
+        "target": 0,
+        "actual": 1,
+        "month_gmv": 429.9,
+        "today_gmv": 29.9,
+        "stores": [
+          "知晓小铺"
+        ]
+      },
+      {
+        "name": "杨竟竟",
+        "group": "KA一组",
+        "target": 0,
+        "actual": 1,
+        "month_gmv": 1751.2,
+        "today_gmv": 1452.7,
+        "stores": [
+          "一颗豆的执念"
+        ]
+      },
+      {
+        "name": "张琪",
+        "group": "SMB一组",
+        "target": 0,
+        "actual": 1,
+        "month_gmv": 274.2,
+        "today_gmv": 158,
+        "stores": [
+          "LK木易造型"
+        ]
+      }
     ]
   },
   "history": [
@@ -28,23 +120,100 @@
       "date": "2026.07.25",
       "label": "7月累计",
       "slogan_top": "截至 25日",
-      "slogan_bottom": "本月总数据 · 50% 完成率为分水岭",
+      "slogan_bottom": "本月 GMV · 实时战报",
       "red_list": [
-        {"rank": 1, "group": "KA一组", "name": "张超", "target": 15, "actual": 9, "rate": 0.60, "tag": "稳定达成"},
-        {"rank": 2, "group": "SMB-二组", "name": "廖闻涛", "target": 32, "actual": 19, "rate": 0.59, "tag": "遥遥领先"}
+        {
+          "rank": 1,
+          "group": "KA一组",
+          "name": "燕小一",
+          "target": 0,
+          "actual": 4,
+          "rate": 1.0,
+          "month_gmv": 4152,
+          "tag": "完成"
+        },
+        {
+          "rank": 2,
+          "group": "SMB-二组",
+          "name": "陈锦鹏",
+          "target": 0,
+          "actual": 2,
+          "rate": 1.0,
+          "month_gmv": 735.4,
+          "tag": "完成"
+        },
+        {
+          "rank": 3,
+          "group": "SMB-二组",
+          "name": "陈静",
+          "target": 0,
+          "actual": 2,
+          "rate": 1.0,
+          "month_gmv": 859,
+          "tag": "完成"
+        },
+        {
+          "rank": 4,
+          "group": "SMB-二组",
+          "name": "崔子昭",
+          "target": 0,
+          "actual": 1,
+          "rate": 1.0,
+          "month_gmv": 495,
+          "tag": "完成"
+        },
+        {
+          "rank": 5,
+          "group": "SMB一组",
+          "name": "廖闻涛",
+          "target": 0,
+          "actual": 1,
+          "rate": 1.0,
+          "month_gmv": 254.4,
+          "tag": "完成"
+        },
+        {
+          "rank": 6,
+          "group": "SMB一组",
+          "name": "马钰",
+          "target": 0,
+          "actual": 1,
+          "rate": 1.0,
+          "month_gmv": 1196,
+          "tag": "完成"
+        },
+        {
+          "rank": 7,
+          "group": "SMB-二组",
+          "name": "徐哲",
+          "target": 0,
+          "actual": 1,
+          "rate": 1.0,
+          "month_gmv": 429.9,
+          "tag": "完成"
+        },
+        {
+          "rank": 8,
+          "group": "KA一组",
+          "name": "杨竟竟",
+          "target": 0,
+          "actual": 1,
+          "rate": 1.0,
+          "month_gmv": 1751.2,
+          "tag": "完成"
+        },
+        {
+          "rank": 9,
+          "group": "SMB一组",
+          "name": "张琪",
+          "target": 0,
+          "actual": 1,
+          "rate": 1.0,
+          "month_gmv": 274.2,
+          "tag": "完成"
+        }
       ],
-      "black_list": [
-        {"rank": 1, "group": "SMB一组", "name": "徐哲", "target": 32, "actual": 1, "rate": 0.03, "tag": "需努力"},
-        {"rank": 2, "group": "SMB一组", "name": "张耿淳", "target": 32, "actual": 2, "rate": 0.06, "tag": "需努力"},
-        {"rank": 3, "group": "SMB-二组", "name": "马钰", "target": 32, "actual": 9, "rate": 0.28, "tag": "需努力"},
-        {"rank": 4, "group": "KA二组", "name": "杨竟竟", "target": 15, "actual": 5, "rate": 0.33, "tag": "需努力"},
-        {"rank": 5, "group": "SMB一组", "name": "李亚洁", "target": 32, "actual": 11, "rate": 0.34, "tag": "需努力"},
-        {"rank": 6, "group": "KA二组", "name": "张琪", "target": 15, "actual": 6, "rate": 0.40, "tag": "需努力"},
-        {"rank": 7, "group": "SMB-二组", "name": "陈锦鹏", "target": 32, "actual": 13, "rate": 0.41, "tag": "需努力"},
-        {"rank": 8, "group": "SMB一组", "name": "谭康", "target": 32, "actual": 13, "rate": 0.41, "tag": "需努力"},
-        {"rank": 9, "group": "KA一组", "name": "燕小一", "target": 15, "actual": 7, "rate": 0.47, "tag": "需努力"},
-        {"rank": 10, "group": "KA一组", "name": "沈中堂", "target": 15, "actual": 7, "rate": 0.47, "tag": "需努力"}
-      ]
+      "black_list": []
     }
   ],
   "footer_left": "战鼓已响，使命必达",
