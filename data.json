@@ -1,26 +1,50 @@
 {
   "brand": "芯动未来",
   "top_tag": "7月夏战",
-  "title_line1": "乘胜再追击",
-  "title_line2": "连战皆大捷",
-  "date": "2026.07.24",
-  "date_event": "24日新签达成 · 龙虎榜",
-  "red_list": [
-    {"rank": 1, "group": "SMB-二组", "name": "廖闻涛", "target": 10, "actual": 4, "tag": "新签"},
-    {"rank": 2, "group": "SMB一组", "name": "谭康", "target": 2, "actual": 2, "tag": "上分"},
-    {"rank": 3, "group": "SMB-二组", "name": "陈锦鹏", "target": 2, "actual": 2, "tag": "达标"},
-    {"rank": 4, "group": "SMB一组", "name": "李亚洁", "target": 3, "actual": 2},
-    {"rank": 5, "group": "KA一组", "name": "沈中堂", "target": 3, "actual": 2},
-    {"rank": 6, "group": "KA一组", "name": "张超", "target": 1, "actual": 1},
-    {"rank": 7, "group": "SMB-二组", "name": "马钰", "target": 2, "actual": 1},
-    {"rank": 8, "group": "KA一组", "name": "燕小一", "target": 1, "actual": 1, "tag": "+达标"}
-  ],
-  "black_list": [
-    {"rank": 1, "group": "KA二组", "name": "张琪", "target": 1, "actual": 0},
-    {"rank": 2, "group": "KA二组", "name": "杨竟竟", "target": 2, "actual": 0},
-    {"rank": 3, "group": "SMB一组", "name": "张耿淳", "target": 0, "actual": 0},
-    {"rank": 4, "group": "SMB一组", "name": "徐哲", "target": 0, "actual": 0}
-  ],
+  "title_line1": "一鼓作气",
+  "title_line2": "寸土必争",
+  "today": {
+    "date": "2026.07.25",
+    "date_event": "25日实时战况 · 决战正在进行",
+    "slogan_top": "一鼓作气",
+    "slogan_bottom": "寸土必争",
+    "list": [
+      {"group": "SMB-二组", "name": "廖闻涛", "target": 10, "actual": 0},
+      {"group": "SMB一组", "name": "谭康", "target": 2, "actual": 0},
+      {"group": "SMB-二组", "name": "陈锦鹏", "target": 2, "actual": 0},
+      {"group": "SMB一组", "name": "李亚洁", "target": 3, "actual": 0},
+      {"group": "KA一组", "name": "沈中堂", "target": 3, "actual": 0},
+      {"group": "KA一组", "name": "张超", "target": 1, "actual": 0},
+      {"group": "SMB-二组", "name": "马钰", "target": 2, "actual": 0},
+      {"group": "KA一组", "name": "燕小一", "target": 1, "actual": 0},
+      {"group": "KA二组", "name": "张琪", "target": 1, "actual": 0},
+      {"group": "KA二组", "name": "杨竟竟", "target": 2, "actual": 0},
+      {"group": "SMB一组", "name": "张耿淳", "target": 0, "actual": 0},
+      {"group": "SMB一组", "name": "徐哲", "target": 0, "actual": 0}
+    ]
+  },
+  "yesterday": {
+    "date": "2026.07.24",
+    "date_event": "24日新签达成 · 龙虎榜",
+    "slogan_top": "乘胜再追击",
+    "slogan_bottom": "连战皆大捷",
+    "red_list": [
+      {"rank": 1, "group": "SMB-二组", "name": "廖闻涛", "target": 10, "actual": 4, "tag": "新签"},
+      {"rank": 2, "group": "SMB一组", "name": "谭康", "target": 2, "actual": 2, "tag": "上分"},
+      {"rank": 3, "group": "SMB-二组", "name": "陈锦鹏", "target": 2, "actual": 2, "tag": "达标"},
+      {"rank": 4, "group": "SMB一组", "name": "李亚洁", "target": 3, "actual": 2},
+      {"rank": 5, "group": "KA一组", "name": "沈中堂", "target": 3, "actual": 2},
+      {"rank": 6, "group": "KA一组", "name": "张超", "target": 1, "actual": 1},
+      {"rank": 7, "group": "SMB-二组", "name": "马钰", "target": 2, "actual": 1},
+      {"rank": 8, "group": "KA一组", "name": "燕小一", "target": 1, "actual": 1, "tag": "+达标"}
+    ],
+    "black_list": [
+      {"rank": 1, "group": "KA二组", "name": "张琪", "target": 1, "actual": 0},
+      {"rank": 2, "group": "KA二组", "name": "杨竟竟", "target": 2, "actual": 0},
+      {"rank": 3, "group": "SMB一组", "name": "张耿淳", "target": 0, "actual": 0},
+      {"rank": 4, "group": "SMB一组", "name": "徐哲", "target": 0, "actual": 0}
+    ]
+  },
   "footer_left": "战鼓已响，使命必达",
-  "footer_right": "决战24日 · 数据截止当日"
+  "footer_right": "决战25日 · 数据实时刷新"
 }
