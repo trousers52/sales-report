@@ -591,20 +591,33 @@
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-3px); }
   }
-  /* 排名圆形: 7 色渐变 + 强光晕 */
+  /* 排名 1 → 皇冠: 金色背景 + 👑 + 3D 旋转 */
   .row.today-row.podium-1 .rank {
-    background: linear-gradient(
-      135deg,
-      #ff3838 0%, #ff8c00 25%, #ffd700 50%, #00e676 75%, #00d4ff 100%
-    );
-    background-size: 200% 200%;
-    color: #fff !important;
-    text-shadow: 0 0 4px #fff, 0 1px 2px #000;
+    background: linear-gradient(135deg, #ffd700 0%, #ff8c00 50%, #ffaa00 100%);
+    color: transparent !important;
+    text-shadow: none;
+    font-size: 0;
     box-shadow:
-      0 0 6px currentColor,
-      0 0 12px currentColor,
+      0 0 8px #ffd700,
+      0 0 16px rgba(255, 215, 0, 0.6),
       0 2px 8px rgba(0, 0, 0, 0.4);
-    animation: rankGradient 2.5s linear infinite, rankPulse 1.2s ease-in-out infinite;
+    animation: rankPulse 1.2s ease-in-out infinite;
+  }
+  .row.today-row.podium-1 .rank::before {
+    content: '👑';
+    font-size: 22px;
+    color: #fff;
+    text-shadow: 0 0 4px #fff, 0 0 8px #ffd700, 0 1px 2px #000;
+    filter: drop-shadow(0 0 4px #ffd700);
+    animation: crown3D 2.4s linear infinite, crownFloat 1.6s ease-in-out infinite alternate;
+  }
+  @keyframes crown3D {
+    0%   { transform: perspective(80px) rotateY(0deg); }
+    100% { transform: perspective(80px) rotateY(360deg); }
+  }
+  @keyframes crownFloat {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-2px); }
   }
   @keyframes rankGradient {
     0%   { background-position: 0% 0%; }
