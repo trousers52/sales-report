@@ -616,6 +616,49 @@
   .yesterday-divider::before { left: 0; }
   .yesterday-divider::after { right: 0; }
 
+  /* ====== History container (多天叠加) ====== */
+  .history-container {
+    margin-top: 4px;
+  }
+  .history-day {
+    margin-bottom: 22px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed rgba(255, 215, 0, 0.15);
+  }
+  .history-day:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+  .history-day-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 6px 4px;
+  }
+  .history-day-label {
+    font-size: 15px;
+    font-weight: 800;
+    color: #ffd700;
+    letter-spacing: 2px;
+    text-shadow: 0 0 8px rgba(255, 200, 50, 0.4);
+  }
+  .history-day-date {
+    font-size: 11px;
+    color: rgba(255, 248, 220, 0.5);
+    font-family: 'Arial', sans-serif;
+    letter-spacing: 1px;
+  }
+  .history-day-slogan {
+    text-align: center;
+    font-size: 12px;
+    color: rgba(255, 248, 220, 0.6);
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    font-weight: 500;
+  }
+  .history-day .section { margin-bottom: 10px; }
+
   /* Number pop animation for actual changes */
   @keyframes numberPop {
     0% { transform: scale(1); }
@@ -1430,27 +1473,32 @@
       </div>
     </div>
 
-    <!-- ====== 历史归档 (24日) ====== -->
-    <div class="yesterday-divider">— 24日 战绩 归档 —</div>
+    <!-- ====== 历史红黑榜（多天叠加） ====== -->
+    <div class="yesterday-divider">— 历史红黑榜 · 叠加 —</div>
 
-    <!-- 24日 红榜 -->
-    <div class="section red-section">
-      <div class="section-header red">
-        <span class="trophy">🏆</span>
-        <span>24日 红榜</span>
-        <span class="trophy spin-slow">🏆</span>
+    <div class="history-container">
+          <div class="history-day">
+      <div class="history-day-header">
+        <span class="history-day-label">24日</span>
+        <span class="history-day-date">2026.07.24</span>
       </div>
-      <div class="section-body" id="redBody">
-        <div class="table-header">
-          <div>排名</div>
-          <div>组别</div>
-          <div>BD</div>
-          <div>目标</div>
-          <div>实际</div>
-          <div>段位 ★</div>
+      <div class="history-day-slogan">乘胜再追击 · 连战皆大捷</div>
+      <div class="section red-section">
+        <div class="section-header red">
+          <span class="trophy">🏆</span>
+          <span>红榜</span>
+          <span class="trophy spin-slow">🏆</span>
         </div>
-
-                <div class="row rank-1-row" style="animation-delay: 3.00s">
+        <div class="section-body" data-history-day="2026.07.24" data-list-type="red">
+          <div class="table-header">
+            <div>排名</div>
+            <div>组别</div>
+            <div>BD</div>
+            <div>目标</div>
+            <div>实际</div>
+            <div>段位 ★</div>
+          </div>
+                  <div class="row rank-1-row" style="animation-delay: 3.00s">
           <div><div class="rank rank-1">1</div></div>
           <div><span class="group smb2">SMB-二组</span></div>
           <div class="bd-name">廖闻涛<span class="bd-tag">新签</span></div>
@@ -1514,27 +1562,24 @@
           <div><span class="num actual" style="animation-delay: 4.04s">1</span></div>
           <div><span class="tier-badge tier-silver"><span class="tier-name">秩序白银</span><span class="tier-stars">★</span></span></div>
         </div>
-      </div>
-    </div>
-
-    <!-- 24日 黑榜 -->
-    <div class="section black-section">
-      <div class="section-header black">
-        <span class="warning-icon">⚠</span>
-        <span>24日 黑榜</span>
-        <span class="warning-icon">⚠</span>
-      </div>
-      <div class="section-body black-body" id="blackBody">
-        <div class="table-header black-header">
-          <div>排名</div>
-          <div>组别</div>
-          <div>BD</div>
-          <div>目标</div>
-          <div>实际</div>
-          <div>段位</div>
         </div>
-
-                <div class="row black-row" style="animation-delay: 3.80s">
+      </div>
+      <div class="section black-section">
+        <div class="section-header black">
+          <span class="warning-icon">⚠</span>
+          <span>黑榜</span>
+          <span class="warning-icon">⚠</span>
+        </div>
+        <div class="section-body black-body" data-history-day="2026.07.24" data-list-type="black">
+          <div class="table-header black-header">
+            <div>排名</div>
+            <div>组别</div>
+            <div>BD</div>
+            <div>目标</div>
+            <div>实际</div>
+            <div>段位</div>
+          </div>
+                  <div class="row black-row" style="animation-delay: 3.80s">
           <div><div class="rank rank-black">1</div></div>
           <div><span class="group ka2">KA二组</span></div>
           <div class="bd-name">张琪</div>
@@ -1566,7 +1611,9 @@
           <div><span class="num actual-zero">0</span></div>
           <div class="black-tier-cell"><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span><span class="gap dash">—</span></div>
         </div>
+        </div>
       </div>
+    </div>
     </div>
 
     <!-- Footer -->
@@ -2026,25 +2073,27 @@
         lastHash = h;
 
         const oldToday = currentData?.today || { list: [] };
-        const oldYesterday = currentData?.yesterday || { red_list: [], black_list: [] };
+        const oldHistory = currentData?.history || [];
         const newToday = d.today || { list: [] };
-        const newYesterday = d.yesterday || { red_list: [], black_list: [] };
+        const newHistory = d.history || [];
 
-        // Row-level changes
+        // Row-level changes (today only; history is static)
         const todayChanged = findChangedNames(oldToday.list, newToday.list);
-        const redChanged = findChangedNames(oldYesterday.red_list, newYesterday.red_list);
-        const blackChanged = findChangedNames(oldYesterday.black_list, newYesterday.black_list);
-        const totalChanged = todayChanged.size + redChanged.size + blackChanged.size;
+        const totalChanged = todayChanged.size;
+
+        // Check if history days changed (new day added)
+        const historyChanged = JSON.stringify(oldHistory.map(d=>d.date)) !== JSON.stringify(newHistory.map(d=>d.date));
 
         // Update today's leaderboard (sortable)
         const todayBody = document.getElementById('todayBody');
         if (todayBody && newToday.list) rebuildToday(todayBody, newToday.list);
 
-        // Update yesterday's red/black (in-place)
-        const redBody = document.getElementById('redBody');
-        const blackBody = document.getElementById('blackBody');
-        if (redBody && newYesterday.red_list) rebuildYesterday(redBody, newYesterday.red_list, redChanged, true);
-        if (blackBody && newYesterday.black_list) rebuildYesterday(blackBody, newYesterday.black_list, blackChanged, false);
+        // History is static; if a new day is added, do a full reload
+        if (historyChanged) {
+          showToast('🆕 历史归档更新，刷新页面查看');
+          setTimeout(() => location.reload(), 1500);
+          return;
+        }
 
         // Update hero (25日 实时战况)
         updateHero(newToday.list);
@@ -2052,8 +2101,6 @@
         currentData = d;
         if (totalChanged > 0) {
           showToast(`🆕 ${totalChanged} 行已更新`);
-        } else {
-          showToast('🆕 数据已更新');
         }
       } catch (e) { /* silent */ }
     }
@@ -2116,6 +2163,6 @@
     document.addEventListener('touchstart', tryAutoplay, { once: true });
   })();
 </script>
-<script type="application/json" id="war-data">{"brand":"芯动未来","top_tag":"7月夏战","title_line1":"一鼓作气","title_line2":"寸土必争","today":{"date":"2026.07.25","date_event":"25日实时战况 · 决战正在进行","slogan_top":"一鼓作气","slogan_bottom":"寸土必争","list":[{"group":"SMB-二组","name":"马钰","target":2,"actual":1},{"group":"KA一组","name":"燕小一","target":5,"actual":1},{"group":"KA二组","name":"杨竟竟","target":3,"actual":1},{"group":"SMB-二组","name":"廖闻涛","target":15,"actual":0},{"group":"SMB一组","name":"谭康","target":4,"actual":0},{"group":"KA一组","name":"沈中堂","target":3,"actual":0},{"group":"SMB一组","name":"李亚洁","target":3,"actual":0},{"group":"SMB-二组","name":"陈锦鹏","target":2,"actual":0},{"group":"KA一组","name":"张超","target":2,"actual":0},{"group":"KA二组","name":"张琪","target":1,"actual":0},{"group":"SMB一组","name":"张耿淳","target":1,"actual":0},{"group":"SMB一组","name":"徐哲","target":1,"actual":0,"last":true}]},"yesterday":{"date":"2026.07.24","date_event":"24日新签达成 · 龙虎榜","slogan_top":"乘胜再追击","slogan_bottom":"连战皆大捷","red_list":[{"rank":1,"group":"SMB-二组","name":"廖闻涛","target":10,"actual":4,"tag":"新签"},{"rank":2,"group":"SMB一组","name":"谭康","target":2,"actual":2,"tag":"上分"},{"rank":3,"group":"SMB-二组","name":"陈锦鹏","target":2,"actual":2,"tag":"达标"},{"rank":4,"group":"SMB一组","name":"李亚洁","target":3,"actual":2},{"rank":5,"group":"KA一组","name":"沈中堂","target":3,"actual":2},{"rank":6,"group":"KA一组","name":"张超","target":1,"actual":1},{"rank":7,"group":"SMB-二组","name":"马钰","target":2,"actual":1},{"rank":8,"group":"KA一组","name":"燕小一","target":1,"actual":1,"tag":"+达标","last":true}],"black_list":[{"rank":1,"group":"KA二组","name":"张琪","target":1,"actual":0},{"rank":2,"group":"KA二组","name":"杨竟竟","target":2,"actual":0},{"rank":3,"group":"SMB一组","name":"张耿淳","target":0,"actual":0},{"rank":4,"group":"SMB一组","name":"徐哲","target":0,"actual":0,"last":true}]},"footer_left":"战鼓已响，使命必达","footer_right":"决战25日 · 数据实时刷新"}</script>
+<script type="application/json" id="war-data">{"brand":"芯动未来","top_tag":"7月夏战","title_line1":"一鼓作气","title_line2":"寸土必争","today":{"date":"2026.07.25","date_event":"25日实时战况 · 决战正在进行","slogan_top":"一鼓作气","slogan_bottom":"寸土必争","list":[{"group":"SMB-二组","name":"马钰","target":2,"actual":1},{"group":"KA一组","name":"燕小一","target":5,"actual":1},{"group":"KA二组","name":"杨竟竟","target":3,"actual":1},{"group":"SMB-二组","name":"廖闻涛","target":15,"actual":0},{"group":"SMB一组","name":"谭康","target":4,"actual":0},{"group":"KA一组","name":"沈中堂","target":3,"actual":0},{"group":"SMB一组","name":"李亚洁","target":3,"actual":0},{"group":"SMB-二组","name":"陈锦鹏","target":2,"actual":0},{"group":"KA一组","name":"张超","target":2,"actual":0},{"group":"KA二组","name":"张琪","target":1,"actual":0},{"group":"SMB一组","name":"张耿淳","target":1,"actual":0},{"group":"SMB一组","name":"徐哲","target":1,"actual":0,"last":true}]},"history":[{"date":"2026.07.24","label":"24日","slogan_top":"乘胜再追击","slogan_bottom":"连战皆大捷","red_list":[{"rank":1,"group":"SMB-二组","name":"廖闻涛","target":10,"actual":4,"tag":"新签"},{"rank":2,"group":"SMB一组","name":"谭康","target":2,"actual":2,"tag":"上分"},{"rank":3,"group":"SMB-二组","name":"陈锦鹏","target":2,"actual":2,"tag":"达标"},{"rank":4,"group":"SMB一组","name":"李亚洁","target":3,"actual":2},{"rank":5,"group":"KA一组","name":"沈中堂","target":3,"actual":2},{"rank":6,"group":"KA一组","name":"张超","target":1,"actual":1},{"rank":7,"group":"SMB-二组","name":"马钰","target":2,"actual":1},{"rank":8,"group":"KA一组","name":"燕小一","target":1,"actual":1,"tag":"+达标","last":true}],"black_list":[{"rank":1,"group":"KA二组","name":"张琪","target":1,"actual":0},{"rank":2,"group":"KA二组","name":"杨竟竟","target":2,"actual":0},{"rank":3,"group":"SMB一组","name":"张耿淳","target":0,"actual":0},{"rank":4,"group":"SMB一组","name":"徐哲","target":0,"actual":0,"last":true}]}],"footer_left":"战鼓已响，使命必达","footer_right":"决战25日 · 数据实时刷新"}</script>
 </body>
 </html>
