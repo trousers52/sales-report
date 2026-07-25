@@ -36,29 +36,6 @@
         ]
       },
       {
-        "name": "陈静",
-        "group": "SMB-二组",
-        "target": 0,
-        "actual": 2,
-        "month_gmv": 859,
-        "today_gmv": 201,
-        "stores": [
-          "乐尔乐特价批发超市(亳州中路店)",
-          "乐尔乐特价批发超市(亳州南路店)"
-        ]
-      },
-      {
-        "name": "崔子昭",
-        "group": "SMB-二组",
-        "target": 0,
-        "actual": 1,
-        "month_gmv": 495,
-        "today_gmv": 12.9,
-        "stores": [
-          "喵Miao coffee"
-        ]
-      },
-      {
         "name": "廖闻涛",
         "group": "SMB一组",
         "target": 0,
@@ -144,26 +121,6 @@
         },
         {
           "rank": 3,
-          "group": "SMB-二组",
-          "name": "陈静",
-          "target": 0,
-          "actual": 2,
-          "rate": 1.0,
-          "month_gmv": 859,
-          "tag": "完成"
-        },
-        {
-          "rank": 4,
-          "group": "SMB-二组",
-          "name": "崔子昭",
-          "target": 0,
-          "actual": 1,
-          "rate": 1.0,
-          "month_gmv": 495,
-          "tag": "完成"
-        },
-        {
-          "rank": 5,
           "group": "SMB一组",
           "name": "廖闻涛",
           "target": 0,
@@ -173,7 +130,7 @@
           "tag": "完成"
         },
         {
-          "rank": 6,
+          "rank": 4,
           "group": "SMB一组",
           "name": "马钰",
           "target": 0,
@@ -183,7 +140,7 @@
           "tag": "完成"
         },
         {
-          "rank": 7,
+          "rank": 5,
           "group": "SMB-二组",
           "name": "徐哲",
           "target": 0,
@@ -193,7 +150,7 @@
           "tag": "完成"
         },
         {
-          "rank": 8,
+          "rank": 6,
           "group": "KA一组",
           "name": "杨竟竟",
           "target": 0,
@@ -203,7 +160,7 @@
           "tag": "完成"
         },
         {
-          "rank": 9,
+          "rank": 7,
           "group": "SMB一组",
           "name": "张琪",
           "target": 0,
