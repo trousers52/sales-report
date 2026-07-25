@@ -922,46 +922,6 @@
     to   { filter: brightness(1.2) drop-shadow(0 0 10px currentColor); }
   }
 
-  /* ====== Gold dragon swimming around 100% achievers ====== */
-  .row.today-row.name-met-row {
-    position: relative;
-    overflow: visible;
-  }
-  .row.today-row.name-met-row .bd-name.name-met-target {
-    position: relative;
-    display: inline-block;
-    padding: 4px 6px;
-  }
-  /* The dragon is gold-tinted and swims in a serpentine (S-curve) path */
-  .row.today-row.name-met-row::before {
-    content: '🐉';
-    position: absolute;
-    top: 50%; left: 28%;
-    font-size: 17px;
-    line-height: 1;
-    margin-top: -9px;
-    /* Make the dragon gold: sepia + saturate shifts any color to warm gold */
-    filter: sepia(1) saturate(8) hue-rotate(-15deg) brightness(1.1)
-            drop-shadow(0 0 4px #ffd700)
-            drop-shadow(0 0 8px rgba(255, 215, 0, 0.7));
-    pointer-events: none;
-    z-index: 12;
-    /* Serpentine swimming: S-curve with body undulation */
-    animation: dragon-swim 3.2s ease-in-out infinite;
-  }
-  @keyframes dragon-swim {
-    /* Path traces an S-curve, body tilts with the wave */
-    0%   { transform: translateX(-20px) translateY(0)    rotate(-15deg); }
-    12%  { transform: translateX(-12px) translateY(-4px) rotate(0deg); }
-    25%  { transform: translateX(0)    translateY(0)    rotate(15deg); }
-    37%  { transform: translateX(12px)  translateY(4px)  rotate(0deg); }
-    50%  { transform: translateX(20px)  translateY(0)    rotate(-15deg); }
-    62%  { transform: translateX(12px)  translateY(-4px) rotate(0deg); }
-    75%  { transform: translateX(0)    translateY(0)    rotate(15deg); }
-    87%  { transform: translateX(-12px) translateY(4px)  rotate(0deg); }
-    100% { transform: translateX(-20px) translateY(0)    rotate(-15deg); }
-  }
-
   /* Numbers */
   .num {
     font-weight: 700; font-size: 14px;
@@ -1558,10 +1518,10 @@
           <div><span class="rate-cell">40%</span></div>
           <div><span class="tier-badge tier-gold"><span class="tier-name">荣耀黄金</span><span class="tier-stars">★★</span></span></div>
         </div>
-        <div class="row today-row podium-2 name-met-row" data-name="陈锦鹏" style="animation-delay: 1.50s">
+        <div class="row today-row podium-2" data-name="陈锦鹏" style="animation-delay: 1.50s">
           <div><div class="rank rank-2">2</div></div>
           <div><span class="group smb2">SMB-二组</span></div>
-          <div class="bd-name name-met-target">陈锦鹏<span class="bd-tag tag-met">达标</span><div class="bd-progress"><div class="bd-progress-label">2/2</div><div class="bd-progress-fill good" style="width: 100%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">陈锦鹏<span class="bd-tag tag-met">达标</span><div class="bd-progress"><div class="bd-progress-label">2/2</div><div class="bd-progress-fill good" style="width: 100%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">2</div>
           <div><span class="num actual">2</span></div>
           <div><span class="rate-cell over-100">100%</span></div>
