@@ -243,16 +243,6 @@
           "rate": 0.3333333333333333,
           "tag": "差 3 单进红榜",
           "rank": 8,
-          "is_bottom": false
-        },
-        {
-          "group": "KA一组",
-          "name": "杜杨",
-          "target": 32,
-          "actual": 3,
-          "rate": 0.09375,
-          "tag": "差 13 单进红榜",
-          "rank": 9,
           "is_bottom": true
         },
         {
@@ -262,7 +252,7 @@
           "actual": 2,
           "rate": 0.0625,
           "tag": "差 14 单进红榜",
-          "rank": 10,
+          "rank": 9,
           "is_bottom": true
         },
         {
@@ -272,7 +262,7 @@
           "actual": 1,
           "rate": 0.03125,
           "tag": "差 15 单进红榜",
-          "rank": 11,
+          "rank": 10,
           "is_bottom": true,
           "last": true
         }
