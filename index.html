@@ -572,36 +572,105 @@
     padding: 8px 6px;
     gap: 4px;
   }
-  /* ====== 第一名 七色渐变循环 (linear-gradient + 背景流动 + 强光晕) ====== */
+  /* ====== 第一名 整行 7 色 + 字体跳动 ====== */
+  /* 整行 color 7 色循环 (子元素继承) */
+  .row.today-row.podium-1 {
+    animation: rowRainbow 2.5s linear infinite, rowBounce 1.4s ease-in-out infinite;
+  }
+  @keyframes rowRainbow {
+    0%   { color: #ff3838; }
+    16%  { color: #ff8c00; }
+    33%  { color: #ffd700; }
+    50%  { color: #00e676; }
+    66%  { color: #00d4ff; }
+    83%  { color: #7c4dff; }
+    100% { color: #ff3838; }
+  }
+  /* 整行轻微跳动 (心跳) */
+  @keyframes rowBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+  /* 排名圆形: 7 色渐变 + 强光晕 */
+  .row.today-row.podium-1 .rank {
+    background: linear-gradient(
+      135deg,
+      #ff3838 0%, #ff8c00 25%, #ffd700 50%, #00e676 75%, #00d4ff 100%
+    );
+    background-size: 200% 200%;
+    color: #fff !important;
+    text-shadow: 0 0 4px #fff, 0 1px 2px #000;
+    box-shadow:
+      0 0 6px currentColor,
+      0 0 12px currentColor,
+      0 2px 8px rgba(0, 0, 0, 0.4);
+    animation: rankGradient 2.5s linear infinite, rankPulse 1.2s ease-in-out infinite;
+  }
+  @keyframes rankGradient {
+    0%   { background-position: 0% 0%; }
+    100% { background-position: 200% 200%; }
+  }
+  @keyframes rankPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+  }
+  /* 名字: 7 色渐变文字 + 跳动 */
   .row.today-row.podium-1 .bd-name {
     font-weight: 800;
     letter-spacing: 1px;
     background: linear-gradient(
       90deg,
-      #ff3838 0%,
-      #ff8c00 16%,
-      #ffd700 33%,
-      #00e676 50%,
-      #00d4ff 66%,
-      #7c4dff 83%,
-      #ff3838 100%
+      #ff3838 0%, #ff8c00 16%, #ffd700 33%,
+      #00e676 50%, #00d4ff 66%, #7c4dff 83%, #ff3838 100%
     );
     background-size: 200% 100%;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
-    /* 强光晕 (白色 + 彩色双层) */
     filter:
       drop-shadow(0 0 4px rgba(255, 255, 255, 0.8))
       drop-shadow(0 0 8px currentColor)
       drop-shadow(0 0 14px currentColor);
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
-    animation: rainbowFlow 2.5s linear infinite;
+    animation: nameRainbow 2.5s linear infinite, nameBounce 0.8s ease-in-out infinite;
   }
-  @keyframes rainbowFlow {
+  @keyframes nameRainbow {
     0%   { background-position: 0% 50%; }
     100% { background-position: 200% 50%; }
+  }
+  /* 字体跳动 (脉冲) */
+  @keyframes nameBounce {
+    0%, 100% { transform: scaleY(1); }
+    50%      { transform: scaleY(1.08); }
+  }
+  /* 数字列: 跟随整行 7 色 + 强光晕 */
+  .row.today-row.podium-1 .num,
+  .row.today-row.podium-1 .rate-cell {
+    color: currentColor;
+    text-shadow:
+      0 0 4px currentColor,
+      0 0 8px currentColor;
+    font-weight: 800;
+  }
+  /* 实际列 (杀数): 杀字 + 数字同步染色 */
+  .row.today-row.podium-1 .kill-num,
+  .row.today-row.podium-1 .kill-word {
+    color: currentColor !important;
+    -webkit-text-fill-color: currentColor !important;
+    text-shadow:
+      0 0 4px currentColor,
+      0 0 10px currentColor,
+      0 0 18px currentColor;
+  }
+  /* 称号 badge: 跟随整行 7 色 + 强光晕 */
+  .row.today-row.podium-1 .bd-title {
+    color: currentColor;
+    border-color: currentColor;
+    background: rgba(0, 0, 0, 0.4);
+    text-shadow: 0 0 4px currentColor, 0 0 8px currentColor;
+    box-shadow: 0 0 6px currentColor, inset 0 0 4px rgba(0, 0, 0, 0.4);
+    font-weight: 800;
   }
   .row.today-row.podium-1 {
     background: linear-gradient(90deg, rgba(255, 200, 50, 0.3), rgba(255, 215, 0, 0.5), rgba(255, 200, 50, 0.3));
