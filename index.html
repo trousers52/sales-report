@@ -573,11 +573,9 @@
     gap: 4px;
   }
   /* ====== 第一名 整行 7 色 + 字体跳动 ====== */
-  /* 整行 color 7 色 + 同步跳动 -0.5em (!important 覆盖 .row.today-row slideInRight) */
+  /* 整行只跑 7 色 (不跳, 让 row 静止, 子元素相对 row 跳) */
   .row.today-row.podium-1 {
-    animation: 
-      rowRainbow 2.5s linear infinite,
-      rowBounce 1.2s ease-in-out infinite !important;
+    animation: rowRainbow 2.5s linear infinite !important;
   }
   @keyframes rowRainbow {
     0%   { color: #ff3838; }
@@ -587,11 +585,6 @@
     66%  { color: #00d4ff; }
     83%  { color: #7c4dff; }
     100% { color: #ff3838; }
-  }
-  /* 整行跳动 -0.5em (与字配合) */
-  @keyframes rowBounce {
-    0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(-0.5em); }
   }
   /* 排名 1 → 皇冠: 金色背景 + 👑 + 3D 旋转 */
   .row.today-row.podium-1 .rank {
