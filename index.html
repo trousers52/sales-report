@@ -573,9 +573,11 @@
     gap: 4px;
   }
   /* ====== 第一名 整行 7 色 + 字体跳动 ====== */
-  /* 整行 color 7 色循环 (子元素继承) */
+  /* 整行 color 7 色 + 同步跳动 -1em */
   .row.today-row.podium-1 {
-    animation: rowRainbow 2.5s linear infinite, rowBounce 1.4s ease-in-out infinite;
+    animation: 
+      rowRainbow 2.5s linear infinite,
+      rowBounce 1.2s ease-in-out infinite;
   }
   @keyframes rowRainbow {
     0%   { color: #ff3838; }
@@ -586,10 +588,10 @@
     83%  { color: #7c4dff; }
     100% { color: #ff3838; }
   }
-  /* 整行轻微跳动 (心跳) */
+  /* 整行跳动 -1em (与字配合) */
   @keyframes rowBounce {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-3px); }
+    50%      { transform: translateY(-1em); }
   }
   /* 排名 1 → 皇冠: 金色背景 + 👑 + 3D 旋转 */
   .row.today-row.podium-1 .rank {
@@ -662,7 +664,7 @@
       drop-shadow(0 0 8px currentColor)
       drop-shadow(0 0 14px currentColor);
   }
-  /* 字体跳动: 每个字独立跳 2em 高度 (跳满: 50% 时间在高点) */
+  /* 字体跳动: 每个字跳 -1em (与整行同步, 稍低) */
   .row.today-row.podium-1 .bd-char {
     display: inline-block;
     background: linear-gradient(
@@ -682,7 +684,7 @@
   }
   @keyframes charBounce {
     0%   { transform: translateY(0); }
-    50%  { transform: translateY(-2em); }  /* 跳满 50% 时间在 -2em */
+    50%  { transform: translateY(-1em); }  /* 跳 -1em (稍低) */
     100% { transform: translateY(0); }
   }
   /* 数字/完成率/称号/杀字 单独应用 7 色动画 (独立运行, 同步循环) */
