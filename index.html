@@ -2043,7 +2043,8 @@
     }
     function getTitleForItem(it) {
       const a = it.actual || 0, t = it.target || 0;
-      if (a <= 0 || t <= 0) return { name: '战五渣', cls: 'zero' };
+      if (a <= 0) return { name: '战五渣', cls: 'zero' };
+      if (t <= 0) return { name: '无目标', cls: 'na' };
       const r = a / t;
       if (r > 1.0) return { name: '超神杀手', cls: 'god' };
       if (r >= 1.0) return { name: '完美击杀', cls: 'perfect' };
