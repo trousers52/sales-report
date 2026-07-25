@@ -1945,18 +1945,25 @@
       [6, '秩序白银', 'tier-silver'],
     ];
 
-    function getRankTier(rank, actual) {
-      if (actual <= 0) return ['倔强青铜', 'tier-bronze'];
-      for (const [r, n, c] of RANK_TIER) if (rank === r) return [n, c];
-      return ['秩序白银', 'tier-silver'];
+    // Tier by position: every 5 positions is one tier (top = highest)
+    const POS_TIER = [
+      [1, '最强王者', 'tier-king'],
+      [6, '至尊星耀', 'tier-star'],
+      [11, '永恒钻石', 'tier-diamond'],
+      [16, '尊贵铂金', 'tier-platinum'],
+      [21, '荣耀黄金', 'tier-gold'],
+      [26, '秩序白银', 'tier-silver'],
+    ];
+    function tierByPos(pos) {
+      for (const [start, name, cls] of POS_TIER) if (pos <= start) return [name, cls];
+      return ['倔强青铜', 'tier-bronze'];
     }
 
     function buildRedRow(it, idx, total) {
-      const rank = it.rank;
-      const rowCls = rank === 1 ? 'row rank-1-row' : 'row';
+      const pos = idx + 1;
+      const rowCls = pos === 1 ? 'row rank-1-row' : 'row';
       const lastCls = idx === total - 1 ? ' last-row' : '';
-      const rankCls = rank <= 3 ? `rank-${rank}` : 'rank-other';
-      const [tn, tc] = getRankTier(rank, it.actual);
+      const [tn, tc] = tierByPos(pos);
       const stars = it.actual > 0 ? '★'.repeat(it.actual) : '';
       let tag = '';
       if (it.tag) {
@@ -1965,18 +1972,22 @@
       }
       const isMet = it.target > 0 && it.actual >= it.target;
       const nameCls = isMet ? 'bd-name name-met' : 'bd-name';
-      return `<div class="${rowCls}${lastCls}"><div><div class="rank ${rankCls}">${rank}</div></div><div class="${nameCls}">${it.name}${tag}</div><div class="num">${it.target}</div><div><span class="num actual">${it.actual}</span></div><div><span class="tier-badge ${tc}"><span class="tier-name">${tn}</span>${stars ? `<span class="tier-stars">${stars}</span>` : ''}</span></div></div>`;
+      // Short tier label for the rank cell (first 2 chars)
+      const shortTier = tn.slice(0, 2);
+      return `<div class="${rowCls}${lastCls}"><div><div class="rank ${tc}">${shortTier}</div></div><div class="${nameCls}">${it.name}${tag}</div><div class="num">${it.target}</div><div><span class="num actual">${it.actual}</span></div><div><span class="tier-badge ${tc}"><span class="tier-name">${tn}</span>${stars ? `<span class="tier-stars">${stars}</span>` : ''}</span></div></div>`;
     }
 
     function buildBlackRow(it, idx, total) {
+      const pos = idx + 1;
       const rowCls = 'row black-row';
       const lastCls = idx === total - 1 ? ' last-row' : '';
       const gap = it.target - it.actual;
-      const [tn, tc] = getRankTier(0, 0);
+      const [tn, tc] = tierByPos(pos);
       const gapHtml = gap > 0 ? `<span class="gap">-${gap}</span>` : '<span class="gap dash">—</span>';
       const isMet = it.target > 0 && it.actual >= it.target;
       const nameCls = isMet ? 'bd-name name-met' : 'bd-name';
-      return `<div class="${rowCls}${lastCls}"><div><div class="rank rank-black">${it.rank}</div></div><div class="${nameCls}">${it.name}</div><div class="num">${it.target}</div><div><span class="num actual-zero">0</span></div><div class="black-tier-cell"><span class="tier-badge ${tc}"><span class="tier-name">${tn}</span></span>${gapHtml}</div></div>`;
+      const shortTier = tn.slice(0, 2);
+      return `<div class="${rowCls}${lastCls}"><div><div class="rank ${tc}">${shortTier}</div></div><div class="${nameCls}">${it.name}</div><div class="num">${it.target}</div><div><span class="num actual-zero">0</span></div><div class="black-tier-cell"><span class="tier-badge ${tc}"><span class="tier-name">${tn}</span></span>${gapHtml}</div></div>`;
     }
 
     // Canonical hash: key-order independent, JSON-format independent
@@ -2114,10 +2125,9 @@
           return { name: it.name, el: existingByName.get(it.name).row, newBuild: false };
         }
         // Otherwise create new
-        const gcls = GROUP_CLASS[it.group] || 'ka1';
         const rowCls = ['row', 'today-row', (rank === 1 ? 'podium-1' : rank === 2 ? 'podium-2' : rank === 3 ? 'podium-3' : ''), (it.target === 0 && it.actual === 0 ? 'zero-row' : '')].filter(Boolean).join(' ');
-        const rankCls = rank <= 3 ? `rank-${rank}` : 'rank-other';
-        const tn_tc = (function(){ for (const [t, n, c] of [[0,'倔强青铜','tier-bronze'],[1,'秩序白银','tier-silver'],[2,'荣耀黄金','tier-gold'],[3,'尊贵铂金','tier-platinum'],[4,'永恒钻石','tier-diamond'],[5,'至尊星耀','tier-star'],[6,'最强王者','tier-king']]) if (it.actual <= t) return [n, c]; return ['最强王者','tier-king']; })();
+        const [tn_pos, tc_pos] = tierByPos(rank);
+        const shortTier = tn_pos.slice(0, 2);
         const stars = it.actual > 0 ? '★'.repeat(Math.min(it.actual, 6)) : '';
         const starsHtml = stars ? `<span class="tier-stars">${stars}</span>` : '';
         let rateHtml;
@@ -2130,12 +2140,12 @@
         }
         const wrap = document.createElement('div');
         wrap.innerHTML = `<div class="${rowCls}" data-name="${it.name}" style="animation-delay: ${(1.4 + i * 0.10).toFixed(2)}s">
-          <div><div class="rank ${rankCls}">${rank}</div></div>
+          <div><div class="rank ${tc_pos}">${shortTier}</div></div>
           <div class="bd-name">${it.name}</div>
           <div class="num">${it.target}</div>
           <div><span class="num actual">${it.actual}</span></div>
           <div>${rateHtml}</div>
-          <div><span class="tier-badge ${tn_tc[1]}"><span class="tier-name">${tn_tc[0]}</span>${starsHtml}</span></div>
+          <div><span class="tier-badge ${tc_pos}"><span class="tier-name">${tn_pos}</span>${starsHtml}</span></div>
         </div>`;
         return { name: it.name, el: wrap.firstElementChild, newBuild: true };
       });
