@@ -881,6 +881,27 @@
   .row.today-row.podium-1 .kill-word { color: #ffe56b; text-shadow: 0 0 8px rgba(255, 229, 107, 0.7), 1px 1px 0 #4a3500; }
   .row.today-row.zero-row .kill-num { color: #555; text-shadow: none; -webkit-text-stroke: 0; }
   .row.today-row.zero-row .kill-word { color: #555; text-shadow: none; transform: none; }
+  /* ====== 挂机中 cell ====== */
+  .kill-cell.idle {
+    gap: 4px;
+    animation: idleZ 2.4s ease-in-out infinite;
+  }
+  .kill-cell.idle .kill-emoji {
+    font-size: 22px;
+    filter: grayscale(0.4);
+    display: inline-block;
+  }
+  .kill-cell.idle .kill-idle {
+    font-family: "Long Cang", "Ma Shan Zheng", "STKaiti", "KaiTi", "楷体", cursive;
+    font-size: 16px;
+    color: #b088ff;
+    font-weight: 700;
+    text-shadow: 0 0 4px rgba(176,136,255,0.5);
+  }
+  @keyframes idleZ {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
 
   /* ====== Title (称号 - 毛笔字) ====== */
   .bd-title {
@@ -1728,7 +1749,7 @@
           <div><div class="rank rank-8">8</div></div>
           <div class="bd-name">谭康<div class="bd-progress"><div class="bd-progress-label">0/4</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
           <div class="num">4</div>
-          <div><div class="kill-cell"><span class="kill-num">0</span><span class="kill-word">杀</span></div></div>
+          <div><div class="kill-cell idle"><span class="kill-emoji">💤</span><span class="kill-idle">挂机中</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
           <div><span class="bd-title title-zero">战五渣</span></div>
         </div>
@@ -1736,7 +1757,7 @@
           <div><div class="rank rank-9">9</div></div>
           <div class="bd-name">李亚洁<div class="bd-progress"><div class="bd-progress-label">0/3</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
           <div class="num">3</div>
-          <div><div class="kill-cell"><span class="kill-num">0</span><span class="kill-word">杀</span></div></div>
+          <div><div class="kill-cell idle"><span class="kill-emoji">💤</span><span class="kill-idle">挂机中</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
           <div><span class="bd-title title-zero">战五渣</span></div>
         </div>
@@ -1744,7 +1765,7 @@
           <div><div class="rank rank-10">10</div></div>
           <div class="bd-name">沈中堂<div class="bd-progress"><div class="bd-progress-label">0/3</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
           <div class="num">3</div>
-          <div><div class="kill-cell"><span class="kill-num">0</span><span class="kill-word">杀</span></div></div>
+          <div><div class="kill-cell idle"><span class="kill-emoji">💤</span><span class="kill-idle">挂机中</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
           <div><span class="bd-title title-zero">战五渣</span></div>
         </div>
@@ -1752,7 +1773,7 @@
           <div><div class="rank rank-11">11</div></div>
           <div class="bd-name">张超<div class="bd-progress"><div class="bd-progress-label">0/2</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
           <div class="num">2</div>
-          <div><div class="kill-cell"><span class="kill-num">0</span><span class="kill-word">杀</span></div></div>
+          <div><div class="kill-cell idle"><span class="kill-emoji">💤</span><span class="kill-idle">挂机中</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
           <div><span class="bd-title title-zero">战五渣</span></div>
         </div>
@@ -1760,7 +1781,7 @@
           <div><div class="rank rank-12">12</div></div>
           <div class="bd-name">张耿淳<div class="bd-progress"><div class="bd-progress-label">0/1</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
           <div class="num">1</div>
-          <div><div class="kill-cell"><span class="kill-num">0</span><span class="kill-word">杀</span></div></div>
+          <div><div class="kill-cell idle"><span class="kill-emoji">💤</span><span class="kill-idle">挂机中</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
           <div><span class="bd-title title-zero">战五渣</span></div>
         </div>
@@ -2267,8 +2288,10 @@
         }
         // Otherwise create new
         const rowCls = ['row', 'today-row', (rank === 1 ? 'podium-1' : rank === 2 ? 'podium-2' : rank === 3 ? 'podium-3' : ''), (it.target === 0 && it.actual === 0 ? 'zero-row' : '')].filter(Boolean).join(' ');
-        // 25日 实时榜: kill cell (毛笔字体) + 称号
-        const killHtml = `<div class="kill-cell"><span class="kill-num">${it.actual}</span><span class="kill-word">杀</span></div>`;
+        // 25日 实时榜: kill cell (毛笔字体) + 挂机中
+        const killHtml = (it.actual <= 0)
+          ? '<div class="kill-cell idle"><span class="kill-emoji">💤</span><span class="kill-idle">挂机中</span></div>'
+          : `<div class="kill-cell"><span class="kill-num">${it.actual}</span><span class="kill-word">杀</span></div>`;
         let rateHtml;
         if (it.target > 0) {
           const p = Math.floor((it.actual / it.target) * 100);
