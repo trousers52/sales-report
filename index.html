@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#5a0a0a">
 <meta name="format-detection" content="telephone=no">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Long+Cang&family=Ma+Shan+Zheng&family=ZCOOL+QingKe+HuangYou&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
 <title>战报 · 芯动未来 · 25日实时战况 · 决战正在进行</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
@@ -407,7 +408,7 @@
 
   .row {
     display: grid;
-    grid-template-columns: 50px 1fr 1.1fr 0.7fr 0.7fr 1fr;
+    grid-template-columns: 50px 1.2fr 0.7fr 0.8fr 0.7fr;
     gap: 4px;
     align-items: center;
     justify-items: center;
@@ -843,6 +844,29 @@
   .group.ka2 { background: #2c5282; }
   .group.smb1 { background: #2d6a4f; }
   .group.smb2 { background: #c1121f; }
+
+  /* ====== Kill count (毛笔字体) ====== */
+  .kill-cell {
+    display: flex; align-items: baseline; justify-content: center; gap: 2px;
+    font-family: "Long Cang", "Ma Shan Zheng", "ZCOOL QingKe HuangYou", "STKaiti", "KaiTi", "华文行楷", "STXingkai", "楷体", cursive;
+    line-height: 1;
+  }
+  .kill-num {
+    font-family: "ZCOOL QingKe HuangYou", "Impact", "Arial Black", "Microsoft YaHei", sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: #ff5252;
+    text-shadow: 0 0 6px rgba(255, 82, 82, 0.6), 0 2px 0 #000;
+  }
+  .kill-word {
+    font-size: 18px;
+    color: #ff6b6b;
+    font-weight: 700;
+  }
+  .row.today-row.podium-1 .kill-num { color: #ffd700; text-shadow: 0 0 8px rgba(255, 215, 0, 0.7), 0 2px 0 #000; }
+  .row.today-row.podium-1 .kill-word { color: #ffe56b; }
+  .row.today-row.zero-row .kill-num { color: #888; text-shadow: none; }
+  .row.today-row.zero-row .kill-word { color: #888; }
 
   /* BD name - 固定 3 字宽 (3em), 让所有名字 + 进度条统一长度 */
   .bd-name {
@@ -1559,106 +1583,93 @@
           <div>排名</div>
           <div>BD</div>
           <div>目标</div>
-          <div>已签</div>
+          <div>杀数</div>
           <div>完成率</div>
-          <div>段位</div>
         </div>
 
                 <div class="row today-row podium-1" data-name="燕小一" style="animation-delay: 1.40s">
           <div><div class="rank rank-1">1</div></div>
           <div class="bd-name">燕小一<div class="bd-progress"><div class="bd-progress-label">2/5</div><div class="bd-progress-fill warning" style="width: 40%"></div></div></div>
           <div class="num">5</div>
-          <div><span class="num actual">2</span></div>
+          <div><div class="kill-cell"><span class="kill-num">2</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell">40%</span></div>
-          <div><span class="tier-badge tier-king"><span class="tier-name">最强王者</span></span></div>
         </div>
         <div class="row today-row podium-2" data-name="陈锦鹏" style="animation-delay: 1.50s">
           <div><div class="rank rank-2">2</div></div>
           <div class="bd-name name-met">陈锦鹏<span class="bd-tag tag-met">达标</span><div class="bd-progress"><div class="bd-progress-label">2/2</div><div class="bd-progress-fill good" style="width: 100%"></div></div></div>
           <div class="num">2</div>
-          <div><span class="num actual">2</span></div>
+          <div><div class="kill-cell"><span class="kill-num">2</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell over-100">100%</span></div>
-          <div><span class="tier-badge tier-king"><span class="tier-name">最强王者</span></span></div>
         </div>
         <div class="row today-row podium-3" data-name="杨竟竟" style="animation-delay: 1.60s">
           <div><div class="rank rank-3">3</div></div>
           <div class="bd-name">杨竟竟<div class="bd-progress"><div class="bd-progress-label">1/3</div><div class="bd-progress-fill warning" style="width: 33%"></div></div></div>
           <div class="num">3</div>
-          <div><span class="num actual">1</span></div>
+          <div><div class="kill-cell"><span class="kill-num">1</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell">33%</span></div>
-          <div><span class="tier-badge tier-silver"><span class="tier-name">秩序白银</span></span></div>
         </div>
         <div class="row today-row" data-name="马钰" style="animation-delay: 1.70s">
           <div><div class="rank rank-4">4</div></div>
           <div class="bd-name">马钰<div class="bd-progress"><div class="bd-progress-label">1/2</div><div class="bd-progress-fill good" style="width: 50%"></div></div></div>
           <div class="num">2</div>
-          <div><span class="num actual">1</span></div>
+          <div><div class="kill-cell"><span class="kill-num">1</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell">50%</span></div>
-          <div><span class="tier-badge tier-silver"><span class="tier-name">秩序白银</span></span></div>
         </div>
         <div class="row today-row" data-name="廖闻涛" style="animation-delay: 1.80s">
           <div><div class="rank rank-5">5</div></div>
           <div class="bd-name">廖闻涛<div class="bd-progress"><div class="bd-progress-label">0/15</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
           <div class="num">15</div>
-          <div><span class="num actual">0</span></div>
+          <div><div class="kill-cell"><span class="kill-num">0</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
-          <div><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span></div>
         </div>
         <div class="row today-row" data-name="谭康" style="animation-delay: 1.90s">
           <div><div class="rank rank-6">6</div></div>
           <div class="bd-name">谭康<div class="bd-progress"><div class="bd-progress-label">0/4</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
           <div class="num">4</div>
-          <div><span class="num actual">0</span></div>
+          <div><div class="kill-cell"><span class="kill-num">0</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
-          <div><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span></div>
         </div>
         <div class="row today-row" data-name="李亚洁" style="animation-delay: 2.00s">
           <div><div class="rank rank-7">7</div></div>
           <div class="bd-name">李亚洁<div class="bd-progress"><div class="bd-progress-label">0/3</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
           <div class="num">3</div>
-          <div><span class="num actual">0</span></div>
+          <div><div class="kill-cell"><span class="kill-num">0</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
-          <div><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span></div>
         </div>
         <div class="row today-row" data-name="沈中堂" style="animation-delay: 2.10s">
           <div><div class="rank rank-8">8</div></div>
           <div class="bd-name">沈中堂<div class="bd-progress"><div class="bd-progress-label">0/3</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
           <div class="num">3</div>
-          <div><span class="num actual">0</span></div>
+          <div><div class="kill-cell"><span class="kill-num">0</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
-          <div><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span></div>
         </div>
         <div class="row today-row" data-name="张超" style="animation-delay: 2.20s">
           <div><div class="rank rank-9">9</div></div>
           <div class="bd-name">张超<div class="bd-progress"><div class="bd-progress-label">0/2</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
           <div class="num">2</div>
-          <div><span class="num actual">0</span></div>
+          <div><div class="kill-cell"><span class="kill-num">0</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
-          <div><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span></div>
         </div>
         <div class="row today-row" data-name="张琪" style="animation-delay: 2.30s">
           <div><div class="rank rank-10">10</div></div>
           <div class="bd-name">张琪<div class="bd-progress"><div class="bd-progress-label">0/1</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
           <div class="num">1</div>
-          <div><span class="num actual">0</span></div>
+          <div><div class="kill-cell"><span class="kill-num">0</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
-          <div><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span></div>
         </div>
         <div class="row today-row" data-name="张耿淳" style="animation-delay: 2.40s">
           <div><div class="rank rank-11">11</div></div>
           <div class="bd-name">张耿淳<div class="bd-progress"><div class="bd-progress-label">0/1</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
           <div class="num">1</div>
-          <div><span class="num actual">0</span></div>
+          <div><div class="kill-cell"><span class="kill-num">0</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
-          <div><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span></div>
         </div>
         <div class="row today-row last-row" data-name="徐哲" style="animation-delay: 2.50s">
           <div><div class="rank rank-12">12</div></div>
           <div class="bd-name">徐哲<div class="bd-progress"><div class="bd-progress-label">0/1</div><div class="bd-progress-fill critical" style="width: 0%"></div></div></div>
           <div class="num">1</div>
-          <div><span class="num actual">0</span></div>
+          <div><div class="kill-cell"><span class="kill-num">0</span><span class="kill-word">杀</span></div></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
-          <div><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span></span></div>
         </div>
       </div>
     </div>
@@ -2153,11 +2164,8 @@
         }
         // Otherwise create new
         const rowCls = ['row', 'today-row', (rank === 1 ? 'podium-1' : rank === 2 ? 'podium-2' : rank === 3 ? 'podium-3' : ''), (it.target === 0 && it.actual === 0 ? 'zero-row' : '')].filter(Boolean).join(' ');
-        const [tn_pos, tc_pos] = tierByMap(it.actual);
-        const starCount = 0;
-        const shortTier = tn_pos.slice(-2);
-        const stars = starCount > 0 ? '★'.repeat(starCount) : '';
-        const starsHtml = stars ? `<span class="tier-stars">${stars}</span>` : '';
+        // 25日 实时榜: kill cell (毛笔字体)
+        const killHtml = `<div class="kill-cell"><span class="kill-num">${it.actual}</span><span class="kill-word">杀</span></div>`;
         let rateHtml;
         if (it.target > 0) {
           const p = Math.floor((it.actual / it.target) * 100);
@@ -2168,12 +2176,11 @@
         }
         const wrap = document.createElement('div');
         wrap.innerHTML = `<div class="${rowCls}" data-name="${it.name}" style="animation-delay: ${(1.4 + i * 0.10).toFixed(2)}s">
-          <div><div class="rank ${tc_pos}">${shortTier}<span class="tier-stars" style="font-size:8px">${stars}</span></div></div>
+          <div><div class="rank rank-${rank}">${rank}</div></div>
           <div class="bd-name">${it.name}</div>
           <div class="num">${it.target}</div>
-          <div><span class="num actual">${it.actual}</span></div>
+          <div>${killHtml}</div>
           <div>${rateHtml}</div>
-          <div><span class="tier-badge ${tc_pos}"><span class="tier-name">${tn_pos}</span>${starsHtml}</span></div>
         </div>`;
         return { name: it.name, el: wrap.firstElementChild, newBuild: true };
       });
