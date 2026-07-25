@@ -644,29 +644,34 @@
     0%, 100% { transform: scaleY(1); }
     50%      { transform: scaleY(1.08); }
   }
-  /* 数字列: 跟随整行 7 色 + 强光晕 */
+  /* 数字/完成率/称号/杀字 单独应用 7 色动画 (独立运行, 同步循环) */
+  .row.today-row.podium-1 .num,
+  .row.today-row.podium-1 .rate-cell,
+  .row.today-row.podium-1 .kill-num,
+  .row.today-row.podium-1 .kill-word,
+  .row.today-row.podium-1 .bd-title {
+    animation: rowRainbow 2.5s linear infinite;
+  }
+  /* 数字 (目标/实际/完成率) */
   .row.today-row.podium-1 .num,
   .row.today-row.podium-1 .rate-cell {
-    color: currentColor !important;
+    font-weight: 800;
     text-shadow:
       0 0 4px currentColor,
-      0 0 8px currentColor;
-    font-weight: 800;
+      0 0 10px currentColor;
   }
-  /* 实际列 (杀数): 杀字 + 数字同步染色 */
+  /* 杀字 + 数字 */
   .row.today-row.podium-1 .kill-num,
   .row.today-row.podium-1 .kill-word {
-    color: currentColor !important;
-    -webkit-text-fill-color: currentColor !important;
+    -webkit-text-fill-color: initial !important;
     text-shadow:
       0 0 4px currentColor,
       0 0 10px currentColor,
       0 0 18px currentColor;
   }
-  /* 称号 badge: 跟随整行 7 色 + 强光晕 */
+  /* 称号 badge */
   .row.today-row.podium-1 .bd-title {
-    color: currentColor !important;
-    border-color: currentColor;
+    border-color: currentColor !important;
     background: rgba(0, 0, 0, 0.4) !important;
     text-shadow: 0 0 4px currentColor, 0 0 8px currentColor;
     box-shadow: 0 0 6px currentColor, inset 0 0 4px rgba(0, 0, 0, 0.4);
