@@ -557,7 +557,7 @@
     animation: slideInRight 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards, shimmer 4s linear infinite;
   }
   .table-header.today-header {
-    grid-template-columns: 36px 1.3fr 0.6fr 0.7fr 0.6fr 0.9fr;
+    grid-template-columns: 32px 1.5fr 0.5fr 0.6fr 0.5fr 0.8fr;
     justify-items: center;
     align-items: center;
     font-size: 11px;
@@ -565,7 +565,7 @@
     padding: 6px 4px 8px;
   }
   .row.today-row {
-    grid-template-columns: 36px 1.3fr 0.6fr 0.7fr 0.6fr 0.9fr;
+    grid-template-columns: 32px 1.5fr 0.5fr 0.6fr 0.5fr 0.8fr;
     justify-items: center;
     align-items: center;
     animation: slideInRight 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
@@ -1254,12 +1254,12 @@
   /* ====== Mobile responsive: today list 优化 ====== */
   @media (max-width: 600px) {
     .row.today-row {
-      grid-template-columns: 28px 1.4fr 0.5fr 0.7fr 0.5fr 0.8fr;
+      grid-template-columns: 26px 1.5fr 0.4fr 0.6fr 0.4fr 0.7fr;
       padding: 6px 4px;
       gap: 3px;
       font-size: 10px;
     }
-    .row.today-row .rank { width: 24px; height: 24px; font-size: 11px; }
+    .row.today-row .rank { width: 22px; height: 22px; font-size: 11px; }
     .row.today-row .bd-name { min-width: 2.8em; font-size: 11px; }
     .row.today-row .bd-progress { width: 2.8em; }
     .row.today-row .kill-cell .kill-num { font-size: 18px; }
@@ -1271,7 +1271,7 @@
   }
   @media (max-width: 380px) {
     .row.today-row {
-      grid-template-columns: 24px 1.4fr 0.5fr 0.7fr 0.5fr 0.7fr;
+      grid-template-columns: 22px 1.4fr 0.4fr 0.6fr 0.4fr 0.6fr;
       padding: 5px 3px;
       gap: 2px;
     }
@@ -1282,11 +1282,11 @@
   }
   @media (max-width: 320px) {
     .row.today-row {
-      grid-template-columns: 22px 1.3fr 0.4fr 0.6fr 0.4fr 0.6fr;
+      grid-template-columns: 20px 1.3fr 0.4fr 0.6fr 0.4fr 0.5fr;
       padding: 4px 2px;
       gap: 2px;
     }
-    .row.today-row .rank { width: 20px; height: 20px; font-size: 9px; }
+    .row.today-row .rank { width: 18px; height: 18px; font-size: 9px; }
     .row.today-row .bd-title { font-size: 10px; padding: 2px 2px; }
   }
   @media (prefers-reduced-motion: reduce) {
