@@ -713,12 +713,22 @@
     white-space: nowrap;
     font-weight: 600;
   }
+  .bd-progress-label {
+    position: absolute;
+    right: 2px;
+    top: -10px;
+    font-size: 8px;
+    color: rgba(255, 215, 0, 0.85);
+    font-weight: 600;
+    white-space: nowrap;
+    text-shadow: 0 0 2px rgba(0,0,0,0.8);
+  }
   .row.today-row .bd-name,
   .row.black-row .bd-name,
   .row.rank-1-row .bd-name {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 2px;
   }
 
@@ -1416,7 +1426,7 @@
                 <div class="row today-row podium-1" data-name="燕小一" style="animation-delay: 1.40s">
           <div><div class="rank rank-1">1</div></div>
           <div><span class="group ka1">KA一组</span></div>
-          <div class="bd-name">燕小一<div class="bd-progress"><div class="bd-progress-fill" style="width: 20%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">燕小一<div class="bd-progress"><div class="bd-progress-label">1/5</div><div class="bd-progress-fill" style="width: 20%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">5</div>
           <div><span class="num actual">1</span></div>
           <div><span class="rate-cell">20%</span></div>
@@ -1425,7 +1435,7 @@
         <div class="row today-row podium-2" data-name="杨竟竟" style="animation-delay: 1.50s">
           <div><div class="rank rank-2">2</div></div>
           <div><span class="group ka2">KA二组</span></div>
-          <div class="bd-name">杨竟竟<div class="bd-progress"><div class="bd-progress-fill" style="width: 33%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">杨竟竟<div class="bd-progress"><div class="bd-progress-label">1/3</div><div class="bd-progress-fill" style="width: 33%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">3</div>
           <div><span class="num actual">1</span></div>
           <div><span class="rate-cell">33%</span></div>
@@ -1434,7 +1444,7 @@
         <div class="row today-row podium-3" data-name="马钰" style="animation-delay: 1.60s">
           <div><div class="rank rank-3">3</div></div>
           <div><span class="group smb2">SMB-二组</span></div>
-          <div class="bd-name">马钰<div class="bd-progress"><div class="bd-progress-fill over-50" style="width: 50%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">马钰<div class="bd-progress"><div class="bd-progress-label">1/2</div><div class="bd-progress-fill over-50" style="width: 50%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">2</div>
           <div><span class="num actual">1</span></div>
           <div><span class="rate-cell">50%</span></div>
@@ -1443,7 +1453,7 @@
         <div class="row today-row" data-name="廖闻涛" style="animation-delay: 1.70s">
           <div><div class="rank rank-other">4</div></div>
           <div><span class="group smb2">SMB-二组</span></div>
-          <div class="bd-name">廖闻涛<div class="bd-progress"><div class="bd-progress-fill" style="width: 0%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">廖闻涛<div class="bd-progress"><div class="bd-progress-label">0/15</div><div class="bd-progress-fill" style="width: 0%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">15</div>
           <div><span class="num actual">0</span></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
@@ -1452,7 +1462,7 @@
         <div class="row today-row" data-name="谭康" style="animation-delay: 1.80s">
           <div><div class="rank rank-other">5</div></div>
           <div><span class="group smb1">SMB一组</span></div>
-          <div class="bd-name">谭康<div class="bd-progress"><div class="bd-progress-fill" style="width: 0%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">谭康<div class="bd-progress"><div class="bd-progress-label">0/4</div><div class="bd-progress-fill" style="width: 0%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">4</div>
           <div><span class="num actual">0</span></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
@@ -1461,7 +1471,7 @@
         <div class="row today-row" data-name="沈中堂" style="animation-delay: 1.90s">
           <div><div class="rank rank-other">6</div></div>
           <div><span class="group ka1">KA一组</span></div>
-          <div class="bd-name">沈中堂<div class="bd-progress"><div class="bd-progress-fill" style="width: 0%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">沈中堂<div class="bd-progress"><div class="bd-progress-label">0/3</div><div class="bd-progress-fill" style="width: 0%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">3</div>
           <div><span class="num actual">0</span></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
@@ -1470,7 +1480,7 @@
         <div class="row today-row" data-name="李亚洁" style="animation-delay: 2.00s">
           <div><div class="rank rank-other">7</div></div>
           <div><span class="group smb1">SMB一组</span></div>
-          <div class="bd-name">李亚洁<div class="bd-progress"><div class="bd-progress-fill" style="width: 0%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">李亚洁<div class="bd-progress"><div class="bd-progress-label">0/3</div><div class="bd-progress-fill" style="width: 0%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">3</div>
           <div><span class="num actual">0</span></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
@@ -1479,7 +1489,7 @@
         <div class="row today-row" data-name="陈锦鹏" style="animation-delay: 2.10s">
           <div><div class="rank rank-other">8</div></div>
           <div><span class="group smb2">SMB-二组</span></div>
-          <div class="bd-name">陈锦鹏<div class="bd-progress"><div class="bd-progress-fill" style="width: 0%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">陈锦鹏<div class="bd-progress"><div class="bd-progress-label">0/2</div><div class="bd-progress-fill" style="width: 0%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">2</div>
           <div><span class="num actual">0</span></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
@@ -1488,7 +1498,7 @@
         <div class="row today-row" data-name="张超" style="animation-delay: 2.20s">
           <div><div class="rank rank-other">9</div></div>
           <div><span class="group ka1">KA一组</span></div>
-          <div class="bd-name">张超<div class="bd-progress"><div class="bd-progress-fill" style="width: 0%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">张超<div class="bd-progress"><div class="bd-progress-label">0/2</div><div class="bd-progress-fill" style="width: 0%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">2</div>
           <div><span class="num actual">0</span></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
@@ -1497,7 +1507,7 @@
         <div class="row today-row" data-name="张琪" style="animation-delay: 2.30s">
           <div><div class="rank rank-other">10</div></div>
           <div><span class="group ka2">KA二组</span></div>
-          <div class="bd-name">张琪<div class="bd-progress"><div class="bd-progress-fill" style="width: 0%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">张琪<div class="bd-progress"><div class="bd-progress-label">0/1</div><div class="bd-progress-fill" style="width: 0%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">1</div>
           <div><span class="num actual">0</span></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
@@ -1506,7 +1516,7 @@
         <div class="row today-row" data-name="张耿淳" style="animation-delay: 2.40s">
           <div><div class="rank rank-other">11</div></div>
           <div><span class="group smb1">SMB一组</span></div>
-          <div class="bd-name">张耿淳<div class="bd-progress"><div class="bd-progress-fill" style="width: 0%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">张耿淳<div class="bd-progress"><div class="bd-progress-label">0/1</div><div class="bd-progress-fill" style="width: 0%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">1</div>
           <div><span class="num actual">0</span></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
@@ -1515,7 +1525,7 @@
         <div class="row today-row last-row" data-name="徐哲" style="animation-delay: 2.50s">
           <div><div class="rank rank-other">12</div></div>
           <div><span class="group smb1">SMB一组</span></div>
-          <div class="bd-name">徐哲<div class="bd-progress"><div class="bd-progress-fill" style="width: 0%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">徐哲<div class="bd-progress"><div class="bd-progress-label">0/1</div><div class="bd-progress-fill" style="width: 0%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">1</div>
           <div><span class="num actual">0</span></div>
           <div><span class="rate-cell zero-rate">0%</span></div>
@@ -1552,7 +1562,7 @@
                   <div class="row rank-1-row" style="animation-delay: 3.00s">
           <div><div class="rank rank-1">1</div></div>
           <div><span class="group ka1">KA一组</span></div>
-          <div class="bd-name">张超<span class="bd-tag">稳定达成</span><div class="bd-progress"><div class="bd-progress-fill over-50" style="width: 60%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">张超<span class="bd-tag">稳定达成</span><div class="bd-progress"><div class="bd-progress-label">9/15</div><div class="bd-progress-fill over-50" style="width: 60%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">15</div>
           <div><span class="num actual" style="animation-delay: 3.20s">9</span></div>
           <div><span class="tier-badge tier-diamond"><span class="tier-name">永恒钻石</span><span class="tier-stars">★★★★★★</span></span></div>
@@ -1560,7 +1570,7 @@
         <div class="row last-row" style="animation-delay: 3.12s">
           <div><div class="rank rank-2">2</div></div>
           <div><span class="group smb2">SMB-二组</span></div>
-          <div class="bd-name">廖闻涛<span class="bd-tag">遥遥领先</span><div class="bd-progress"><div class="bd-progress-fill over-50" style="width: 59%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">廖闻涛<span class="bd-tag">遥遥领先</span><div class="bd-progress"><div class="bd-progress-label">19/32</div><div class="bd-progress-fill over-50" style="width: 59%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">32</div>
           <div><span class="num actual" style="animation-delay: 3.32s">19</span></div>
           <div><span class="tier-badge tier-diamond"><span class="tier-name">永恒钻石</span><span class="tier-stars">★★★★★★</span></span></div>
@@ -1585,7 +1595,7 @@
                   <div class="row black-row" style="animation-delay: 3.80s">
           <div><div class="rank rank-black">1</div></div>
           <div><span class="group smb1">SMB一组</span></div>
-          <div class="bd-name">徐哲<span class="bd-tag">差 15 单进红榜</span><div class="bd-progress"><div class="bd-progress-fill" style="width: 3%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">徐哲<span class="bd-tag">差 15 单进红榜</span><div class="bd-progress"><div class="bd-progress-label">1/32</div><div class="bd-progress-fill" style="width: 3%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">32</div>
           <div><span class="num actual-zero" style="color:#ff8c66">1</span></div>
           <div class="black-tier-cell"><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span><span class="tier-stars">★</span></span><span class="gap">-31</span></div>
@@ -1593,7 +1603,7 @@
         <div class="row black-row" style="animation-delay: 3.92s">
           <div><div class="rank rank-black">2</div></div>
           <div><span class="group smb1">SMB一组</span></div>
-          <div class="bd-name">张耿淳<span class="bd-tag">差 14 单进红榜</span><div class="bd-progress"><div class="bd-progress-fill" style="width: 6%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">张耿淳<span class="bd-tag">差 14 单进红榜</span><div class="bd-progress"><div class="bd-progress-label">2/32</div><div class="bd-progress-fill" style="width: 6%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">32</div>
           <div><span class="num actual-zero" style="color:#ff8c66">2</span></div>
           <div class="black-tier-cell"><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span><span class="tier-stars">★★</span></span><span class="gap">-30</span></div>
@@ -1601,7 +1611,7 @@
         <div class="row black-row" style="animation-delay: 4.04s">
           <div><div class="rank rank-black">3</div></div>
           <div><span class="group smb1">SMB一组</span></div>
-          <div class="bd-name">杜杨<span class="bd-tag">差 13 单进红榜</span><div class="bd-progress"><div class="bd-progress-fill" style="width: 9%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">杜杨<span class="bd-tag">差 13 单进红榜</span><div class="bd-progress"><div class="bd-progress-label">3/32</div><div class="bd-progress-fill" style="width: 9%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">32</div>
           <div><span class="num actual-zero" style="color:#ff8c66">3</span></div>
           <div class="black-tier-cell"><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span><span class="tier-stars">★★★</span></span><span class="gap">-29</span></div>
@@ -1609,7 +1619,7 @@
         <div class="row black-row" style="animation-delay: 4.16s">
           <div><div class="rank rank-black">4</div></div>
           <div><span class="group smb2">SMB-二组</span></div>
-          <div class="bd-name">马钰<span class="bd-tag">差 7 单进红榜</span><div class="bd-progress"><div class="bd-progress-fill" style="width: 28%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">马钰<span class="bd-tag">差 7 单进红榜</span><div class="bd-progress"><div class="bd-progress-label">9/32</div><div class="bd-progress-fill" style="width: 28%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">32</div>
           <div><span class="num actual-zero" style="color:#ff8c66">9</span></div>
           <div class="black-tier-cell"><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span><span class="tier-stars">★★★★★★</span></span><span class="gap">-23</span></div>
@@ -1617,7 +1627,7 @@
         <div class="row black-row" style="animation-delay: 4.28s">
           <div><div class="rank rank-black">5</div></div>
           <div><span class="group ka2">KA二组</span></div>
-          <div class="bd-name">杨竟竟<span class="bd-tag">差 3 单进红榜</span><div class="bd-progress"><div class="bd-progress-fill" style="width: 33%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">杨竟竟<span class="bd-tag">差 3 单进红榜</span><div class="bd-progress"><div class="bd-progress-label">5/15</div><div class="bd-progress-fill" style="width: 33%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">15</div>
           <div><span class="num actual-zero" style="color:#ff8c66">5</span></div>
           <div class="black-tier-cell"><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span><span class="tier-stars">★★★★★</span></span><span class="gap">-10</span></div>
@@ -1625,7 +1635,7 @@
         <div class="row black-row" style="animation-delay: 4.40s">
           <div><div class="rank rank-black">6</div></div>
           <div><span class="group smb1">SMB一组</span></div>
-          <div class="bd-name">李亚洁<span class="bd-tag">差 5 单进红榜</span><div class="bd-progress"><div class="bd-progress-fill" style="width: 34%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">李亚洁<span class="bd-tag">差 5 单进红榜</span><div class="bd-progress"><div class="bd-progress-label">11/32</div><div class="bd-progress-fill" style="width: 34%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">32</div>
           <div><span class="num actual-zero" style="color:#ff8c66">11</span></div>
           <div class="black-tier-cell"><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span><span class="tier-stars">★★★★★★</span></span><span class="gap">-21</span></div>
@@ -1633,7 +1643,7 @@
         <div class="row black-row" style="animation-delay: 4.52s">
           <div><div class="rank rank-black">7</div></div>
           <div><span class="group ka2">KA二组</span></div>
-          <div class="bd-name">张琪<span class="bd-tag">差 2 单进红榜</span><div class="bd-progress"><div class="bd-progress-fill" style="width: 40%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">张琪<span class="bd-tag">差 2 单进红榜</span><div class="bd-progress"><div class="bd-progress-label">6/15</div><div class="bd-progress-fill" style="width: 40%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">15</div>
           <div><span class="num actual-zero" style="color:#ff8c66">6</span></div>
           <div class="black-tier-cell"><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span><span class="tier-stars">★★★★★★</span></span><span class="gap">-9</span></div>
@@ -1641,7 +1651,7 @@
         <div class="row black-row" style="animation-delay: 4.64s">
           <div><div class="rank rank-black">8</div></div>
           <div><span class="group smb2">SMB-二组</span></div>
-          <div class="bd-name">陈锦鹏<span class="bd-tag">差 3 单进红榜</span><div class="bd-progress"><div class="bd-progress-fill" style="width: 41%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">陈锦鹏<span class="bd-tag">差 3 单进红榜</span><div class="bd-progress"><div class="bd-progress-label">13/32</div><div class="bd-progress-fill" style="width: 41%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">32</div>
           <div><span class="num actual-zero" style="color:#ff8c66">13</span></div>
           <div class="black-tier-cell"><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span><span class="tier-stars">★★★★★★</span></span><span class="gap">-19</span></div>
@@ -1649,7 +1659,7 @@
         <div class="row black-row" style="animation-delay: 4.76s">
           <div><div class="rank rank-black">9</div></div>
           <div><span class="group smb1">SMB一组</span></div>
-          <div class="bd-name">谭康<span class="bd-tag">差 3 单进红榜</span><div class="bd-progress"><div class="bd-progress-fill" style="width: 41%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">谭康<span class="bd-tag">差 3 单进红榜</span><div class="bd-progress"><div class="bd-progress-label">13/32</div><div class="bd-progress-fill" style="width: 41%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">32</div>
           <div><span class="num actual-zero" style="color:#ff8c66">13</span></div>
           <div class="black-tier-cell"><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span><span class="tier-stars">★★★★★★</span></span><span class="gap">-19</span></div>
@@ -1657,7 +1667,7 @@
         <div class="row black-row" style="animation-delay: 4.88s">
           <div><div class="rank rank-black">10</div></div>
           <div><span class="group ka1">KA一组</span></div>
-          <div class="bd-name">燕小一<span class="bd-tag">差 1 单进红榜</span><div class="bd-progress"><div class="bd-progress-fill" style="width: 47%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">燕小一<span class="bd-tag">差 1 单进红榜</span><div class="bd-progress"><div class="bd-progress-label">7/15</div><div class="bd-progress-fill" style="width: 47%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">15</div>
           <div><span class="num actual-zero" style="color:#ff8c66">7</span></div>
           <div class="black-tier-cell"><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span><span class="tier-stars">★★★★★★</span></span><span class="gap">-8</span></div>
@@ -1665,7 +1675,7 @@
         <div class="row black-row last-row" style="animation-delay: 5.00s">
           <div><div class="rank rank-black">11</div></div>
           <div><span class="group ka1">KA一组</span></div>
-          <div class="bd-name">沈中堂<span class="bd-tag">差 1 单进红榜</span><div class="bd-progress"><div class="bd-progress-fill" style="width: 47%"></div><div class="bd-progress-marker"></div></div></div>
+          <div class="bd-name">沈中堂<span class="bd-tag">差 1 单进红榜</span><div class="bd-progress"><div class="bd-progress-label">7/15</div><div class="bd-progress-fill" style="width: 47%"></div><div class="bd-progress-marker"></div></div></div>
           <div class="num">15</div>
           <div><span class="num actual-zero" style="color:#ff8c66">7</span></div>
           <div class="black-tier-cell"><span class="tier-badge tier-bronze"><span class="tier-name">倔强青铜</span><span class="tier-stars">★★★★★★</span></span><span class="gap">-8</span></div>
