@@ -573,11 +573,11 @@
     gap: 4px;
   }
   /* ====== 第一名 整行 7 色 + 字体跳动 ====== */
-  /* 整行 color 7 色 + 同步跳动 -1em */
+  /* 整行 color 7 色 + 同步跳动 -1em (!important 覆盖 .row.today-row slideInRight) */
   .row.today-row.podium-1 {
     animation: 
       rowRainbow 2.5s linear infinite,
-      rowBounce 1.2s ease-in-out infinite;
+      rowBounce 1.2s ease-in-out infinite !important;
   }
   @keyframes rowRainbow {
     0%   { color: #ff3838; }
