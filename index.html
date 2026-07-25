@@ -572,6 +572,25 @@
     padding: 8px 6px;
     gap: 4px;
   }
+  /* ====== 第一名 蓝色冰霜特效 ====== */
+  .row.today-row.podium-1 .bd-name {
+    background: linear-gradient(90deg, #00d4ff 0%, #4dffff 25%, #00aaff 50%, #4dffff 75%, #00d4ff 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: iceFlow 3s linear infinite;
+    filter: drop-shadow(0 0 4px #00d4ff) drop-shadow(0 0 10px #0088ff) drop-shadow(0 0 18px #0066cc);
+    font-weight: 800;
+  }
+  .row.today-row.podium-1 .bd-progress-fill {
+    box-shadow: 0 0 6px #00d4ff, 0 0 12px #0088ff;
+  }
+  @keyframes iceFlow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
   .row.today-row.podium-1 {
     background: linear-gradient(90deg, rgba(255, 200, 50, 0.3), rgba(255, 215, 0, 0.5), rgba(255, 200, 50, 0.3));
     background-size: 200% 100%;
