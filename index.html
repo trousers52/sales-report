@@ -572,25 +572,36 @@
     padding: 8px 6px;
     gap: 4px;
   }
-  /* ====== 第一名 七色循环文字特效 ====== */
+  /* ====== 第一名 七色渐变循环 (linear-gradient + 背景流动 + 强光晕) ====== */
   .row.today-row.podium-1 .bd-name {
-    color: #ff3838;
     font-weight: 800;
     letter-spacing: 1px;
-    text-shadow:
-      0 1px 0 rgba(0, 0, 0, 0.6),
-      0 0 5px currentColor,
-      0 0 12px currentColor;
-    animation: rainbowColor 5s linear infinite;
+    background: linear-gradient(
+      90deg,
+      #ff3838 0%,
+      #ff8c00 16%,
+      #ffd700 33%,
+      #00e676 50%,
+      #00d4ff 66%,
+      #7c4dff 83%,
+      #ff3838 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    /* 强光晕 (白色 + 彩色双层) */
+    filter:
+      drop-shadow(0 0 4px rgba(255, 255, 255, 0.8))
+      drop-shadow(0 0 8px currentColor)
+      drop-shadow(0 0 14px currentColor);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+    animation: rainbowFlow 2.5s linear infinite;
   }
-  @keyframes rainbowColor {
-    0%   { color: #ff3838; }  /* 红 */
-    16%  { color: #ff8c00; }  /* 橙 */
-    33%  { color: #ffd700; }  /* 黄 */
-    50%  { color: #00e676; }  /* 绿 */
-    66%  { color: #00d4ff; }  /* 青 */
-    83%  { color: #7c4dff; }  /* 紫 */
-    100% { color: #ff3838; }  /* 回到红 */
+  @keyframes rainbowFlow {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
   }
   .row.today-row.podium-1 {
     background: linear-gradient(90deg, rgba(255, 200, 50, 0.3), rgba(255, 215, 0, 0.5), rgba(255, 200, 50, 0.3));
@@ -1041,7 +1052,7 @@
     to   { filter: brightness(1.2) drop-shadow(0 0 10px currentColor); }
   }
 
-  /* ====== Gold name effect for 100% / over-target BDs ====== */
+  /* ====== Gold name effect for 100% / over-target BDs (无👑) ====== */
   .bd-name.name-met {
     color: #ffd700 !important;
     font-weight: 800 !important;
@@ -1049,26 +1060,6 @@
       0 0 6px rgba(255, 215, 0, 0.8),
       0 0 12px rgba(255, 200, 50, 0.5);
     animation: name-glow 1.8s ease-in-out infinite alternate !important;
-    /* 3D context for the crown */
-    perspective: 200px;
-  }
-  .bd-name.name-met::before {
-    content: '👑';
-    display: inline-block;
-    font-size: 14px;
-    margin-right: 3px;
-    /* 3D spin around the Y axis (horizontal flip) */
-    transform-style: preserve-3d;
-    animation: crown-3d-spin 2.4s linear infinite,
-               crown-float 1.6s ease-in-out infinite alternate;
-  }
-  @keyframes crown-3d-spin {
-    from { transform: rotateY(0deg); }
-    to   { transform: rotateY(360deg); }
-  }
-  @keyframes crown-float {
-    from { transform: translateY(0); }
-    to   { transform: translateY(-3px); }
   }
   @keyframes name-glow {
     from {
