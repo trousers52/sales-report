@@ -930,11 +930,26 @@
       0 0 6px rgba(255, 215, 0, 0.8),
       0 0 12px rgba(255, 200, 50, 0.5);
     animation: name-glow 1.8s ease-in-out infinite alternate !important;
+    /* 3D context for the crown */
+    perspective: 200px;
   }
   .bd-name.name-met::before {
-    content: '👑 ';
-    font-size: 11px;
-    margin-right: 2px;
+    content: '👑';
+    display: inline-block;
+    font-size: 14px;
+    margin-right: 3px;
+    /* 3D spin around the Y axis (horizontal flip) */
+    transform-style: preserve-3d;
+    animation: crown-3d-spin 2.4s linear infinite,
+               crown-float 1.6s ease-in-out infinite alternate;
+  }
+  @keyframes crown-3d-spin {
+    from { transform: rotateY(0deg); }
+    to   { transform: rotateY(360deg); }
+  }
+  @keyframes crown-float {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-3px); }
   }
   @keyframes name-glow {
     from {
