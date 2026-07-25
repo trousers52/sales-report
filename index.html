@@ -926,33 +926,32 @@
   .row.today-row.name-met-row {
     position: relative;
   }
+  /* Wrap the name text in a positioned span for the orbit center */
   .row.today-row.name-met-row .bd-name.name-met-target {
     position: relative;
     display: inline-block;
-    padding: 2px 4px;
+    padding: 4px 6px;
   }
-  .row.today-row.name-met-row .bd-name.name-met-target::before {
+  /* The actual orbit — applied to the row, not the name, so it circles the row */
+  .row.today-row.name-met-row::before {
     content: '🐉';
     position: absolute;
-    top: 50%; left: 50%;
-    width: 16px; height: 16px;
-    margin-top: -8px; margin-left: -8px;
-    font-size: 13px;
-    line-height: 16px;
-    text-align: center;
-    transform-origin: center center;
+    top: 8px; left: 60px;
+    font-size: 18px;
+    line-height: 1;
+    transform-origin: 60px 12px;
     animation: dragon-orbit 3.5s linear infinite, dragon-pulse 1.5s ease-in-out infinite;
-    filter: drop-shadow(0 0 4px gold) drop-shadow(0 0 8px rgba(255, 200, 50, 0.6));
+    filter: drop-shadow(0 0 4px gold) drop-shadow(0 0 8px rgba(255, 200, 50, 0.7));
     pointer-events: none;
     z-index: 12;
   }
   @keyframes dragon-orbit {
-    from { transform: rotate(0deg) translateX(22px) rotate(0deg); }
-    to   { transform: rotate(360deg) translateX(22px) rotate(-360deg); }
+    from { transform: rotate(0deg) translateX(40px) rotate(0deg); }
+    to   { transform: rotate(360deg) translateX(40px) rotate(-360deg); }
   }
   @keyframes dragon-pulse {
-    0%, 100% { font-size: 13px; }
-    50% { font-size: 16px; }
+    0%, 100% { font-size: 18px; }
+    50% { font-size: 22px; }
   }
 
   /* Numbers */
