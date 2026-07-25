@@ -681,19 +681,14 @@
     50%  { transform: translateY(-1em); }  /* 跳 -1em (稍低) */
     100% { transform: translateY(0); }
   }
-  /* 数字/完成率/称号/杀字 单独应用 7 色动画 + 独立跳动 */
+  /* 数字/完成率/杀字/称号 只跑 7 色 (不跳) */
   .row.today-row.podium-1 .num,
   .row.today-row.podium-1 .rate-cell,
   .row.today-row.podium-1 .kill-num,
   .row.today-row.podium-1 .kill-word,
   .row.today-row.podium-1 .bd-title {
-    animation: rowRainbow 2.5s linear infinite, charBounce 1.2s ease-in-out infinite;
+    animation: rowRainbow 2.5s linear infinite;
   }
-  .row.today-row.podium-1 .num:nth-of-type(1) { animation-delay: 0s, 0s; }
-  .row.today-row.podium-1 .kill-num,
-  .row.today-row.podium-1 .kill-word { animation-delay: 0s, 0.2s; }
-  .row.today-row.podium-1 .rate-cell { animation-delay: 0s, 0.4s; }
-  .row.today-row.podium-1 .bd-title { animation-delay: 0s, 0.6s; }
   /* 数字 (目标/实际/完成率) */
   .row.today-row.podium-1 .num,
   .row.today-row.podium-1 .rate-cell {
