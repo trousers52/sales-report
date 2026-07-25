@@ -658,7 +658,7 @@
       drop-shadow(0 0 8px currentColor)
       drop-shadow(0 0 14px currentColor);
   }
-  /* 字体跳动: 每个字跳 -1em (与整行同步, 稍低) */
+  /* 字体跳动: 每个字跳 -1em + 强光晕 (drop-shadow 跟随 currentColor 变色) */
   .row.today-row.podium-1 .bd-char {
     display: inline-block;
     background: linear-gradient(
@@ -671,6 +671,11 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
+    /* 强光晕: 白色 + 跟随字色的彩色双层 drop-shadow */
+    filter:
+      drop-shadow(0 0 3px rgba(255, 255, 255, 0.8))
+      drop-shadow(0 0 8px currentColor)
+      drop-shadow(0 0 16px currentColor);
     animation: 
       charBounce 1.2s ease-in-out infinite,
       nameRainbow 2.5s linear infinite;
