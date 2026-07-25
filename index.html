@@ -940,8 +940,8 @@
     font-size: 17px;
     line-height: 1;
     margin-top: -9px;
-    /* Make the dragon gold: shift hue, boost saturation, brighten */
-    filter: hue-rotate(45deg) saturate(3) brightness(1.15)
+    /* Make the dragon gold: sepia + saturate shifts any color to warm gold */
+    filter: sepia(1) saturate(8) hue-rotate(-15deg) brightness(1.1)
             drop-shadow(0 0 4px #ffd700)
             drop-shadow(0 0 8px rgba(255, 215, 0, 0.7));
     pointer-events: none;
