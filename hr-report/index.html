@@ -257,12 +257,15 @@
         <div class="group">
           <div class="group-title"><span class="icon">🎨</span>设计产出</div>
           <div class="row">
-            <div class="field"><label>设计物料数</label><input type="number" name="设计物料数" value="0" min="0" oninput="onMeigongChange()"></div>
+            <div class="field">
+              <label>设计物料数 <span class="hint" id="dailyTargetHint">每日目标 ~0</span></label>
+              <input type="number" name="设计物料数" value="0" min="0" oninput="onMeigongChange()">
+            </div>
             <div class="field"><label>设计图片数</label><input type="number" name="设计图片数" value="0" min="0"></div>
           </div>
           <div class="field">
-            <label>工作饱和度</label>
-            <select name="工作饱和度">
+            <label>工作饱和度 <span class="hint">根据今日物料数自动判断（可手动改）</span></label>
+            <select name="工作饱和度" id="saturationSelect">
               <option value="满负荷">满负荷</option>
               <option value="工作量不够">工作量不够</option>
               <option value="一般">一般</option>
@@ -451,7 +454,7 @@ function onPositionChange() {
   });
   if (pos === '业务中台') calcRatio();
   if (pos === '投流手') calcROI();
-  if (pos === '美工') updateProgress();
+  if (pos === '美工') { updateProgress(); autoFillSaturation(); }
 }
 
 function calcRatio() {
@@ -497,7 +500,43 @@ function onNameInput() { updateProgress(); }
 // 页面加载时初始化进度显示
 updateProgress();
 
-function onMeigongChange() { updateProgress(); }
+// 计算当月工作日数（单休：排除周日）
+function getWorkdaysInMonth() {
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = d.getMonth();
+  const lastDay = new Date(year, month + 1, 0).getDate();
+  let workdays = 0;
+  for (let day = 1; day <= lastDay; day++) {
+    const dow = new Date(year, month, day).getDay();
+    if (dow !== 0) workdays++; // 排除周日
+  }
+  return workdays;
+}
+
+// 根据当月工作日 + 月度目标，算出每日目标
+function getDailyTarget() {
+  const target = parseInt(document.querySelector('[name="本月目标"]')?.value) || 200;
+  const workdays = getWorkdaysInMonth();
+  return target / workdays;
+}
+
+// 根据今日物料数自动判断工作饱和度
+function autoFillSaturation() {
+  const today = parseInt(document.querySelector('[name="设计物料数"]')?.value) || 0;
+  const hint = document.getElementById('dailyTargetHint');
+  const daily = getDailyTarget();
+  if (hint) hint.textContent = `每日目标 ~${daily.toFixed(1)}`;
+  if (today === 0) return;
+  const sel = document.getElementById('saturationSelect');
+  if (!sel) return;
+  const ratio = today / daily;
+  if (ratio >= 1) sel.value = '满负荷';
+  else if (ratio >= 0.5) sel.value = '一般';
+  else sel.value = '工作量不够';
+}
+
+function onMeigongChange() { updateProgress(); autoFillSaturation(); }
 async function updateProgress() {
   const name = document.querySelector('[name="姓名"]')?.value || '';
   const targetEl = document.querySelector('[name="本月目标"]');
@@ -519,6 +558,7 @@ async function updateProgress() {
   if (!name) hint.textContent = '填写姓名后从服务器加载本月累计';
   else if (stored.last_date === new Date().toISOString().split('T')[0]) hint.textContent = '今天已提交过，明日再累加';
   else hint.textContent = '点发送后自动叠加今日物料数';
+  autoFillSaturation();
 }
 async function commitProgress(d) {
   const name = (d && d.姓名) || document.querySelector('[name="姓名"]')?.value;
