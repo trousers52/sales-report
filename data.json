@@ -34,6 +34,17 @@
         "today_gmv": 1040
       },
       {
+        "name": "李亚洁",
+        "group": "SMB一组",
+        "target": 20,
+        "actual": 1,
+        "stores": [
+          "(新签) 待补"
+        ],
+        "month_gmv": 0,
+        "today_gmv": 0
+      },
+      {
         "name": "廖闻涛",
         "group": "SMB-二组",
         "target": 9,
@@ -74,15 +85,6 @@
         ],
         "month_gmv": 1196,
         "today_gmv": 1977
-      },
-      {
-        "name": "李亚洁",
-        "group": "SMB一组",
-        "target": 20,
-        "actual": 0,
-        "stores": [],
-        "month_gmv": 0,
-        "today_gmv": 0
       },
       {
         "name": "谭康",
