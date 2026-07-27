@@ -1702,6 +1702,7 @@
   }
   /* Brand "芯动未来" 4-char reveal */
   .splash-brand {
+    position: relative;
     font-size: 80px; font-weight: 900;
     letter-spacing: 12px;
     margin: 6px 0 14px;
@@ -1725,12 +1726,16 @@
   }
   .splash-brand .heart {
     position: absolute;
-    left: 50%; top: 100%;
-    transform: translateX(-50%) translateY(0);
+    /* Position heart below 芯字 (first char) */
+    left: 0.7em;
+    top: 0.85em;
     font-size: 28px;
     line-height: 1;
     pointer-events: none;
     z-index: 10;
+    background: none;
+    -webkit-text-fill-color: initial;
+    color: initial;
     filter: drop-shadow(0 0 6px #ff1493) drop-shadow(0 0 14px #ff1493) drop-shadow(0 0 28px #ff1493);
     animation: heartBeat 0.9s ease-in-out infinite;
   }
@@ -1819,7 +1824,7 @@
     <div class="splash-content">
       <div class="splash-icon">🏆</div>
       <div class="splash-brand">
-        <span class="brand-char char-xin" style="--i:0">芯<span class="heart">💗</span></span><span class="brand-char" style="--i:1">动</span><span class="brand-char" style="--i:2">未</span><span class="brand-char" style="--i:3">来</span>
+        <span class="brand-char char-xin" style="--i:0">芯</span><span class="brand-char" style="--i:1">动</span><span class="brand-char" style="--i:2">未</span><span class="brand-char" style="--i:3">来</span><span class="heart">💗</span>
       </div>
       <div class="splash-title">7月夏战</div>
       <div class="splash-subtitle">SALES BATTLE REPORT</div>
