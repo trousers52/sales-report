@@ -4,52 +4,24 @@
   "title_line1": "一鼓作气",
   "title_line2": "寸土必争",
   "today": {
-    "date": "2026.07.25",
-    "date_event": "25日实时战况 · 决战正在进行",
+    "date": "2026.07.27",
+    "date_event": "27日实时战况 · 决战冲刺",
     "slogan_top": "一鼓作气",
     "slogan_bottom": "寸土必争",
     "list": [
       {
-        "name": "燕小一",
-        "group": "KA一组",
-        "target": 5,
-        "actual": 4,
-        "stores": [
-          "渔相识木桶鱼中餐火锅",
-          "芬芬川味面馆",
-          "青川里成都清油火锅",
-          "小辣红成都冷锅串串"
-        ],
-        "month_gmv": 4152,
-        "today_gmv": 1040
-      },
-      {
-        "name": "杨竟竟",
-        "group": "KA二组",
-        "target": 3,
+        "name": "沈中堂",
+        "group": "SMB一组",
+        "target": 7,
         "actual": 2,
-        "stores": [
-          "一颗豆的执念"
-        ],
-        "month_gmv": 1751.2,
-        "today_gmv": 1452.7
-      },
-      {
-        "name": "陈锦鹏",
-        "group": "SMB-二组",
-        "target": 2,
-        "actual": 2,
-        "stores": [
-          "瑞普速非体重管理(马营社区店)",
-          "叮当鞋店"
-        ],
-        "month_gmv": 735.4,
-        "today_gmv": 419.9
+        "stores": [],
+        "month_gmv": 0,
+        "today_gmv": 0
       },
       {
         "name": "廖闻涛",
         "group": "SMB-二组",
-        "target": 15,
+        "target": 9,
         "actual": 1,
         "stores": [
           "魔方体炒姿身材管理"
@@ -58,41 +30,19 @@
         "today_gmv": 189.6
       },
       {
-        "name": "李亚洁",
+        "name": "张耿淳",
         "group": "SMB一组",
-        "target": 3,
-        "actual": 1,
+        "target": 30,
+        "actual": 0,
         "stores": [],
         "month_gmv": 0,
         "today_gmv": 0
       },
       {
-        "name": "马钰",
-        "group": "SMB-二组",
-        "target": 2,
-        "actual": 1,
-        "stores": [
-          "渔和木桶鱼(紫柏路店)"
-        ],
-        "month_gmv": 1196,
-        "today_gmv": 1977
-      },
-      {
-        "name": "张琪",
-        "group": "KA二组",
-        "target": 1,
-        "actual": 1,
-        "stores": [
-          "LK木易造型"
-        ],
-        "month_gmv": 274.2,
-        "today_gmv": 158
-      },
-      {
         "name": "徐哲",
         "group": "SMB一组",
-        "target": 1,
-        "actual": 1,
+        "target": 30,
+        "actual": 0,
         "stores": [
           "知晓小铺"
         ],
@@ -100,7 +50,70 @@
         "today_gmv": 29.9
       },
       {
+        "name": "马钰",
+        "group": "SMB-二组",
+        "target": 22,
+        "actual": 0,
+        "stores": [
+          "渔和木桶鱼(紫柏路店)"
+        ],
+        "month_gmv": 1196,
+        "today_gmv": 1977
+      },
+      {
+        "name": "李亚洁",
+        "group": "SMB一组",
+        "target": 20,
+        "actual": 0,
+        "stores": [],
+        "month_gmv": 0,
+        "today_gmv": 0
+      },
+      {
         "name": "谭康",
+        "group": "SMB一组",
+        "target": 17,
+        "actual": 0,
+        "stores": [],
+        "month_gmv": 0,
+        "today_gmv": 0
+      },
+      {
+        "name": "陈锦鹏",
+        "group": "SMB-二组",
+        "target": 16,
+        "actual": 0,
+        "stores": [
+          "瑞普速非体重管理(马营社区店)",
+          "叮当鞋店"
+        ],
+        "month_gmv": 735.4,
+        "today_gmv": 419.9
+      },
+      {
+        "name": "杨竟竟",
+        "group": "KA二组",
+        "target": 8,
+        "actual": 0,
+        "stores": [
+          "一颗豆的执念"
+        ],
+        "month_gmv": 1751.2,
+        "today_gmv": 1452.7
+      },
+      {
+        "name": "张琪",
+        "group": "KA二组",
+        "target": 6,
+        "actual": 0,
+        "stores": [
+          "LK木易造型"
+        ],
+        "month_gmv": 274.2,
+        "today_gmv": 158
+      },
+      {
+        "name": "张超",
         "group": "KA一组",
         "target": 4,
         "actual": 0,
@@ -109,31 +122,18 @@
         "today_gmv": 0
       },
       {
-        "name": "沈中堂",
-        "group": "SMB一组",
+        "name": "燕小一",
+        "group": "KA一组",
         "target": 3,
         "actual": 0,
-        "stores": [],
-        "month_gmv": 0,
-        "today_gmv": 0
-      },
-      {
-        "name": "张超",
-        "group": "SMB一组",
-        "target": 2,
-        "actual": 0,
-        "stores": [],
-        "month_gmv": 0,
-        "today_gmv": 0
-      },
-      {
-        "name": "张耿淳",
-        "group": "SMB一组",
-        "target": 1,
-        "actual": 0,
-        "stores": [],
-        "month_gmv": 0,
-        "today_gmv": 0
+        "stores": [
+          "渔相识木桶鱼中餐火锅",
+          "芬芬川味面馆",
+          "青川里成都清油火锅",
+          "小辣红成都冷锅串串"
+        ],
+        "month_gmv": 4152,
+        "today_gmv": 1040
       }
     ]
   },
