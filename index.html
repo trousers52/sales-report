@@ -1720,18 +1720,20 @@
       0 0 28px rgba(255, 200, 50, 0.5);
   }
   .splash-brand .char-xin {
-    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+  }
+  .splash-brand .char-xin .char-glyph {
+    display: block;
+    line-height: 1;
   }
   .splash-brand .heart {
-    position: absolute;
-    /* Centered horizontally below 艹 */
-    left: 50%;
-    top: 100%;
-    transform: translateX(-50%) translateY(0);
+    display: block;
     font-size: 32px;
     line-height: 1;
-    pointer-events: none;
-    z-index: 10;
+    margin-top: 2px;
     background: none;
     -webkit-text-fill-color: initial;
     color: initial;
@@ -1823,7 +1825,7 @@
     <div class="splash-content">
       <div class="splash-icon">🏆</div>
       <div class="splash-brand">
-        <span class="brand-char char-xin" style="--i:0">艹<span class="heart">💗</span></span><span class="brand-char" style="--i:1">动</span><span class="brand-char" style="--i:2">未</span><span class="brand-char" style="--i:3">来</span>
+        <span class="char-xin" style="--i:0"><span class="char-glyph">艹</span><span class="heart">💗</span></span><span class="brand-char" style="--i:1">动</span><span class="brand-char" style="--i:2">未</span><span class="brand-char" style="--i:3">来</span>
       </div>
       <div class="splash-title">7月夏战</div>
       <div class="splash-subtitle">SALES BATTLE REPORT</div>
