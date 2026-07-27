@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>人事日报 · 填写模板</title>
+<title>中台部门日报 · 填写模板</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -154,7 +154,7 @@
 <body>
 <div class="container">
   <div class="header">
-    <h1>📋 人事日报</h1>
+    <h1>📋 中台部门日报</h1>
     <p>填写完成后点「一键发送」自动到达邮箱</p>
   </div>
 
@@ -165,7 +165,7 @@
 
     <form id="reportForm" action="https://formsubmit.co/ajax/zhongtaibu@flipped-hz.com.cn" method="POST">
       <!-- FormSubmit 配置 -->
-      <input type="hidden" name="_subject" id="emailSubject" value="人事日报">
+      <input type="hidden" name="_subject" id="emailSubject" value="中台部门日报">
       <input type="hidden" name="_template" value="box">
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="邮件正文" id="emailBody" value="">
@@ -276,7 +276,7 @@ function getFormData() {
 function formatReport(d) {
   const num = v => v ? `${v}` : '0';
   return `═══════════════════════════
-  人 事 日 报
+  中台部门日报
 ═══════════════════════════
 
 👤 姓名：${d.姓名 || '未填写'}
@@ -318,7 +318,7 @@ ${d.其他数据 ? '• 其他补充：' + d.其他数据 : ''}
 }
 
 function buildSubject(d) {
-  return `【人事日报】${d.日期} ${d.姓名 || ''}`.trim();
+  return `【中台部门日报】${d.日期} ${d.姓名 || ''}`.trim();
 }
 
 function showToast(msg, isError) {
@@ -401,6 +401,7 @@ async function sendAuto() {
       setTimeout(() => {
         document.getElementById('reportForm').reset();
         document.querySelector('input[name="日期"]').valueAsDate = new Date();
+        document.querySelector('select[name="部门"]').value = '中台部门';
         document.getElementById('preview').classList.remove('show');
       }, 3000);
     } else {
