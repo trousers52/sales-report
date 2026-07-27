@@ -277,10 +277,13 @@
           <div class="group-title"><span class="icon">🎨</span>设计产出</div>
           <div class="row">
             <div class="field">
-              <label>设计物料数 <span class="hint" id="dailyTargetHint">每日目标 ~0</span></label>
+              <label>设计物料数 <span class="hint" id="dailyTargetHint">每日总目标 ~0</span></label>
               <input type="number" name="设计物料数" value="0" min="0" oninput="onMeigongChange()">
             </div>
-            <div class="field"><label>设计图片数</label><input type="number" name="设计图片数" value="0" min="0"></div>
+            <div class="field">
+              <label>设计图片数 <span class="hint" id="totalTodayHint">总工作量：0</span></label>
+              <input type="number" name="设计图片数" value="0" min="0" oninput="onMeigongChange()">
+            </div>
           </div>
           <div class="field">
             <label>工作饱和度 <span class="hint">自动判断（不可改）</span></label>
@@ -541,38 +544,43 @@ function getDailyTarget() {
 }
 
 // 根据今日物料数自动判断工作饱和度（只读）
+// 总工作量 = 物料数 + 图片数
 function autoFillSaturation() {
-  const today = parseInt(document.querySelector('[name="设计物料数"]')?.value) || 0;
-  const hint = document.getElementById('dailyTargetHint');
+  const material = parseInt(document.querySelector('[name="设计物料数"]')?.value) || 0;
+  const image = parseInt(document.querySelector('[name="设计图片数"]')?.value) || 0;
+  const total = material + image;
   const daily = getDailyTarget();
-  if (hint) hint.textContent = `每日目标 ~${daily.toFixed(1)}`;
+  const hint = document.getElementById('dailyTargetHint');
+  const totalHint = document.getElementById('totalTodayHint');
+  if (hint) hint.textContent = `每日总目标 ~${daily.toFixed(1)}（物料+图片）`;
+  if (totalHint) totalHint.textContent = `总工作量：${total}`;
   const box = document.getElementById('saturationDisplay');
   const icon = document.getElementById('satIcon');
   const text = document.getElementById('satText');
   const hidden = document.getElementById('saturationInput');
   if (!box || !icon || !text || !hidden) return;
-  if (today === 0) {
+  if (total === 0) {
     box.setAttribute('data-level', 'empty');
     icon.textContent = '⏳';
-    text.textContent = '填了物料数后自动判断';
+    text.textContent = '填了物料或图片数后自动判断';
     hidden.value = '';
     return;
   }
-  const ratio = today / daily;
+  const ratio = total / daily;
   if (ratio >= 1) {
     box.setAttribute('data-level', 'full');
     icon.textContent = '🔥';
-    text.textContent = `满负荷（${today} 个 / 达标 ${daily.toFixed(1)}）`;
+    text.textContent = `满负荷（总工作量 ${total} / 达标 ${daily.toFixed(1)}）`;
     hidden.value = '满负荷';
   } else if (ratio >= 0.5) {
     box.setAttribute('data-level', 'mid');
     icon.textContent = '🟡';
-    text.textContent = `一般（${today} 个 / 差 ${(daily - today).toFixed(1)} 个达标）`;
+    text.textContent = `一般（总工作量 ${total} / 差 ${(daily - total).toFixed(1)} 达标）`;
     hidden.value = '一般';
   } else {
     box.setAttribute('data-level', 'low');
     icon.textContent = '🐢';
-    text.textContent = `工作量不够（${today} 个 / 差 ${(daily - today).toFixed(1)} 个达标）`;
+    text.textContent = `工作量不够（总工作量 ${total} / 差 ${(daily - total).toFixed(1)} 达标）`;
     hidden.value = '工作量不够';
   }
 }
