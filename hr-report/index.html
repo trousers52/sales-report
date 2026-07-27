@@ -30,13 +30,13 @@
   .header h1 { font-size: 24px; margin-bottom: 6px; }
   .header p { opacity: 0.9; font-size: 14px; }
   .form-body { padding: 28px; }
-  .field { margin-bottom: 20px; }
+  .field { margin-bottom: 16px; }
   .field label {
     display: block;
     font-size: 14px;
     font-weight: 600;
     color: #444;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
   .field label .required { color: #e74c3c; }
   .field label .hint { font-weight: 400; color: #999; font-size: 12px; margin-left: 6px; }
@@ -54,133 +54,70 @@
   }
   .field input:focus,
   .field textarea:focus,
-  .field select:focus {
-    outline: none;
-    border-color: #667eea;
-  }
-  .field textarea { resize: vertical; min-height: 80px; }
-  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field select:focus { outline: none; border-color: #667eea; }
+  .field textarea { resize: vertical; min-height: 70px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
   .actions {
-    display: flex;
-    gap: 12px;
-    margin-top: 24px;
-    flex-wrap: wrap;
+    display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap;
   }
   .btn {
-    flex: 1;
-    min-width: 140px;
-    padding: 14px 20px;
-    border: none;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
+    flex: 1; min-width: 140px; padding: 14px 20px; border: none; border-radius: 8px;
+    font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s;
   }
   .btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: #fff;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff;
   }
   .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(102,126,234,0.4); }
   .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-  .btn-secondary {
-    background: #f5f5f7;
-    color: #333;
-  }
+  .btn-secondary { background: #f5f5f7; color: #333; }
   .btn-secondary:hover { background: #e8e8eb; }
   .preview {
-    margin-top: 20px;
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    border-left: 4px solid #667eea;
-    white-space: pre-wrap;
-    font-family: "SF Mono", Consolas, monospace;
-    font-size: 13px;
-    line-height: 1.6;
-    color: #444;
-    display: none;
-    max-height: 500px;
-    overflow-y: auto;
+    margin-top: 20px; padding: 20px; background: #f8f9fa; border-radius: 8px;
+    border-left: 4px solid #667eea; white-space: pre-wrap;
+    font-family: "SF Mono", Consolas, monospace; font-size: 13px; line-height: 1.6;
+    color: #444; display: none; max-height: 500px; overflow-y: auto;
   }
   .preview.show { display: block; }
   .toast {
-    position: fixed;
-    top: 24px;
-    right: 24px;
-    background: #2ecc71;
-    color: #fff;
-    padding: 12px 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    transform: translateX(400px);
-    transition: transform 0.3s;
-    z-index: 1000;
+    position: fixed; top: 24px; right: 24px; background: #2ecc71; color: #fff;
+    padding: 12px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform: translateX(400px); transition: transform 0.3s; z-index: 1000;
   }
   .toast.show { transform: translateX(0); }
   .toast.error { background: #e74c3c; }
   .footer {
-    text-align: center;
-    padding: 16px;
-    font-size: 12px;
-    color: #999;
-    background: #fafafa;
+    text-align: center; padding: 16px; font-size: 12px; color: #999; background: #fafafa;
   }
   .footer strong { color: #667eea; }
   .info-banner {
-    background: #fff7e6;
-    border: 1px solid #ffd591;
-    color: #874d00;
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 13px;
-    line-height: 1.6;
-    margin-bottom: 20px;
+    background: #fff7e6; border: 1px solid #ffd591; color: #874d00;
+    padding: 12px 16px; border-radius: 8px; font-size: 13px; line-height: 1.6; margin-bottom: 20px;
   }
   .info-banner b { color: #d4380d; }
   .loading {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    border: 2px solid #fff;
-    border-top-color: transparent;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin-right: 6px;
-    vertical-align: middle;
+    display: inline-block; width: 14px; height: 14px; border: 2px solid #fff;
+    border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite;
+    margin-right: 6px; vertical-align: middle;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-  /* 分组卡片 */
   .group {
-    background: #fafbff;
-    border: 1.5px solid #e8eaf6;
-    border-radius: 10px;
-    padding: 18px 20px;
-    margin-bottom: 18px;
+    background: #fafbff; border: 1.5px solid #e8eaf6; border-radius: 10px;
+    padding: 16px 18px; margin-bottom: 16px;
   }
   .group-title {
-    font-size: 15px;
-    font-weight: 700;
-    color: #667eea;
-    margin-bottom: 14px;
-    padding-bottom: 8px;
-    border-bottom: 1.5px dashed #d0d6f5;
+    font-size: 15px; font-weight: 700; color: #667eea; margin-bottom: 12px;
+    padding-bottom: 8px; border-bottom: 1.5px dashed #d0d6f5;
   }
   .group-title .icon { font-size: 18px; margin-right: 4px; }
-  .group .field { margin-bottom: 14px; }
+  .group .field { margin-bottom: 12px; }
   .group .field:last-child { margin-bottom: 0; }
-  /* 转化率显示 */
   .ratio-box {
     background: linear-gradient(135deg, #f0f4ff 0%, #e8eaf6 100%);
-    border: 1.5px solid #c5cae9;
-    border-radius: 8px;
-    padding: 12px 16px;
-    margin-top: 10px;
-    font-size: 14px;
-    color: #5c6bc0;
-    font-weight: 600;
+    border: 1.5px solid #c5cae9; border-radius: 8px; padding: 10px 14px;
+    margin-top: 8px; font-size: 13px; color: #5c6bc0; font-weight: 600;
   }
-  .ratio-box .num { color: #667eea; font-size: 16px; }
+  .ratio-box .num { color: #667eea; font-size: 15px; }
   .ratio-box.empty { background: #f5f5f7; border-color: #e0e0e0; color: #999; font-weight: 400; }
 </style>
 </head>
@@ -197,13 +134,11 @@
     </div>
 
     <form id="reportForm" action="https://formsubmit.co/ajax/zhongtaibu@flipped-hz.com.cn" method="POST">
-      <!-- FormSubmit 配置 -->
       <input type="hidden" name="_subject" id="emailSubject" value="中台部门日报">
       <input type="hidden" name="_template" value="box">
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="邮件正文" id="emailBody" value="">
 
-      <!-- 基础信息 -->
       <div class="row">
         <div class="field">
           <label>姓名 <span class="required">*</span></label>
@@ -220,11 +155,11 @@
           <label>岗位 <span class="required">*</span></label>
           <select name="岗位" id="positionSelect" required onchange="onPositionChange()">
             <option value="">-- 请选择 --</option>
-            <option value="美工">美工</option>
-            <option value="业务中台">业务中台</option>
-            <option value="数据中台">数据中台</option>
-            <option value="人事专员">人事专员</option>
-            <option value="投流手">投流手</option>
+            <option value="美工">🎨 美工</option>
+            <option value="业务中台">📊 业务中台</option>
+            <option value="数据中台">📈 数据中台</option>
+            <option value="人事专员">👤 人事专员</option>
+            <option value="投流手">📣 投流手</option>
           </select>
         </div>
         <div class="field">
@@ -235,148 +170,185 @@
         </div>
       </div>
 
-      <!-- ============ 业务中台专属字段 ============ -->
-      <div id="yewuFields" style="display:none;">
-
+      <!-- ============ 业务中台 ============ -->
+      <div class="position-fields" id="yewuFields" style="display:none;">
         <div class="group">
           <div class="group-title"><span class="icon">📊</span>新开数据</div>
           <div class="row">
-            <div class="field">
-              <label>新开商户 <span class="hint">可留空</span></label>
-              <input type="text" name="新开商户" placeholder="如：未提供 / 数字">
-            </div>
-            <div class="field">
-              <label>新开上品</label>
-              <input type="number" name="新开上品" value="0" min="0">
-            </div>
+            <div class="field"><label>新开商户 <span class="hint">可留空</span></label><input type="text" name="新开商户" placeholder="未提供 / 数字"></div>
+            <div class="field"><label>新开上品</label><input type="number" name="新开上品" value="0" min="0"></div>
           </div>
           <div class="row">
-            <div class="field">
-              <label>新开动销</label>
-              <input type="number" name="新开动销" value="0" min="0">
-            </div>
-            <div class="field">
-              <label>新开 400 核销</label>
-              <input type="number" name="新开400核销" value="0" min="0">
-            </div>
+            <div class="field"><label>新开动销</label><input type="number" name="新开动销" value="0" min="0"></div>
+            <div class="field"><label>新开 400 核销</label><input type="number" name="新开400核销" value="0" min="0"></div>
           </div>
           <div class="row">
-            <div class="field">
-              <label>新开已达标</label>
-              <input type="number" name="新开已达标" value="0" min="0">
-            </div>
-            <div class="field">
-              <label>新开值 <span class="hint">可留空</span></label>
-              <input type="text" name="新开值" placeholder="如：未提供 / 数字">
-            </div>
+            <div class="field"><label>新开已达标</label><input type="number" name="新开已达标" value="0" min="0"></div>
+            <div class="field"><label>新开值 <span class="hint">可留空</span></label><input type="text" name="新开值" placeholder="未提供 / 数字"></div>
           </div>
         </div>
 
         <div class="group">
           <div class="group-title"><span class="icon">📱</span>扫码数据</div>
           <div class="row">
-            <div class="field">
-              <label>扫码动销</label>
-              <input type="number" name="扫码动销" value="0" min="0" oninput="calcRatio()">
-            </div>
-            <div class="field">
-              <label>扫码 400 核销</label>
-              <input type="number" name="扫码400核销" value="0" min="0" oninput="calcRatio()">
-            </div>
+            <div class="field"><label>扫码动销</label><input type="number" name="扫码动销" value="0" min="0" oninput="calcRatio()"></div>
+            <div class="field"><label>扫码 400 核销</label><input type="number" name="扫码400核销" value="0" min="0" oninput="calcRatio()"></div>
           </div>
           <div class="row">
-            <div class="field">
-              <label>扫码达标</label>
-              <input type="number" name="扫码达标" value="0" min="0">
-            </div>
-            <div class="field">
-              <label>扫码值 <span class="hint">可留空</span></label>
-              <input type="text" name="扫码值" placeholder="如：未提供 / 数字">
-            </div>
+            <div class="field"><label>扫码达标</label><input type="number" name="扫码达标" value="0" min="0"></div>
+            <div class="field"><label>扫码值 <span class="hint">可留空</span></label><input type="text" name="扫码值" placeholder="未提供 / 数字"></div>
           </div>
-          <div class="ratio-box empty" id="ratioBox">📈 转化率：填写「扫码动销」和「扫码 400 核销」后自动计算</div>
+          <div class="ratio-box empty" id="ratioBox">📈 转化率：填写后自动计算</div>
         </div>
 
         <div class="group">
           <div class="group-title"><span class="icon">🐝</span>小蜜蜂</div>
           <div class="row">
-            <div class="field">
-              <label>提报 <span class="hint">可留空</span></label>
-              <input type="text" name="小蜜蜂提报" placeholder="如：未提供 / 数字">
-            </div>
-            <div class="field">
-              <label>达标 <span class="hint">可留空</span></label>
-              <input type="text" name="小蜜蜂达标" placeholder="如：未提供 / 数字">
-            </div>
+            <div class="field"><label>提报 <span class="hint">可留空</span></label><input type="text" name="小蜜蜂提报" placeholder="未提供 / 数字"></div>
+            <div class="field"><label>达标 <span class="hint">可留空</span></label><input type="text" name="小蜜蜂达标" placeholder="未提供 / 数字"></div>
           </div>
         </div>
 
         <div class="group">
           <div class="group-title"><span class="icon">👥</span>团队与拜访</div>
           <div class="row">
-            <div class="field">
-              <label>BD 在岗</label>
-              <input type="number" name="BD在岗" value="0" min="0">
-            </div>
-            <div class="field">
-              <label>巡店数（次）</label>
-              <input type="number" name="巡店数" value="0" min="0">
-            </div>
+            <div class="field"><label>BD 在岗</label><input type="number" name="BD在岗" value="0" min="0"></div>
+            <div class="field"><label>巡店数（次）</label><input type="number" name="巡店数" value="0" min="0"></div>
           </div>
         </div>
 
         <div class="field">
-          <label>文字补充 <span class="hint">可选 · 临时说明、备注等</span></label>
-          <textarea name="文字补充" placeholder="如有要补充说明的文字，可写在这里..."></textarea>
+          <label>文字补充 <span class="hint">可选</span></label>
+          <textarea name="文字补充" placeholder="临时说明、备注等..."></textarea>
         </div>
-
       </div>
 
-      <!-- ============ 通用字段（非业务中台岗位） ============ -->
-      <div id="commonFields">
-
-        <div class="field">
-          <label>今日完成工作 <span class="required">*</span></label>
-          <textarea name="今日完成" placeholder="逐条列出今天完成的工作事项..."></textarea>
-        </div>
-
-        <div class="field">
-          <label>进行中工作</label>
-          <textarea name="进行中" placeholder="正在推进、还没完成的事项及当前进度..."></textarea>
-        </div>
-
-        <div class="field">
-          <label>遇到的问题 / 需要支持</label>
-          <textarea name="需支持问题" placeholder="需要领导或其他部门协助解决的问题..."></textarea>
-        </div>
-
-        <div class="field">
-          <label>明日工作计划</label>
-          <textarea name="明日计划" placeholder="明天准备推进的工作..."></textarea>
-        </div>
-
-        <div class="row">
+      <!-- ============ 数据中台 ============ -->
+      <div class="position-fields" id="shujuFields" style="display:none;">
+        <div class="group">
+          <div class="group-title"><span class="icon">📈</span>今日工作</div>
           <div class="field">
-            <label>面试人数</label>
-            <input type="number" name="面试人数" value="0" min="0">
+            <label>今日工作总结 <span class="required">*</span></label>
+            <textarea name="今日工作总结" placeholder="今天做了什么？输出什么报表？分析什么数据？..." style="min-height:120px;"></textarea>
           </div>
           <div class="field">
-            <label>入职人数</label>
-            <input type="number" name="入职人数" value="0" min="0">
+            <label>今日工作复盘 <span class="required">*</span></label>
+            <textarea name="今日工作复盘" placeholder="哪里做得好？哪里需要改进？发现什么问题？..." style="min-height:120px;"></textarea>
           </div>
         </div>
+      </div>
 
-        <div class="row">
-          <div class="field">
-            <label>离职人数</label>
-            <input type="number" name="离职人数" value="0" min="0">
+      <!-- ============ 美工 ============ -->
+      <div class="position-fields" id="meigongFields" style="display:none;">
+        <div class="group">
+          <div class="group-title"><span class="icon">🎨</span>设计产出</div>
+          <div class="row">
+            <div class="field"><label>设计物料数</label><input type="number" name="设计物料数" value="0" min="0"></div>
+            <div class="field"><label>设计图片数</label><input type="number" name="设计图片数" value="0" min="0"></div>
           </div>
           <div class="field">
-            <label>其他数据补充</label>
-            <input type="text" name="其他数据" placeholder="如：招聘到岗 X 人, 培训 Y 场...">
+            <label>工作饱和度</label>
+            <select name="工作饱和度">
+              <option value="满负荷">满负荷</option>
+              <option value="工作量不够">工作量不够</option>
+              <option value="一般">一般</option>
+            </select>
           </div>
         </div>
 
+        <div class="group">
+          <div class="group-title"><span class="icon">💬</span>想说 & 成长</div>
+          <div class="field">
+            <label>想对销售说的话 <span class="hint">可选</span></label>
+            <textarea name="对销售说" placeholder="想对销售同事提什么建议？需要他们配合什么？..."></textarea>
+          </div>
+          <div class="field">
+            <label>今天的成长点 <span class="hint">可选</span></label>
+            <textarea name="成长点" placeholder="今天学到了什么？突破了哪个卡点？..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ 投流手 ============ -->
+      <div class="position-fields" id="touliuFields" style="display:none;">
+        <div class="group">
+          <div class="group-title"><span class="icon">📣</span>账户 & 预算</div>
+          <div class="row">
+            <div class="field"><label>操盘账户数</label><input type="number" name="操盘账户数" value="0" min="0"></div>
+            <div class="field"><label>消耗（元）</label><input type="number" name="消耗" value="0" min="0" step="0.01" oninput="calcROI()"></div>
+          </div>
+          <div class="field">
+            <label>各部门广告预算 <span class="hint">可留空</span></label>
+            <textarea name="各部门预算" placeholder="例：&#10;销售一部：3000&#10;销售二部：5000&#10;直播：8000"></textarea>
+          </div>
+          <div class="ratio-box empty" id="roiBox">💰 消耗 ROI：填写 GMV 后自动计算</div>
+        </div>
+
+        <div class="group">
+          <div class="group-title"><span class="icon">🏆</span>最优 & 追投</div>
+          <div class="row">
+            <div class="field"><label>转化率最高账号</label><input type="text" name="最高转化账号" placeholder="账号名 / ID"></div>
+            <div class="field"><label>转化率最高类型</label><input type="text" name="最高转化类型" placeholder="如：短视频 / 直播 / 图文"></div>
+          </div>
+          <div class="field">
+            <label>是否可继续追投</label>
+            <select name="是否可追投">
+              <option value="">-- 请选择 --</option>
+              <option value="是">是</option>
+              <option value="否">否</option>
+              <option value="待评估">待评估</option>
+            </select>
+          </div>
+          <div class="row">
+            <div class="field"><label>预计增加 GMV <span class="hint">选填</span></label><input type="number" name="预计增加GMV" value="0" min="0" step="0.01" oninput="calcROI()"></div>
+            <div class="field"><label>预计增加消耗 <span class="hint">选填</span></label><input type="number" name="预计增加消耗" value="0" min="0" step="0.01"></div>
+          </div>
+          <div class="field">
+            <label>今日 GMV <span class="hint">用于计算 ROI</span></label>
+            <input type="number" name="今日GMV" value="0" min="0" step="0.01" oninput="calcROI()">
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ 人事专员 ============ -->
+      <div class="position-fields" id="renshiFields" style="display:none;">
+        <div class="group">
+          <div class="group-title"><span class="icon">📥</span>今日招聘漏斗</div>
+          <div class="row">
+            <div class="field"><label>收到简历</label><input type="number" name="收到简历" value="0" min="0"></div>
+            <div class="field"><label>邀约</label><input type="number" name="邀约" value="0" min="0"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label>初面</label><input type="number" name="初面" value="0" min="0"></div>
+            <div class="field"><label>试岗</label><input type="number" name="试岗" value="0" min="0"></div>
+          </div>
+          <div class="field">
+            <label>入库（人才库）</label>
+            <input type="number" name="入库" value="0" min="0">
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="group-title"><span class="icon">🎯</span>本月入职目标</div>
+          <div class="field">
+            <label>本月总入职目标 <span class="hint">总人数</span></label>
+            <input type="number" name="本月总目标" value="0" min="0">
+          </div>
+          <div class="row-3">
+            <div class="field"><label>短视频</label><input type="number" name="目标_短视频" value="0" min="0"></div>
+            <div class="field"><label>直播</label><input type="number" name="目标_直播" value="0" min="0"></div>
+            <div class="field"><label>销售</label><input type="number" name="目标_销售" value="0" min="0"></div>
+          </div>
+          <div class="field">
+            <label>重点招聘方向 <span class="hint">选填</span></label>
+            <input type="text" name="重点招聘方向" placeholder="如：短视频投手 / 主播 / 销售精英...">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>今日工作总结 <span class="hint">可选</span></label>
+          <textarea name="人事补充" placeholder="临时说明、备注等..."></textarea>
+        </div>
       </div>
 
       <div class="actions">
@@ -400,26 +372,31 @@
 <script>
 const TO_EMAIL = 'zhongtaibu@flipped-hz.com.cn';
 
-// 默认日期为今天
 document.querySelector('input[name="日期"]').valueAsDate = new Date();
 
-// 切换岗位对应的字段
+const ALL_FIELDS = ['yewuFields', 'shujuFields', 'meigongFields', 'touliuFields', 'renshiFields'];
+
 function onPositionChange() {
   const pos = document.getElementById('positionSelect').value;
-  const isYewu = pos === '业务中台';
-  document.getElementById('yewuFields').style.display = isYewu ? 'block' : 'none';
-  document.getElementById('commonFields').style.display = isYewu ? 'none' : 'block';
-  // 切换必填项
-  const todayDone = document.querySelector('[name="今日完成"]');
-  if (todayDone) todayDone.required = !isYewu;
-  // 业务中台时如有需要，重新计算
-  if (isYewu) calcRatio();
+  const map = {
+    '业务中台': 'yewuFields',
+    '数据中台': 'shujuFields',
+    '美工': 'meigongFields',
+    '投流手': 'touliuFields',
+    '人事专员': 'renshiFields',
+  };
+  ALL_FIELDS.forEach(id => {
+    document.getElementById(id).style.display = (map[pos] === id) ? 'block' : 'none';
+  });
+  if (pos === '业务中台') calcRatio();
+  if (pos === '投流手') calcROI();
 }
 
 function calcRatio() {
-  const sm = parseInt(document.querySelector('[name="扫码动销"]').value) || 0;
-  const hx = parseInt(document.querySelector('[name="扫码400核销"]').value) || 0;
+  const sm = parseInt(document.querySelector('[name="扫码动销"]')?.value) || 0;
+  const hx = parseInt(document.querySelector('[name="扫码400核销"]')?.value) || 0;
   const box = document.getElementById('ratioBox');
+  if (!box) return;
   if (sm > 0 && hx > 0) {
     const pct = (hx / sm * 100).toFixed(1);
     box.className = 'ratio-box';
@@ -430,23 +407,30 @@ function calcRatio() {
   }
 }
 
+function calcROI() {
+  const cost = parseFloat(document.querySelector('[name="消耗"]')?.value) || 0;
+  const gmv = parseFloat(document.querySelector('[name="今日GMV"]')?.value) || 0;
+  const box = document.getElementById('roiBox');
+  if (!box) return;
+  if (cost > 0 && gmv > 0) {
+    const roi = (gmv / cost).toFixed(2);
+    box.className = 'ratio-box';
+    box.innerHTML = `💰 消耗 ROI：<span class="num">${gmv}</span> / <span class="num">${cost}</span> = <span class="num">${roi}</span>`;
+  } else {
+    box.className = 'ratio-box empty';
+    box.textContent = '💰 消耗 ROI：填写「消耗」和「今日 GMV」后自动计算';
+  }
+}
+
 function getFormData() {
-  const form = document.getElementById('reportForm');
-  const fd = new FormData(form);
+  const fd = new FormData(document.getElementById('reportForm'));
   return Object.fromEntries(fd.entries());
 }
 
-function num(v) {
-  if (v === '' || v === null || v === undefined) return '0';
-  return String(v);
-}
+function num(v) { return (!v && v !== 0) ? '0' : String(v); }
+function numOrEmpty(v) { return (!v || v === '0') ? '' : String(v); }
+function show(v, fallback='未提供') { return v && v.trim() ? v : fallback; }
 
-function numOrEmpty(v) {
-  if (!v || v === '0') return '';
-  return String(v);
-}
-
-// 业务中台日报正文
 function formatYewu(d) {
   const sm = parseInt(d.扫码动销) || 0;
   const hx = parseInt(d.扫码400核销) || 0;
@@ -463,12 +447,12 @@ function formatYewu(d) {
 ───────────────────────────
 📊 新开数据
 ───────────────────────────
-• 新开商户：${d.新开商户 || '未提供'}
+• 新开商户：${show(d.新开商户)}
 • 新开上品：${num(d.新开上品)}
 • 新开动销：${num(d.新开动销)}
 • 新开 400 核销：${num(d.新开400核销)}
 • 新开已达标：${num(d.新开已达标)}
-• 新开值：${d.新开值 || '未提供'}
+• 新开值：${show(d.新开值)}
 
 ───────────────────────────
 📱 扫码数据
@@ -476,15 +460,15 @@ function formatYewu(d) {
 • 扫码动销：${num(d.扫码动销)}
 • 扫码 400 核销：${num(d.扫码400核销)}
 • 扫码达标：${num(d.扫码达标)}
-• 扫码值：${d.扫码值 || '未提供'}
+• 扫码值：${show(d.扫码值)}
 
 📈 转化率：${ratio}
 
 ───────────────────────────
 🐝 小蜜蜂
 ───────────────────────────
-• 提报：${d.小蜜蜂提报 || '未提供'}
-• 达标：${d.小蜜蜂达标 || '未提供'}
+• 提报：${show(d.小蜜蜂提报)}
+• 达标：${show(d.小蜜蜂达标)}
 
 ───────────────────────────
 👥 团队与拜访
@@ -502,8 +486,7 @@ ${d.文字补充}
 ═══════════════════════════`;
 }
 
-// 通用日报正文
-function formatCommon(d) {
+function formatShuju(d) {
   return `═══════════════════════════
   中台部门日报
 ═══════════════════════════
@@ -514,40 +497,145 @@ function formatCommon(d) {
 🏢 部门：${d.部门 || '—'}
 
 ───────────────────────────
-✅ 今日完成工作
+📈 今日工作总结
 ───────────────────────────
-${d.今日完成 || '（无）'}
+${d.今日工作总结 || '（无）'}
 
 ───────────────────────────
-🔄 进行中工作
+🔄 今日工作复盘
 ───────────────────────────
-${d.进行中 || '（无）'}
-
-───────────────────────────
-⚠️ 遇到的问题 / 需要支持
-───────────────────────────
-${d.需支持问题 || '（无）'}
-
-───────────────────────────
-📌 明日工作计划
-───────────────────────────
-${d.明日计划 || '（无）'}
-
-───────────────────────────
-📊 关键数据
-───────────────────────────
-• 面试人数：${num(d.面试人数)} 人
-• 入职人数：${num(d.入职人数)} 人
-• 离职人数：${num(d.离职人数)} 人
-${d.其他数据 ? '• 其他补充：' + d.其他数据 : ''}
+${d.今日工作复盘 || '（无）'}
 
 ═══════════════════════════
 提交人：${d.姓名 || ''} · ${d.日期 || ''}
 ═══════════════════════════`;
 }
 
+function formatMeigong(d) {
+  return `═══════════════════════════
+  中台部门日报
+═══════════════════════════
+
+👤 姓名：${d.姓名 || '未填写'}
+📅 日期：${d.日期 || '未填写'}
+💼 岗位：${d.岗位 || '—'}
+🏢 部门：${d.部门 || '—'}
+
+───────────────────────────
+🎨 设计产出
+───────────────────────────
+• 设计物料数：${num(d.设计物料数)} 个
+• 设计图片数：${num(d.设计图片数)} 张
+• 工作饱和度：${d.工作饱和度 || '未填写'}
+
+───────────────────────────
+💬 想对销售说的话
+───────────────────────────
+${d.对销售说 || '（无）'}
+
+───────────────────────────
+🌱 今天的成长点
+───────────────────────────
+${d.成长点 || '（无）'}
+
+═══════════════════════════
+提交人：${d.姓名 || ''} · ${d.日期 || ''}
+═══════════════════════════`;
+}
+
+function formatTouliu(d) {
+  const cost = parseFloat(d.消耗) || 0;
+  const gmv = parseFloat(d.今日GMV) || 0;
+  const roi = (cost > 0 && gmv > 0) ? `${gmv} / ${cost} = ${(gmv/cost).toFixed(2)}` : '未提供';
+  return `═══════════════════════════
+  中台部门日报
+═══════════════════════════
+
+👤 姓名：${d.姓名 || '未填写'}
+📅 日期：${d.日期 || '未填写'}
+💼 岗位：${d.岗位 || '—'}
+🏢 部门：${d.部门 || '—'}
+
+───────────────────────────
+📣 账户 & 预算
+───────────────────────────
+• 操盘账户数：${num(d.操盘账户数)} 个
+• 消耗：¥ ${num(d.消耗)}
+• 今日 GMV：¥ ${num(d.今日GMV)}
+
+💰 消耗 ROI：${roi}
+
+───────────────────────────
+📋 各部门广告预算
+───────────────────────────
+${d.各部门预算 || '（未填写）'}
+
+───────────────────────────
+🏆 转化率最高
+───────────────────────────
+• 账号：${d.最高转化账号 || '（未填写）'}
+• 类型：${d.最高转化类型 || '（未填写）'}
+• 是否可继续追投：${d.是否可追投 || '（未填写）'}
+
+───────────────────────────
+🚀 追投预估
+───────────────────────────
+• 预计增加 GMV：¥ ${num(d.预计增加GMV)}
+• 预计增加消耗：¥ ${num(d.预计增加消耗)}
+
+═══════════════════════════
+提交人：${d.姓名 || ''} · ${d.日期 || ''}
+═══════════════════════════`;
+}
+
+function formatRenshi(d) {
+  return `═══════════════════════════
+  中台部门日报
+═══════════════════════════
+
+👤 姓名：${d.姓名 || '未填写'}
+📅 日期：${d.日期 || '未填写'}
+💼 岗位：${d.岗位 || '—'}
+🏢 部门：${d.部门 || '—'}
+
+───────────────────────────
+📥 今日招聘漏斗
+───────────────────────────
+• 收到简历：${num(d.收到简历)} 份
+• 邀约：${num(d.邀约)} 人
+• 初面：${num(d.初面)} 人
+• 试岗：${num(d.试岗)} 人
+• 入库（人才库）：${num(d.入库)} 人
+
+───────────────────────────
+🎯 本月入职目标
+───────────────────────────
+• 总目标：${num(d.本月总目标)} 人
+  ├ 短视频：${num(d.目标_短视频)} 人
+  ├ 直播：${num(d.目标_直播)} 人
+  └ 销售：${num(d.目标_销售)} 人
+
+• 重点招聘方向：${d.重点招聘方向 || '（未填写）'}
+
+${d.人事补充 ? `───────────────────────────
+📝 文字补充
+───────────────────────────
+${d.人事补充}
+
+` : ''}═══════════════════════════
+提交人：${d.姓名 || ''} · ${d.日期 || ''}
+═══════════════════════════`;
+}
+
 function formatReport(d) {
-  return d.岗位 === '业务中台' ? formatYewu(d) : formatCommon(d);
+  switch (d.岗位) {
+    case '业务中台': return formatYewu(d);
+    case '数据中台': return formatShuju(d);
+    case '美工': return formatMeigong(d);
+    case '投流手': return formatTouliu(d);
+    case '人事专员': return formatRenshi(d);
+    default: return formatShuju(d);
+  }
 }
 
 function buildSubject(d) {
@@ -565,7 +653,9 @@ function validateForm(d) {
   if (!d.姓名) return '请填写姓名';
   if (!d.日期) return '请选择日期';
   if (!d.岗位) return '请选择岗位';
-  if (d.岗位 !== '业务中台' && !d.今日完成) return '请填写「今日完成工作」';
+  if (d.岗位 === '数据中台' && (!d.今日工作总结 || !d.今日工作复盘)) {
+    return '请填写「今日工作总结」和「今日工作复盘」';
+  }
   return null;
 }
 
@@ -632,11 +722,12 @@ async function sendAuto() {
         document.getElementById('reportForm').reset();
         document.querySelector('input[name="日期"]').valueAsDate = new Date();
         document.querySelector('select[name="部门"]').value = '中台部门';
-        document.getElementById('yewuFields').style.display = 'none';
-        document.getElementById('commonFields').style.display = 'block';
+        ALL_FIELDS.forEach(id => document.getElementById(id).style.display = 'none');
         document.getElementById('preview').classList.remove('show');
-        document.getElementById('ratioBox').className = 'ratio-box empty';
-        document.getElementById('ratioBox').textContent = '📈 转化率：填写「扫码动销」和「扫码 400 核销」后自动计算';
+        const rb = document.getElementById('ratioBox');
+        if (rb) { rb.className = 'ratio-box empty'; rb.textContent = '📈 转化率：填写后自动计算'; }
+        const rb2 = document.getElementById('roiBox');
+        if (rb2) { rb2.className = 'ratio-box empty'; rb2.textContent = '💰 消耗 ROI：填写后自动计算'; }
       }, 3000);
     } else {
       throw new Error('HTTP ' + resp.status);
