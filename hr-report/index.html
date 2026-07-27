@@ -144,10 +144,14 @@
 
   <div class="form-body">
     <div class="info-banner">
-      💡 <b>服务器部署版</b>：所有数据通过公司服务器中转，进度全公司共享，邮件直发到 <b>zhongtaibu@flipped-hz.com.cn</b>。
+      💡 <b>首次使用提示</b>：第一次点发送时，FormSubmit 会发一封激活邮件到 <b>zhongtaibu@flipped-hz.com.cn</b>，那边点一下确认链接，之后就全自动了。
     </div>
 
-    <form id="reportForm">
+    <form id="reportForm" action="https://formsubmit.co/ajax/zhongtaibu@flipped-hz.com.cn" method="POST">
+      <input type="hidden" name="_subject" id="emailSubject" value="中台部门日报">
+      <input type="hidden" name="_template" value="box">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="邮件正文" id="emailBody" value="">
 
       <div class="row">
         <div class="field">
@@ -848,29 +852,41 @@ async function sendAuto() {
   btn.disabled = true;
   btn.innerHTML = '<span class="loading"></span>发送中...';
 
-  // 通过后端 API 发送邮件（不依赖 FormSubmit，邮件完全由我们控制）
-  const subject = buildSubject(d);
-  const body = formatReport(d);
+  document.getElementById('emailBody').value = formatReport(d);
+  document.getElementById('emailSubject').value = buildSubject(d);
+
+  // 提交瞬间：清空所有业务字段的 name，只保留隐藏配置 + 「邮件正文」
+  // 这样 FormSubmit 邮件里只出现一整个正文，不会拆分列出表单字段
+  const KEEP_NAMES = new Set(['_subject', '_template', '_captcha', '邮件正文']);
+  const restored = [];
+  document.querySelectorAll('#reportForm input[name], #reportForm select[name], #reportForm textarea[name]').forEach(el => {
+    if (!KEEP_NAMES.has(el.name)) {
+      restored.push({ el, name: el.name });
+      el.removeAttribute('name');
+    }
+  });
+  const restoreNames = () => restored.forEach(({ el, name }) => el.setAttribute('name', name));
 
   try {
-    const resp = await fetch(API_BASE + '/api/send', {
+    // 邮件继续走 FormSubmit（不用授权码，代发模式）
+    const formData = new FormData(document.getElementById('reportForm'));
+    const resp = await fetch('https://formsubmit.co/ajax/zhongtaibu@flipped-hz.com.cn', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ subject, body })
+      headers: { 'Accept': 'application/json' },
+      body: formData
     });
-    const data = await resp.json();
-
-    if (resp.ok && data.success) {
-      // 美工岗位发送成功后自动叠加月度进度
+    if (resp.ok) {
+      // 美工岗位：邮件发送成功后，单独调后端 API 叠加月度进度
       if (d.岗位 === '美工') {
         const r = await commitProgress(d);
         if (r && r.skipped) showToast('✅ 发送成功！今天已提交过，进度未叠加');
-        else if (r) showToast(`✅ 发送成功！本月累计 ${r.current}/${r.target}`);
+        else if (r && r.current !== undefined) showToast(`✅ 发送成功！本月累计 ${r.current}/${r.target}`);
         else showToast('✅ 发送成功！请到邮箱确认');
       } else {
         showToast('✅ 发送成功！请到邮箱确认');
       }
       setTimeout(() => {
+        restoreNames();
         document.getElementById('reportForm').reset();
         document.querySelector('input[name="日期"]').valueAsDate = new Date();
         document.querySelector('select[name="部门"]').value = '中台部门';
@@ -881,14 +897,16 @@ async function sendAuto() {
         if (rb) { rb.className = 'ratio-box empty'; rb.textContent = '📈 转化率：填写后自动计算'; }
         const rb2 = document.getElementById('roiBox');
         if (rb2) { rb2.className = 'ratio-box empty'; rb2.textContent = '💰 消耗 ROI：填写后自动计算'; }
-        updateProgress(); // 刷新美工进度
+        updateProgress();
       }, 3000);
     } else {
-      throw new Error(data.error || ('HTTP ' + resp.status));
+      restoreNames();
+      throw new Error('HTTP ' + resp.status);
     }
   } catch (e) {
-    console.error('后端发送失败:', e);
-    showToast('发送失败：' + e.message + '，自动唤起邮件客户端...', true);
+    restoreNames();
+    console.error('FormSubmit 失败:', e);
+    showToast('自动发送失败，自动唤起邮件客户端...', true);
     setTimeout(() => sendMailto(), 1500);
   } finally {
     btn.disabled = false;
