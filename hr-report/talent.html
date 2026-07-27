@@ -184,16 +184,20 @@
 
   /* ========== Toast ========== */
   .toast {
-    position: fixed; top: 24px; right: 24px; z-index: 1000;
+    position: fixed; top: 24px; left: 50%; z-index: 1000;
     background: var(--success); color: #fff;
-    padding: 12px 20px; border-radius: var(--radius);
-    box-shadow: var(--shadow-lg);
+    padding: 14px 24px; border-radius: 99px;
+    box-shadow: 0 10px 40px rgba(16, 185, 129, 0.4);
     font-size: 14px; font-weight: 500;
-    transform: translateX(120%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    max-width: 360px;
+    transform: translateX(-50%) translateY(-200%);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s;
+    opacity: 0;
+    max-width: 90vw;
+    backdrop-filter: blur(8px);
   }
-  .toast.show { transform: translateX(0); }
-  .toast.error { background: var(--danger); }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  .toast.hiding { transform: translateX(-50%) translateY(-50px); opacity: 0; }
+  .toast.error { background: var(--danger); box-shadow: 0 10px 40px rgba(239, 68, 68, 0.4); }
 
   /* ========== 底部 ========== */
   .footer {
@@ -607,11 +611,22 @@ let adminToken = localStorage.getItem('talent_admin_token') || '';
 
 function isAdmin() { return !!adminToken; }
 
-function showToast(msg, isError) {
+let toastTimer = null;
+function showToast(msg, isError, duration = 2500) {
   const t = document.getElementById('toast');
+  if (!t) return;
+  if (toastTimer) { clearTimeout(toastTimer); toastTimer = null; }
+  t.classList.remove('show', 'hiding', 'error');
   t.textContent = msg;
-  t.className = 'toast show' + (isError ? ' error' : '');
-  setTimeout(() => t.className = 'toast', 2500);
+  void t.offsetWidth;
+  t.className = 'toast' + (isError ? ' error' : '');
+  requestAnimationFrame(() => t.classList.add('show'));
+  toastTimer = setTimeout(() => {
+    t.classList.remove('show');
+    t.classList.add('hiding');
+    setTimeout(() => t.classList.remove('hiding', 'error'), 400);
+    toastTimer = null;
+  }, duration);
 }
 
 function updateAuthUI() {
