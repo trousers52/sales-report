@@ -17,6 +17,18 @@
   .header p { opacity: 0.9; font-size: 14px; }
   .header a { position: absolute; top: 20px; left: 24px; color: #fff; text-decoration: none; font-size: 13px; opacity: 0.9; padding: 6px 12px; border: 1px solid rgba(255,255,255,0.4); border-radius: 6px; }
   .header a:hover { background: rgba(255,255,255,0.15); }
+  .auth-bar { position: absolute; top: 20px; right: 24px; display: flex; gap: 8px; align-items: center; }
+  .auth-bar button { background: rgba(255,255,255,0.2); color: #fff; border: 1px solid rgba(255,255,255,0.4); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+  .auth-bar button:hover { background: rgba(255,255,255,0.3); }
+  .auth-bar .auth-status { color: #fff; font-size: 12px; opacity: 0.9; }
+  .auth-modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 100; }
+  .auth-modal-bg.show { display: flex; }
+  .auth-modal { background: #fff; border-radius: 12px; padding: 30px; width: 90%; max-width: 400px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+  .auth-modal h3 { margin-bottom: 8px; color: #333; }
+  .auth-modal p { color: #666; font-size: 13px; margin-bottom: 16px; }
+  .auth-modal input { width: 100%; padding: 10px 12px; border: 1.5px solid #e0e0e0; border-radius: 6px; font-size: 14px; margin-bottom: 12px; }
+  .auth-modal input:focus { outline: none; border-color: #667eea; }
+  .auth-modal .actions { display: flex; gap: 8px; justify-content: flex-end; }
   .body { padding: 24px 28px; }
   .toolbar { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
   .toolbar input, .toolbar select {
@@ -83,6 +95,22 @@
     <a href="./">← 回到日报</a>
     <h1>🌟 人才库</h1>
     <p>把优秀人才存到这里，长期跟踪，永久可查</p>
+    <div class="auth-bar" id="authBar">
+      <span class="auth-status" id="authStatus">🔒 只读模式</span>
+      <button onclick="showAuthModal()" id="authBtn">人事专员登录</button>
+    </div>
+  </div>
+
+  <div class="auth-modal-bg" id="authModal">
+    <div class="auth-modal">
+      <h3>🔐 人事专员验证</h3>
+      <p>请输入人事专员令牌（由管理员提供）</p>
+      <input type="password" id="authToken" placeholder="输入令牌">
+      <div class="actions">
+        <button class="btn btn-secondary" onclick="hideAuthModal()">取消</button>
+        <button class="btn btn-primary" onclick="doAuth()">验证</button>
+      </div>
+    </div>
   </div>
 
   <div class="body">
@@ -104,7 +132,7 @@
         <option value="美工">美工</option>
         <option value="其他">其他</option>
       </select>
-      <button class="btn btn-primary" onclick="toggleForm()">➕ 添加人才</button>
+      <button class="btn btn-primary" id="addBtn" onclick="toggleForm()">➕ 添加人才</button>
     </div>
 
     <div style="margin-bottom: 12px; color: #666; font-size: 13px;">
@@ -204,12 +232,64 @@
 const API_BASE = 'https://45.144.137.80:8443';
 let editingId = null;
 let allItems = [];
+let adminToken = localStorage.getItem('talent_admin_token') || '';
+
+function isAdmin() { return !!adminToken; }
 
 function showToast(msg, isError) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.className = 'toast show' + (isError ? ' error' : '');
   setTimeout(() => t.className = 'toast', 2500);
+}
+
+function updateAuthUI() {
+  const bar = document.getElementById('authBar');
+  if (isAdmin()) {
+    document.getElementById('authStatus').textContent = '✅ 人事专员模式';
+    document.getElementById('authBtn').textContent = '退出';
+    document.getElementById('authBtn').onclick = logout;
+  } else {
+    document.getElementById('authStatus').textContent = '🔒 只读模式';
+    document.getElementById('authBtn').textContent = '人事专员登录';
+    document.getElementById('authBtn').onclick = showAuthModal;
+  }
+  renderList();
+}
+
+function showAuthModal() { document.getElementById('authModal').classList.add('show'); document.getElementById('authToken').focus(); }
+function hideAuthModal() { document.getElementById('authModal').classList.remove('show'); document.getElementById('authToken').value = ''; }
+
+async function doAuth() {
+  const token = document.getElementById('authToken').value.trim();
+  if (!token) { showToast('请输入令牌', true); return; }
+  try {
+    const resp = await fetch(API_BASE + '/api/talent/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token })
+    });
+    const data = await resp.json();
+    if (data.success) {
+      adminToken = token;
+      localStorage.setItem('talent_admin_token', token);
+      hideAuthModal();
+      updateAuthUI();
+      showToast('✅ 人事专员验证成功，可以编辑人才库');
+    } else {
+      throw new Error(data.error || '令牌错误');
+    }
+  } catch (e) {
+    showToast('验证失败：' + e.message, true);
+  }
+}
+
+function logout() {
+  if (!confirm('退出人事专员模式？')) return;
+  adminToken = '';
+  localStorage.removeItem('talent_admin_token');
+  updateAuthUI();
+  showToast('已退出人事专员模式');
 }
 
 async function loadList() {
@@ -239,8 +319,12 @@ function renderList() {
     tbody.innerHTML = '<tr><td colspan="8" class="empty">暂无数据，点上方「添加人才」开始录入</td></tr>';
     return;
   }
-  tbody.innerHTML = allItems.map(t => `
-    <tr>
+  tbody.innerHTML = allItems.map(t => {
+    const actionBtns = isAdmin() ?
+      `<button class="btn btn-edit" onclick="editTalent(${t.id})">编辑</button>
+       <button class="btn btn-danger" onclick="deleteTalent(${t.id})">删除</button>` :
+      `<span style="color:#bbb;font-size:12px">只读</span>`;
+    return `<tr>
       <td><b>${escape(t.name)}</b>${t.wechat ? '<br><span style="color:#999;font-size:12px">wx: ' + escape(t.wechat) + '</span>' : ''}</td>
       <td>${t.phone ? '<a href="tel:' + escape(t.phone) + '">' + escape(t.phone) + '</a>' : '—'}</td>
       <td>${escape(t.position) || '—'}</td>
@@ -248,18 +332,16 @@ function renderList() {
       <td><span class="rating ${t.rating}">${t.rating || 'B'}</span></td>
       <td><span class="status ${t.status}">${t.status || '在库'}</span></td>
       <td style="color:#999;font-size:12px">${formatTime(t.updated_at)}</td>
-      <td>
-        <button class="btn btn-edit" onclick="editTalent(${t.id})">编辑</button>
-        <button class="btn btn-danger" onclick="deleteTalent(${t.id})">删除</button>
-      </td>
-    </tr>
-  `).join('');
+      <td>${actionBtns}</td>
+    </tr>`;
+  }).join('');
 }
 
 function escape(s) { return s ? String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]) : ''; }
 function formatTime(t) { if (!t) return '—'; const d = new Date(t); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 
 function toggleForm() {
+  if (!isAdmin()) { showAuthModal(); return; }
   document.getElementById('addForm').classList.toggle('show');
   if (!document.getElementById('addForm').classList.contains('show')) {
     resetForm();
@@ -296,6 +378,7 @@ function editTalent(id) {
 }
 
 async function saveTalent() {
+  if (!isAdmin()) { showAuthModal(); return; }
   const name = document.getElementById('fName').value.trim();
   if (!name) { showToast('请填写姓名', true); return; }
   const data = {
@@ -314,7 +397,7 @@ async function saveTalent() {
     const url = editingId ? (API_BASE + '/api/talent/' + editingId) : (API_BASE + '/api/talent');
     const resp = await fetch(url, {
       method: editingId ? 'PUT' : 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + adminToken },
       body: JSON.stringify(data)
     });
     const result = await resp.json();
@@ -332,13 +415,19 @@ async function saveTalent() {
 }
 
 async function deleteTalent(id) {
+  if (!isAdmin()) { showAuthModal(); return; }
   if (!confirm('确认删除这位人才？此操作不可恢复')) return;
   try {
-    const resp = await fetch(API_BASE + '/api/talent/' + id, { method: 'DELETE' });
+    const resp = await fetch(API_BASE + '/api/talent/' + id, {
+      method: 'DELETE',
+      headers: { 'Authorization': 'Bearer ' + adminToken }
+    });
     const data = await resp.json();
     if (data.success) {
       showToast('✅ 已删除');
       loadList();
+    } else {
+      throw new Error(data.error || '删除失败');
     }
   } catch (e) {
     showToast('删除失败：' + e.message, true);
@@ -349,9 +438,11 @@ async function deleteTalent(id) {
 document.getElementById('searchInput').addEventListener('input', debounce(loadList, 400));
 document.getElementById('statusFilter').addEventListener('change', loadList);
 document.getElementById('positionFilter').addEventListener('change', loadList);
+document.getElementById('authToken').addEventListener('keydown', e => { if (e.key === 'Enter') doAuth(); });
 function debounce(fn, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
 
 // 初始加载
+updateAuthUI();
 loadList();
 </script>
 </body>
