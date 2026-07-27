@@ -376,6 +376,25 @@ document.querySelector('input[name="日期"]').valueAsDate = new Date();
 
 const ALL_FIELDS = ['yewuFields', 'shujuFields', 'meigongFields', 'touliuFields', 'renshiFields'];
 
+// 切换岗位：让非当前岗位的字段不参与表单提交
+function setFieldsInactive(containerId, inactive) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.querySelectorAll('input, select, textarea').forEach(el => {
+    if (inactive) {
+      // 备份原 name，清空（不提交到 FormSubmit）
+      if (el.name && !el.dataset.origName) el.dataset.origName = el.name;
+      el.removeAttribute('name');
+    } else {
+      // 恢复 name
+      if (el.dataset.origName) {
+        el.setAttribute('name', el.dataset.origName);
+        delete el.dataset.origName;
+      }
+    }
+  });
+}
+
 function onPositionChange() {
   const pos = document.getElementById('positionSelect').value;
   const map = {
@@ -386,7 +405,9 @@ function onPositionChange() {
     '人事专员': 'renshiFields',
   };
   ALL_FIELDS.forEach(id => {
-    document.getElementById(id).style.display = (map[pos] === id) ? 'block' : 'none';
+    const isCurrent = (map[pos] === id);
+    document.getElementById(id).style.display = isCurrent ? 'block' : 'none';
+    setFieldsInactive(id, !isCurrent);
   });
   if (pos === '业务中台') calcRatio();
   if (pos === '投流手') calcROI();
@@ -722,6 +743,9 @@ async function sendAuto() {
         document.getElementById('reportForm').reset();
         document.querySelector('input[name="日期"]').valueAsDate = new Date();
         document.querySelector('select[name="部门"]').value = '中台部门';
+        // 重新触发岗位切换，让所有岗位字段都 inactive
+        onPositionChange();
+        // 隐藏所有岗位 fields
         ALL_FIELDS.forEach(id => document.getElementById(id).style.display = 'none');
         document.getElementById('preview').classList.remove('show');
         const rb = document.getElementById('ratioBox');
