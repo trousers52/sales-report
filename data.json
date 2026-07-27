@@ -25,13 +25,23 @@
         "name": "廖闻涛",
         "group": "SMB-二组",
         "target": 9,
-        "actual": 2,
+        "actual": 1,
         "stores": [
-          "魔方体炒姿身材管理",
-          "超越圣骑士·电动车配件大全"
+          "魔方体炒姿身材管理"
         ],
         "month_gmv": 254.4,
         "today_gmv": 189.6
+      },
+      {
+        "name": "燕小一",
+        "group": "KA一组",
+        "target": 3,
+        "actual": 1,
+        "stores": [
+          "渔相识木桶鱼中餐火锅"
+        ],
+        "month_gmv": 4152,
+        "today_gmv": 1040
       },
       {
         "name": "张耿淳",
@@ -124,21 +134,6 @@
         "stores": [],
         "month_gmv": 0,
         "today_gmv": 0
-      },
-      {
-        "name": "燕小一",
-        "group": "KA一组",
-        "target": 3,
-        "actual": 5,
-        "stores": [
-          "渔相识木桶鱼中餐火锅",
-          "芬芬川味面馆",
-          "青川里成都清油火锅",
-          "小辣红成都冷锅串串",
-          "进趣洋县豆木造物艺社(北环路店)"
-        ],
-        "month_gmv": 4152,
-        "today_gmv": 1040
       }
     ]
   },
