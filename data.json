@@ -22,6 +22,18 @@
         "today_gmv": 0
       },
       {
+        "name": "燕小一",
+        "group": "KA一组",
+        "target": 3,
+        "actual": 2,
+        "stores": [
+          "进趣洋县豆木造物艺社(北环路店)",
+          "渔相识木桶鱼中餐火锅"
+        ],
+        "month_gmv": 4152,
+        "today_gmv": 1040
+      },
+      {
         "name": "廖闻涛",
         "group": "SMB-二组",
         "target": 9,
@@ -31,17 +43,6 @@
         ],
         "month_gmv": 254.4,
         "today_gmv": 189.6
-      },
-      {
-        "name": "燕小一",
-        "group": "KA一组",
-        "target": 3,
-        "actual": 1,
-        "stores": [
-          "渔相识木桶鱼中餐火锅"
-        ],
-        "month_gmv": 4152,
-        "today_gmv": 1040
       },
       {
         "name": "张耿淳",
