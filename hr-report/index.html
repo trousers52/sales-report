@@ -96,6 +96,7 @@
     transition: all 0.2s;
   }
   .header .header-link:hover { background: rgba(255, 255, 255, 0.25); transform: translateY(-1px); }
+  .header .header-link.left { left: 28px; right: auto; }
 
   /* ========== 表单主体 ========== */
   .form-body { padding: 32px; }
@@ -471,6 +472,7 @@
     <h1>📋 中台部门日报</h1>
     <p>填写完成后点「一键发送」自动到达邮箱</p>
     <a href="./talent.html" class="header-link">🌟 人才库</a>
+    <a href="./report-summary.html" class="header-link">📊 日报汇总</a>
   </div>
 
   <div class="form-body">
@@ -1465,6 +1467,25 @@ async function sendAuto() {
       body: formData
     });
     if (resp.ok) {
+      // 双写：同时把日报存到后端数据库（领导汇总用）
+      const reportBody = formatReport(d);
+      const reportSubject = buildSubject(d);
+      try {
+        await fetch(API_BASE + '/api/reports', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            date: d.日期,
+            name: d.姓名,
+            position: d.岗位,
+            department: d.部门,
+            body: reportBody,
+            subject: reportSubject
+          })
+        });
+      } catch (e) {
+        console.warn('日报入库失败（不影响邮件发送）:', e);
+      }
       // 美工岗位：邮件发送成功后，单独调后端 API 叠加月度进度
       if (d.岗位 === '美工') {
         const r = await commitProgress(d);

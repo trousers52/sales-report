@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中台部门日报汇总</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --primary-light: #818cf8;
+    --accent: #f59e0b;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --text-lighter: #94a3b8;
+    --card: rgba(255, 255, 255, 0.85);
+    --border: rgba(226, 232, 240, 0.8);
+    --shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+    --shadow-lg: 0 12px 40px rgba(15, 23, 42, 0.12);
+    --radius: 12px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background-attachment: fixed;
+    min-height: 100vh; padding: 24px 20px; color: var(--text); line-height: 1.6;
+    -webkit-font-smoothing: antialiased; position: relative; overflow-x: hidden;
+  }
+  body::before, body::after {
+    content: ''; position: fixed; border-radius: 50%; pointer-events: none; z-index: 0;
+    filter: blur(80px); opacity: 0.4;
+  }
+  body::before { width: 500px; height: 500px; background: #fbbf24; top: -150px; right: -150px; }
+  body::after { width: 400px; height: 400px; background: #34d399; bottom: -100px; left: -100px; }
+  .container {
+    max-width: 1100px; margin: 0 auto;
+    background: var(--card); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);
+    overflow: hidden; position: relative; z-index: 1;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+  .header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff; padding: 36px 32px; text-align: center; position: relative; overflow: hidden;
+  }
+  .header::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+  }
+  .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.02em; position: relative; }
+  .header p { opacity: 0.95; font-size: 14px; position: relative; }
+  .header-link {
+    position: absolute; top: 24px; font-size: 13px; color: #fff; text-decoration: none;
+    padding: 8px 16px; background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 99px; backdrop-filter: blur(8px); transition: all 0.2s;
+  }
+  .header-link.left { left: 28px; }
+  .header-link.right { right: 28px; }
+  .header-link:hover { background: rgba(255, 255, 255, 0.25); transform: translateY(-1px); }
+  .body { padding: 28px; }
+  .toolbar {
+    display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; align-items: center;
+    background: #fff; padding: 14px 18px; border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+  }
+  .toolbar label { font-size: 13px; color: var(--text-light); font-weight: 600; }
+  .toolbar input, .toolbar select {
+    padding: 9px 14px; border: 1.5px solid var(--border); border-radius: var(--radius);
+    font-size: 14px; font-family: inherit; background: #fff; color: var(--text);
+    transition: all 0.2s;
+  }
+  .toolbar input:focus, .toolbar select:focus {
+    outline: none; border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+  }
+  .toolbar input[type="date"] { min-width: 160px; }
+  .toolbar .btn { margin-left: auto; }
+  .btn {
+    padding: 9px 18px; border: none; border-radius: var(--radius);
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: all 0.2s; font-family: inherit;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5); }
+  .btn-secondary { background: #f1f5f9; color: var(--text); }
+  .btn-secondary:hover { background: #e2e8f0; }
+  /* 统计卡 */
+  .stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px;
+  }
+  .stat-card {
+    background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
+    border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 18px 20px; box-shadow: var(--shadow); position: relative; overflow: hidden;
+    transition: all 0.2s;
+  }
+  .stat-card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  }
+  .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .stat-card .icon { font-size: 24px; margin-bottom: 6px; }
+  .stat-card .value { font-size: 28px; font-weight: 700; color: var(--text); line-height: 1; }
+  .stat-card .label { font-size: 12px; color: var(--text-lighter); margin-top: 4px; }
+  .stat-card.s1::before { background: linear-gradient(180deg, #6366f1, #8b5cf6); }
+  .stat-card.s2::before { background: linear-gradient(180deg, #10b981, #34d399); }
+  .stat-card.s3::before { background: linear-gradient(180deg, #f59e0b, #fbbf24); }
+  .stat-card.s4::before { background: linear-gradient(180deg, #ec4899, #f472b6); }
+  /* 岗位分组 */
+  .position-group { margin-bottom: 24px; }
+  .position-header {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+    padding: 0 4px;
+  }
+  .position-header .badge {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff; padding: 5px 14px; border-radius: 99px; font-size: 13px; font-weight: 600;
+  }
+  .position-header .count { color: var(--text-lighter); font-size: 13px; }
+  /* 人员卡片 */
+  .person-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+  }
+  .person-card {
+    background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg);
+    overflow: hidden; box-shadow: var(--shadow); transition: all 0.2s;
+  }
+  .person-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); border-color: var(--primary-light); }
+  .person-head {
+    display: flex; align-items: center; gap: 12px; padding: 16px 18px;
+    background: linear-gradient(135deg, rgba(238, 242, 255, 0.6) 0%, rgba(224, 231, 255, 0.3) 100%);
+    border-bottom: 1px solid var(--border);
+  }
+  .person-avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 16px;
+  }
+  .person-info { flex: 1; }
+  .person-info .name { font-size: 15px; font-weight: 700; color: var(--text); }
+  .person-info .pos { font-size: 12px; color: var(--text-lighter); margin-top: 2px; }
+  .person-body {
+    padding: 16px 18px; font-size: 13px; line-height: 1.7;
+    font-family: "SF Mono", Consolas, monospace; color: var(--text);
+    max-height: 280px; overflow-y: auto; white-space: pre-wrap;
+  }
+  .empty {
+    text-align: center; padding: 80px 20px; color: var(--text-lighter);
+    background: #fff; border-radius: var(--radius-lg); border: 1px dashed var(--border);
+  }
+  .empty .icon { font-size: 48px; margin-bottom: 12px; opacity: 0.5; }
+  .toast {
+    position: fixed; top: 24px; left: 50%; z-index: 1000;
+    background: var(--success); color: #fff; padding: 14px 24px; border-radius: 99px;
+    box-shadow: 0 10px 40px rgba(16, 185, 129, 0.4); font-size: 14px; font-weight: 500;
+    transform: translateX(-50%) translateY(-200%); transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s;
+    opacity: 0;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  .loading {
+    display: inline-block; width: 14px; height: 14px; border: 2px solid #fff; border-top-color: transparent;
+    border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 6px; vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  /* 响应式 */
+  @media (max-width: 767px) {
+    body { padding: 12px; }
+    .header { padding: 24px 18px; }
+    .header h1 { font-size: 20px; }
+    .header-link { position: static; display: inline-block; margin: 8px 4px 0; }
+    .body { padding: 16px; }
+    .toolbar { flex-direction: column; padding: 12px; }
+    .toolbar input, .toolbar select { width: 100%; }
+    .toolbar .btn { width: 100%; margin-left: 0; }
+    .stats { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .stat-card { padding: 14px; }
+    .stat-card .value { font-size: 22px; }
+    .person-grid { grid-template-columns: 1fr; }
+  }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+  }
+  @supports (padding: max(0px)) {
+    body { padding-top: max(24px, env(safe-area-inset-top)); padding-bottom: max(24px, env(safe-area-inset-bottom)); padding-left: max(20px, env(safe-area-inset-left)); padding-right: max(20px, env(safe-area-inset-right)); }
+  }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .container { box-shadow: none; }
+    .header-link, .toolbar { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <a href="./" class="header-link left">← 回到日报</a>
+    <a href="./talent.html" class="header-link right">🌟 人才库</a>
+    <h1>📊 中台部门日报汇总</h1>
+    <p>所有岗位日报一屏看完，按日期/岗位分组</p>
+  </div>
+
+  <div class="body">
+    <div class="toolbar">
+      <label>📅 日期：</label>
+      <input type="date" id="dateInput">
+      <button class="btn btn-secondary" onclick="setToday()">今天</button>
+      <button class="btn btn-secondary" onclick="setYesterday()">昨天</button>
+      <button class="btn btn-primary" onclick="loadReports()">🔄 刷新</button>
+    </div>
+
+    <div class="stats" id="stats">
+      <div class="stat-card s1"><div class="icon">📝</div><div class="value" id="statCount">0</div><div class="label">提交人数</div></div>
+      <div class="stat-card s2"><div class="icon">💼</div><div class="value" id="statPos">0</div><div class="label">覆盖岗位</div></div>
+      <div class="stat-card s3"><div class="icon">📅</div><div class="value" id="statDate">—</div><div class="label">查询日期</div></div>
+      <div class="stat-card s4"><div class="icon">🏢</div><div class="value" id="statDept">—</div><div class="label">部门</div></div>
+    </div>
+
+    <div id="content">
+      <div class="empty">
+        <div class="icon">📭</div>
+        <div>选择日期后点击「刷新」加载日报</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">操作成功</div>
+
+<script>
+const API_BASE = 'https://can-filling-commonly-supplement.trycloudflare.com';
+let toastTimer = null;
+function showToast(msg, isError, duration = 2500) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  if (toastTimer) { clearTimeout(toastTimer); toastTimer = null; }
+  t.classList.remove('show', 'hiding', 'error');
+  t.textContent = msg;
+  void t.offsetWidth;
+  t.className = 'toast' + (isError ? ' error' : '');
+  requestAnimationFrame(() => t.classList.add('show'));
+  toastTimer = setTimeout(() => {
+    t.classList.remove('show');
+    t.classList.add('hiding');
+    setTimeout(() => t.classList.remove('hiding', 'error'), 400);
+    toastTimer = null;
+  }, duration);
+}
+
+function today() {
+  return new Date().toISOString().split('T')[0];
+}
+function yesterday() {
+  const d = new Date(); d.setDate(d.getDate() - 1);
+  return d.toISOString().split('T')[0];
+}
+function setToday() { document.getElementById('dateInput').value = today(); loadReports(); }
+function setYesterday() { document.getElementById('dateInput').value = yesterday(); loadReports(); }
+
+function escape(s) {
+  return s ? String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]) : '';
+}
+
+function avatarChar(name) {
+  return name ? name.charAt(0) : '?';
+}
+
+async function loadReports() {
+  const date = document.getElementById('dateInput').value;
+  if (!date) { showToast('请选择日期', true); return; }
+  const content = document.getElementById('content');
+  content.innerHTML = '<div class="empty"><div class="icon"><span class="loading"></span></div><div>加载中...</div></div>';
+  try {
+    const resp = await fetch(API_BASE + '/api/reports?date=' + date);
+    const data = await resp.json();
+    if (!data.success) throw new Error(data.error || '加载失败');
+    renderReports(data.list, date);
+    updateStats(data.list, date);
+  } catch (e) {
+    content.innerHTML = `<div class="empty"><div class="icon">⚠️</div><div>加载失败：${escape(e.message)}</div></div>`;
+    showToast('加载失败：' + e.message, true);
+  }
+}
+
+function updateStats(list, date) {
+  document.getElementById('statCount').textContent = list.length;
+  const positions = new Set();
+  const depts = new Set();
+  list.forEach(r => {
+    if (r.position) positions.add(r.position);
+    if (r.department) depts.add(r.department);
+  });
+  document.getElementById('statPos').textContent = positions.size;
+  document.getElementById('statDate').textContent = date;
+  document.getElementById('statDept').textContent = depts.size === 1 ? (list[0]?.department || '—') : `${depts.size}个`;
+}
+
+function renderReports(list, date) {
+  const content = document.getElementById('content');
+  if (list.length === 0) {
+    content.innerHTML = `<div class="empty"><div class="icon">📭</div><div>${date} 当天没有日报</div><div style="margin-top:8px;font-size:12px">提示：只有通过 <a href="./" style="color:var(--primary)">日报页面</a> 提交的才会自动入库</div></div>`;
+    return;
+  }
+  // 按岗位分组
+  const byPos = {};
+  list.forEach(r => {
+    const p = r.position || '未填';
+    if (!byPos[p]) byPos[p] = [];
+    byPos[p].push(r);
+  });
+  let html = '';
+  for (const [pos, items] of Object.entries(byPos)) {
+    html += `<div class="position-group">`;
+    html += `<div class="position-header"><span class="badge">${escape(pos)}</span><span class="count">${items.length} 人</span></div>`;
+    html += `<div class="person-grid">`;
+    items.forEach(r => {
+      html += `<div class="person-card">
+        <div class="person-head">
+          <div class="person-avatar">${escape(avatarChar(r.name))}</div>
+          <div class="person-info">
+            <div class="name">${escape(r.name)}</div>
+            <div class="pos">${escape(r.position || '')} · ${escape(r.department || '')}</div>
+          </div>
+        </div>
+        <div class="person-body">${escape(r.body || '（无内容）')}</div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  }
+  content.innerHTML = html;
+}
+
+document.getElementById('dateInput').value = today();
+loadReports();
+</script>
+</body>
+</html>
