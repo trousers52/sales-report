@@ -119,6 +119,20 @@
   }
   .ratio-box .num { color: #667eea; font-size: 15px; }
   .ratio-box.empty { background: #f5f5f7; border-color: #e0e0e0; color: #999; font-weight: 400; }
+  /* 进度条 */
+  .progress-box {
+    background: linear-gradient(135deg, #fff5f0 0%, #ffece0 100%);
+    border: 1.5px solid #ffc499; border-radius: 10px; padding: 14px 16px; margin-top: 4px;
+  }
+  .progress-info { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #874d00; margin-bottom: 8px; }
+  .progress-info b { color: #d4380d; font-size: 16px; }
+  .progress-pct { font-weight: 700; color: #d4380d; font-size: 15px; }
+  .progress-bar { height: 14px; background: #ffe0c2; border-radius: 7px; overflow: hidden; position: relative; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #ff7a45 0%, #d4380d 100%); border-radius: 7px; transition: width 0.4s ease; }
+  .progress-fill.over { background: linear-gradient(90deg, #52c41a 0%, #389e0d 100%); }
+  .progress-meta { font-size: 12px; color: #999; margin-top: 6px; display: flex; justify-content: space-between; }
+  .progress-meta button { background: transparent; border: 1px solid #ffc499; color: #d4380d; padding: 3px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; }
+  .progress-meta button:hover { background: #fff; }
 </style>
 </head>
 <body>
@@ -142,7 +156,7 @@
       <div class="row">
         <div class="field">
           <label>姓名 <span class="required">*</span></label>
-          <input type="text" name="姓名" required placeholder="请输入姓名">
+          <input type="text" name="姓名" required placeholder="请输入姓名" oninput="onNameInput()">
         </div>
         <div class="field">
           <label>日期 <span class="required">*</span></label>
@@ -243,7 +257,7 @@
         <div class="group">
           <div class="group-title"><span class="icon">🎨</span>设计产出</div>
           <div class="row">
-            <div class="field"><label>设计物料数</label><input type="number" name="设计物料数" value="0" min="0"></div>
+            <div class="field"><label>设计物料数</label><input type="number" name="设计物料数" value="0" min="0" oninput="onMeigongChange()"></div>
             <div class="field"><label>设计图片数</label><input type="number" name="设计图片数" value="0" min="0"></div>
           </div>
           <div class="field">
@@ -265,6 +279,31 @@
           <div class="field">
             <label>今天的成长点 <span class="hint">可选</span></label>
             <textarea name="成长点" placeholder="今天学到了什么？突破了哪个卡点？..."></textarea>
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="group-title"><span class="icon">🎯</span>本月任务进度</div>
+          <div class="row">
+            <div class="field">
+              <label>本月目标 <span class="hint">默认 200</span></label>
+              <input type="number" name="本月目标" value="200" min="0" oninput="updateProgress()">
+            </div>
+            <div class="field">
+              <label>今日提交后预计累计</label>
+              <input type="text" id="previewAccum" value="0" disabled style="background:#f5f5f7;">
+            </div>
+          </div>
+          <div class="progress-box" id="progressBox">
+            <div class="progress-info">
+              <span>本月累计：<b id="progCurrent">0</b> / <b id="progTarget">200</b></span>
+              <span class="progress-pct" id="progPct">0%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
+            <div class="progress-meta">
+              <span id="progHint">填写姓名后自动加载本月累计</span>
+              <button type="button" onclick="resetProgress()">重置本月</button>
+            </div>
           </div>
         </div>
       </div>
@@ -411,6 +450,7 @@ function onPositionChange() {
   });
   if (pos === '业务中台') calcRatio();
   if (pos === '投流手') calcROI();
+  if (pos === '美工') updateProgress();
 }
 
 function calcRatio() {
@@ -441,6 +481,73 @@ function calcROI() {
     box.className = 'ratio-box empty';
     box.textContent = '💰 消耗 ROI：填写「消耗」和「今日 GMV」后自动计算';
   }
+}
+
+// ============ 美工月度进度 ============
+const PROGRESS_PREFIX = 'meigong_progress_';
+function progressKey(name) {
+  const d = new Date();
+  const ym = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+  return PROGRESS_PREFIX + ym + '_' + (name || 'unknown');
+}
+function getProgress(name) {
+  try {
+    const d = JSON.parse(localStorage.getItem(progressKey(name)) || '{}');
+    return { current: d.current || 0, target: d.target || 200, lastDate: d.lastDate || '' };
+  } catch(e) { return { current: 0, target: 200, lastDate: '' }; }
+}
+function setProgress(name, current, target) {
+  const today = new Date().toISOString().split('T')[0];
+  localStorage.setItem(progressKey(name), JSON.stringify({ current, target, lastDate: today }));
+}
+function onNameInput() { updateProgress(); }
+// 页面加载时初始化进度显示
+updateProgress();
+
+function onMeigongChange() { updateProgress(); }
+function updateProgress() {
+  const name = document.querySelector('[name="姓名"]')?.value || '';
+  const targetEl = document.querySelector('[name="本月目标"]');
+  if (!targetEl) return;
+  const target = parseInt(targetEl.value) || 200;
+  const todayCount = parseInt(document.querySelector('[name="设计物料数"]')?.value) || 0;
+  const stored = getProgress(name);
+  const after = stored.current + todayCount;
+  const pct = target > 0 ? Math.min(100, after / target * 100) : 0;
+  const pctReal = target > 0 ? (after / target * 100) : 0;
+  document.getElementById('progCurrent').textContent = stored.current;
+  document.getElementById('progTarget').textContent = target;
+  document.getElementById('progPct').textContent = pctReal.toFixed(1) + '%';
+  const fill = document.getElementById('progFill');
+  fill.style.width = pct + '%';
+  fill.classList.toggle('over', after >= target);
+  document.getElementById('previewAccum').value = after + (name ? '' : '（请先填姓名）');
+  const hint = document.getElementById('progHint');
+  if (!name) hint.textContent = '填写姓名后自动加载本月累计';
+  else if (stored.lastDate === new Date().toISOString().split('T')[0]) hint.textContent = '今天已提交过，明日再累加';
+  else hint.textContent = '点发送后自动叠加今日物料数';
+}
+function commitProgress(d) {
+  const name = (d && d.姓名) || document.querySelector('[name="姓名"]')?.value;
+  if (!name) return null;
+  const target = parseInt(d?.本月目标) || parseInt(document.querySelector('[name="本月目标"]')?.value) || 200;
+  const todayCount = parseInt(d?.设计物料数) || parseInt(document.querySelector('[name="设计物料数"]')?.value) || 0;
+  const stored = getProgress(name);
+  if (stored.lastDate === new Date().toISOString().split('T')[0]) {
+    return { skipped: true, current: stored.current, target };
+  }
+  const newCurrent = stored.current + todayCount;
+  setProgress(name, newCurrent, target);
+  return { skipped: false, current: newCurrent, target };
+}
+function resetProgress() {
+  const name = document.querySelector('[name="姓名"]')?.value;
+  if (!name) { showToast('请先填写姓名', true); return; }
+  if (!confirm('确认重置 ' + name + ' 本月累计为 0？')) return;
+  const target = parseInt(document.querySelector('[name="本月目标"]')?.value) || 200;
+  setProgress(name, 0, target);
+  updateProgress();
+  showToast('已重置本月累计为 0');
 }
 
 function getFormData() {
@@ -533,6 +640,11 @@ ${d.今日工作复盘 || '（无）'}
 }
 
 function formatMeigong(d) {
+  // 从 localStorage 读月度进度
+  const target = parseInt(d.本月目标) || 200;
+  const stored = getProgress(d.姓名);
+  const after = stored.current + (parseInt(d.设计物料数) || 0);
+  const pct = target > 0 ? (after / target * 100).toFixed(1) : '0';
   return `═══════════════════════════
   中台部门日报
 ═══════════════════════════
@@ -558,6 +670,13 @@ ${d.对销售说 || '（无）'}
 🌱 今天的成长点
 ───────────────────────────
 ${d.成长点 || '（无）'}
+
+───────────────────────────
+🎯 本月任务进度
+───────────────────────────
+• 本月目标：${target} 个
+• 今日提交后累计：${after} 个
+• 完成度：${pct}%
 
 ═══════════════════════════
 提交人：${d.姓名 || ''} · ${d.日期 || ''}
@@ -750,7 +869,15 @@ async function sendAuto() {
       body: formData
     });
     if (resp.ok) {
-      showToast('✅ 发送成功！请到邮箱确认');
+      // 美工岗位提交后自动叠加月度进度
+      if (d.岗位 === '美工') {
+        const r = commitProgress(d);
+        if (r && r.skipped) showToast('✅ 发送成功！今天已提交过，进度未叠加');
+        else if (r) showToast(`✅ 发送成功！本月累计 ${r.current}/${r.target}`);
+        else showToast('✅ 发送成功！请到邮箱确认');
+      } else {
+        showToast('✅ 发送成功！请到邮箱确认');
+      }
       setTimeout(() => {
         restoreNames();
         document.getElementById('reportForm').reset();
