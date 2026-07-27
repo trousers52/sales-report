@@ -1684,6 +1684,46 @@
   .splash.fade-out { opacity: 0; pointer-events: none; }
   @keyframes splashFadeIn { from { opacity: 0; } to { opacity: 1; } }
   .splash-content { text-align: center; color: #fff; padding: 40px 24px; }
+  /* Live clock at top of splash */
+  .splash-clock {
+    position: absolute;
+    top: 50px; left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    font-family: 'Courier New', Consolas, monospace;
+    font-size: 16px; font-weight: 700;
+    color: #f5d76e;
+    letter-spacing: 2px;
+    padding: 8px 22px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(212, 175, 55, 0.45);
+    border-radius: 24px;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    z-index: 5;
+  }
+  .splash-clock .clock-date {
+    color: #ffd700;
+    text-shadow: 0 0 6px rgba(255, 200, 50, 0.6);
+  }
+  .splash-clock .clock-time {
+    color: #fff8dc;
+    text-shadow: 0 0 6px rgba(255, 200, 50, 0.6);
+  }
+  .splash-clock .clock-secs {
+    color: #ff6b6b;
+    text-shadow: 0 0 8px rgba(255, 80, 80, 0.9);
+    display: inline-block;
+    min-width: 1.4em;
+    text-align: center;
+    animation: secPulse 1s ease-in-out infinite;
+  }
+  @keyframes secPulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.15); }
+  }
   .splash-icon {
     font-size: 72px;
     margin-bottom: 18px;
@@ -1800,6 +1840,10 @@
   <div class="splash" id="splash">
     <div class="splash-corner">芯动未来</div>
     <div class="splash-corner right">仅供内部传阅</div>
+    <div class="splash-clock" id="splashClock">
+      <span class="clock-date" id="clockDate">2026/7/27</span>
+      <span class="clock-time" id="clockTime">20:46:30</span>
+    </div>
     <div class="splash-content">
       <div class="splash-icon">🏆</div>
       <div class="splash-brand">
@@ -2652,6 +2696,25 @@
 
     setInterval(poll, POLL_MS);
     setTimeout(poll, 5000); // first poll after 5s
+  })();
+
+  // Live splash clock (top of splash)
+  (function setupClock() {
+    const dateEl = document.getElementById('clockDate');
+    const timeEl = document.getElementById('clockTime');
+    if (!dateEl || !timeEl) return;
+    const pad = n => String(n).padStart(2, '0');
+    function tick() {
+      const d = new Date();
+      dateEl.textContent = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`;
+      const h = pad(d.getHours());
+      const m = pad(d.getMinutes());
+      const s = pad(d.getSeconds());
+      // Wrap seconds in span so the secPulse animation can target it
+      timeEl.innerHTML = `${h}:${m}:<span class="clock-secs">${s}</span>`;
+    }
+    tick();
+    setInterval(tick, 1000);
   })();
 
   // Background music control
