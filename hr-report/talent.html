@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>人才库 · 中台部门</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh; padding: 20px; color: #333;
+  }
+  .container { max-width: 1200px; margin: 0 auto; background: #fff; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); overflow: hidden; }
+  .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; padding: 32px 28px; text-align: center; position: relative; }
+  .header h1 { font-size: 24px; margin-bottom: 6px; }
+  .header p { opacity: 0.9; font-size: 14px; }
+  .header a { position: absolute; top: 20px; left: 24px; color: #fff; text-decoration: none; font-size: 13px; opacity: 0.9; padding: 6px 12px; border: 1px solid rgba(255,255,255,0.4); border-radius: 6px; }
+  .header a:hover { background: rgba(255,255,255,0.15); }
+  .body { padding: 24px 28px; }
+  .toolbar { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+  .toolbar input, .toolbar select {
+    padding: 8px 12px; border: 1.5px solid #e0e0e0; border-radius: 8px; font-size: 14px; font-family: inherit;
+  }
+  .toolbar input { flex: 1; min-width: 200px; }
+  .btn { padding: 9px 18px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(102,126,234,0.4); }
+  .btn-secondary { background: #f5f5f7; color: #333; }
+  .btn-secondary:hover { background: #e8e8eb; }
+  .btn-danger { background: #ff4d4f; color: #fff; padding: 5px 10px; font-size: 12px; }
+  .btn-edit { background: #1890ff; color: #fff; padding: 5px 10px; font-size: 12px; }
+  .add-form {
+    background: #fafbff; border: 1.5px solid #e8eaf6; border-radius: 10px; padding: 18px 20px;
+    margin-bottom: 20px; display: none;
+  }
+  .add-form.show { display: block; }
+  .form-title { font-size: 16px; font-weight: 700; color: #667eea; margin-bottom: 14px; }
+  .form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 12px; }
+  .form-grid .full { grid-column: 1 / -1; }
+  .form-grid label { display: block; font-size: 12px; color: #666; margin-bottom: 4px; }
+  .form-grid input, .form-grid select, .form-grid textarea {
+    width: 100%; padding: 8px 12px; border: 1.5px solid #e0e0e0; border-radius: 6px; font-size: 14px; font-family: inherit;
+  }
+  .form-grid input:focus, .form-grid select:focus, .form-grid textarea:focus { outline: none; border-color: #667eea; }
+  .form-grid textarea { min-height: 60px; resize: vertical; }
+  .form-actions { display: flex; gap: 8px; justify-content: flex-end; }
+  /* 表格 */
+  .table-wrap { background: #fff; border-radius: 10px; overflow: hidden; border: 1px solid #e8e8eb; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: #f5f7fa; padding: 12px; text-align: left; font-size: 13px; color: #555; font-weight: 600; border-bottom: 1px solid #e8e8eb; }
+  td { padding: 12px; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+  tr:hover { background: #fafbff; }
+  .rating { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+  .rating.A { background: #f6ffed; color: #389e0d; }
+  .rating.B { background: #e6f7ff; color: #1890ff; }
+  .rating.C { background: #fff7e6; color: #d48806; }
+  .rating.D { background: #fff1f0; color: #cf1322; }
+  .status { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
+  .status.在库 { background: #e6f7ff; color: #1890ff; }
+  .status.已联系 { background: #fff7e6; color: #d48806; }
+  .status.已入职 { background: #f6ffed; color: #389e0d; }
+  .status.已淘汰 { background: #f5f5f7; color: #999; }
+  .empty { text-align: center; padding: 60px 20px; color: #999; }
+  .count-badge { background: #667eea; color: #fff; padding: 2px 10px; border-radius: 10px; font-size: 12px; margin-left: 8px; }
+  .toast {
+    position: fixed; top: 24px; right: 24px; background: #2ecc71; color: #fff;
+    padding: 12px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform: translateX(400px); transition: transform 0.3s; z-index: 1000;
+  }
+  .toast.show { transform: translateX(0); }
+  .toast.error { background: #e74c3c; }
+  @media (max-width: 768px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .table-wrap { overflow-x: auto; }
+    table { min-width: 800px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <a href="./">← 回到日报</a>
+    <h1>🌟 人才库</h1>
+    <p>把优秀人才存到这里，长期跟踪，永久可查</p>
+  </div>
+
+  <div class="body">
+    <div class="toolbar">
+      <input type="text" id="searchInput" placeholder="搜索：姓名 / 电话 / 微信 / 邮箱 / 备注">
+      <select id="statusFilter">
+        <option value="">全部状态</option>
+        <option value="在库">在库</option>
+        <option value="已联系">已联系</option>
+        <option value="已入职">已入职</option>
+        <option value="已淘汰">已淘汰</option>
+      </select>
+      <select id="positionFilter">
+        <option value="">全部岗位</option>
+        <option value="销售">销售</option>
+        <option value="主播">主播</option>
+        <option value="短视频">短视频</option>
+        <option value="投流手">投流手</option>
+        <option value="美工">美工</option>
+        <option value="其他">其他</option>
+      </select>
+      <button class="btn btn-primary" onclick="toggleForm()">➕ 添加人才</button>
+    </div>
+
+    <div style="margin-bottom: 12px; color: #666; font-size: 13px;">
+      共 <span class="count-badge" id="totalCount">0</span> 位人才
+    </div>
+
+    <div class="add-form" id="addForm">
+      <div class="form-title" id="formTitle">添加人才</div>
+      <div class="form-grid">
+        <div><label>姓名 *</label><input type="text" id="fName" required></div>
+        <div><label>电话</label><input type="text" id="fPhone" placeholder="11位手机号"></div>
+        <div><label>微信</label><input type="text" id="fWechat"></div>
+        <div><label>邮箱</label><input type="email" id="fEmail"></div>
+        <div>
+          <label>目标岗位</label>
+          <select id="fPosition">
+            <option value="">-- 选岗位 --</option>
+            <option value="销售">销售</option>
+            <option value="主播">主播</option>
+            <option value="短视频">短视频</option>
+            <option value="投流手">投流手</option>
+            <option value="美工">美工</option>
+            <option value="数据中台">数据中台</option>
+            <option value="人事">人事</option>
+            <option value="其他">其他</option>
+          </select>
+        </div>
+        <div>
+          <label>来源渠道</label>
+          <select id="fSource">
+            <option value="">-- 选来源 --</option>
+            <option value="BOSS直聘">BOSS直聘</option>
+            <option value="智联招聘">智联招聘</option>
+            <option value="前程无忧">前程无忧</option>
+            <option value="脉脉">脉脉</option>
+            <option value="猎聘">猎聘</option>
+            <option value="官网投递">官网投递</option>
+            <option value="内推">内推</option>
+            <option value="其他">其他</option>
+          </select>
+        </div>
+        <div>
+          <label>评级</label>
+          <select id="fRating">
+            <option value="A">A - 优秀</option>
+            <option value="B" selected>B - 良好</option>
+            <option value="C">C - 一般</option>
+            <option value="D">D - 不合适</option>
+          </select>
+        </div>
+        <div>
+          <label>状态</label>
+          <select id="fStatus">
+            <option value="在库" selected>在库</option>
+            <option value="已联系">已联系</option>
+            <option value="已入职">已入职</option>
+            <option value="已淘汰">已淘汰</option>
+          </select>
+        </div>
+        <div><label>录入人</label><input type="text" id="fCreatedBy" placeholder="你的姓名"></div>
+        <div class="full">
+          <label>备注 / 沟通记录</label>
+          <textarea id="fNotes" placeholder="能力特长、沟通要点、跟进计划等..."></textarea>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-secondary" onclick="resetForm()">取消</button>
+        <button class="btn btn-primary" onclick="saveTalent()">保存</button>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>姓名</th>
+            <th>电话</th>
+            <th>岗位</th>
+            <th>来源</th>
+            <th>评级</th>
+            <th>状态</th>
+            <th>更新时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="talentList">
+          <tr><td colspan="8" class="empty">加载中...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">操作成功</div>
+
+<script>
+const API_BASE = 'https://45.144.137.80:8443';
+let editingId = null;
+let allItems = [];
+
+function showToast(msg, isError) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (isError ? ' error' : '');
+  setTimeout(() => t.className = 'toast', 2500);
+}
+
+async function loadList() {
+  const kw = document.getElementById('searchInput').value;
+  const status = document.getElementById('statusFilter').value;
+  const position = document.getElementById('positionFilter').value;
+  const params = new URLSearchParams();
+  if (kw) params.set('keyword', kw);
+  if (status) params.set('status', status);
+  if (position) params.set('position', position);
+  try {
+    const resp = await fetch(API_BASE + '/api/talent?' + params.toString());
+    const data = await resp.json();
+    if (data.success) {
+      allItems = data.list;
+      renderList();
+    }
+  } catch (e) {
+    showToast('加载失败：' + e.message, true);
+  }
+}
+
+function renderList() {
+  const tbody = document.getElementById('talentList');
+  document.getElementById('totalCount').textContent = allItems.length;
+  if (allItems.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8" class="empty">暂无数据，点上方「添加人才」开始录入</td></tr>';
+    return;
+  }
+  tbody.innerHTML = allItems.map(t => `
+    <tr>
+      <td><b>${escape(t.name)}</b>${t.wechat ? '<br><span style="color:#999;font-size:12px">wx: ' + escape(t.wechat) + '</span>' : ''}</td>
+      <td>${t.phone ? '<a href="tel:' + escape(t.phone) + '">' + escape(t.phone) + '</a>' : '—'}</td>
+      <td>${escape(t.position) || '—'}</td>
+      <td>${escape(t.source) || '—'}</td>
+      <td><span class="rating ${t.rating}">${t.rating || 'B'}</span></td>
+      <td><span class="status ${t.status}">${t.status || '在库'}</span></td>
+      <td style="color:#999;font-size:12px">${formatTime(t.updated_at)}</td>
+      <td>
+        <button class="btn btn-edit" onclick="editTalent(${t.id})">编辑</button>
+        <button class="btn btn-danger" onclick="deleteTalent(${t.id})">删除</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function escape(s) { return s ? String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]) : ''; }
+function formatTime(t) { if (!t) return '—'; const d = new Date(t); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
+function toggleForm() {
+  document.getElementById('addForm').classList.toggle('show');
+  if (!document.getElementById('addForm').classList.contains('show')) {
+    resetForm();
+  }
+}
+
+function resetForm() {
+  editingId = null;
+  document.getElementById('formTitle').textContent = '添加人才';
+  ['fName','fPhone','fWechat','fEmail','fNotes','fCreatedBy'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('fPosition').value = '';
+  document.getElementById('fSource').value = '';
+  document.getElementById('fRating').value = 'B';
+  document.getElementById('fStatus').value = '在库';
+}
+
+function editTalent(id) {
+  const t = allItems.find(x => x.id === id);
+  if (!t) return;
+  editingId = id;
+  document.getElementById('formTitle').textContent = '编辑人才';
+  document.getElementById('fName').value = t.name || '';
+  document.getElementById('fPhone').value = t.phone || '';
+  document.getElementById('fWechat').value = t.wechat || '';
+  document.getElementById('fEmail').value = t.email || '';
+  document.getElementById('fPosition').value = t.position || '';
+  document.getElementById('fSource').value = t.source || '';
+  document.getElementById('fRating').value = t.rating || 'B';
+  document.getElementById('fStatus').value = t.status || '在库';
+  document.getElementById('fNotes').value = t.notes || '';
+  document.getElementById('fCreatedBy').value = t.created_by || '';
+  document.getElementById('addForm').classList.add('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+async function saveTalent() {
+  const name = document.getElementById('fName').value.trim();
+  if (!name) { showToast('请填写姓名', true); return; }
+  const data = {
+    name,
+    phone: document.getElementById('fPhone').value.trim(),
+    wechat: document.getElementById('fWechat').value.trim(),
+    email: document.getElementById('fEmail').value.trim(),
+    position: document.getElementById('fPosition').value,
+    source: document.getElementById('fSource').value,
+    rating: document.getElementById('fRating').value,
+    status: document.getElementById('fStatus').value,
+    notes: document.getElementById('fNotes').value,
+    created_by: document.getElementById('fCreatedBy').value.trim(),
+  };
+  try {
+    const url = editingId ? (API_BASE + '/api/talent/' + editingId) : (API_BASE + '/api/talent');
+    const resp = await fetch(url, {
+      method: editingId ? 'PUT' : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    const result = await resp.json();
+    if (result.success) {
+      showToast(editingId ? '✅ 已更新' : '✅ 已添加');
+      resetForm();
+      document.getElementById('addForm').classList.remove('show');
+      loadList();
+    } else {
+      throw new Error(result.error || '保存失败');
+    }
+  } catch (e) {
+    showToast('保存失败：' + e.message, true);
+  }
+}
+
+async function deleteTalent(id) {
+  if (!confirm('确认删除这位人才？此操作不可恢复')) return;
+  try {
+    const resp = await fetch(API_BASE + '/api/talent/' + id, { method: 'DELETE' });
+    const data = await resp.json();
+    if (data.success) {
+      showToast('✅ 已删除');
+      loadList();
+    }
+  } catch (e) {
+    showToast('删除失败：' + e.message, true);
+  }
+}
+
+// 事件绑定
+document.getElementById('searchInput').addEventListener('input', debounce(loadList, 400));
+document.getElementById('statusFilter').addEventListener('change', loadList);
+document.getElementById('positionFilter').addEventListener('change', loadList);
+function debounce(fn, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
+
+// 初始加载
+loadList();
+</script>
+</body>
+</html>
