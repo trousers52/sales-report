@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>人事日报 · 填写模板</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+  }
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    overflow: hidden;
+  }
+  .header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    padding: 32px 28px;
+    text-align: center;
+  }
+  .header h1 { font-size: 24px; margin-bottom: 6px; }
+  .header p { opacity: 0.9; font-size: 14px; }
+  .form-body { padding: 28px; }
+  .field { margin-bottom: 20px; }
+  .field label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 8px;
+  }
+  .field label .required { color: #e74c3c; }
+  .field input,
+  .field textarea,
+  .field select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.2s;
+    background: #fff;
+  }
+  .field input:focus,
+  .field textarea:focus,
+  .field select:focus {
+    outline: none;
+    border-color: #667eea;
+  }
+  .field textarea { resize: vertical; min-height: 80px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    flex: 1;
+    min-width: 140px;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(102,126,234,0.4); }
+  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .btn-secondary {
+    background: #f5f5f7;
+    color: #333;
+  }
+  .btn-secondary:hover { background: #e8e8eb; }
+  .preview {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+    white-space: pre-wrap;
+    font-family: "SF Mono", Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #444;
+    display: none;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  .preview.show { display: block; }
+  .toast {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    background: #2ecc71;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform: translateX(400px);
+    transition: transform 0.3s;
+    z-index: 1000;
+  }
+  .toast.show { transform: translateX(0); }
+  .toast.error { background: #e74c3c; }
+  .footer {
+    text-align: center;
+    padding: 16px;
+    font-size: 12px;
+    color: #999;
+    background: #fafafa;
+  }
+  .footer strong { color: #667eea; }
+  .info-banner {
+    background: #fff7e6;
+    border: 1px solid #ffd591;
+    color: #874d00;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .info-banner b { color: #d4380d; }
+  .loading {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid #fff;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>📋 人事日报</h1>
+    <p>填写完成后点「一键发送」自动到达邮箱</p>
+  </div>
+
+  <div class="form-body">
+    <div class="info-banner">
+      💡 <b>首次使用提示</b>：第一次点发送时，FormSubmit 会发一封激活邮件到 <b>zhongtaibu@flipped-hz.com.cn</b>，那边点一下确认链接，之后就全自动了。
+    </div>
+
+    <form id="reportForm" action="https://formsubmit.co/ajax/zhongtaibu@flipped-hz.com.cn" method="POST">
+      <!-- FormSubmit 配置 -->
+      <input type="hidden" name="_subject" id="emailSubject" value="人事日报">
+      <input type="hidden" name="_template" value="box">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="邮件正文" id="emailBody" value="">
+
+      <div class="row">
+        <div class="field">
+          <label>姓名 <span class="required">*</span></label>
+          <input type="text" name="姓名" required placeholder="请输入姓名">
+        </div>
+        <div class="field">
+          <label>日期 <span class="required">*</span></label>
+          <input type="date" name="日期" required>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>岗位</label>
+          <input type="text" name="岗位" placeholder="如：HRBP / 招聘专员 / 薪酬绩效">
+        </div>
+        <div class="field">
+          <label>所属部门</label>
+          <input type="text" name="部门" value="人力资源部">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>今日完成工作 <span class="required">*</span></label>
+        <textarea name="今日完成" required placeholder="逐条列出今天完成的工作事项..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>进行中工作</label>
+        <textarea name="进行中" placeholder="正在推进、还没完成的事项及当前进度..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>遇到的问题 / 需要支持</label>
+        <textarea name="需支持问题" placeholder="需要领导或其他部门协助解决的问题..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>明日工作计划</label>
+        <textarea name="明日计划" placeholder="明天准备推进的工作..."></textarea>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>面试人数</label>
+          <input type="number" name="面试人数" value="0" min="0">
+        </div>
+        <div class="field">
+          <label>入职人数</label>
+          <input type="number" name="入职人数" value="0" min="0">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>离职人数</label>
+          <input type="number" name="离职人数" value="0" min="0">
+        </div>
+        <div class="field">
+          <label>其他数据补充</label>
+          <input type="text" name="其他数据" placeholder="如：招聘到岗 X 人, 培训 Y 场...">
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn btn-primary" id="sendBtn" onclick="sendAuto()">📧 一键发送</button>
+        <button type="button" class="btn btn-secondary" onclick="sendMailto()">✉️ 唤起邮件客户端</button>
+        <button type="button" class="btn btn-secondary" onclick="previewReport()">👁 预览</button>
+        <button type="button" class="btn btn-secondary" onclick="copyReport()">📋 复制</button>
+      </div>
+    </form>
+
+    <div class="preview" id="preview"></div>
+  </div>
+
+  <div class="footer">
+    收件人：<strong>zhongtaibu@flipped-hz.com.cn</strong>
+  </div>
+</div>
+
+<div class="toast" id="toast">操作成功</div>
+
+<script>
+const TO_EMAIL = 'zhongtaibu@flipped-hz.com.cn';
+
+// 默认日期为今天
+document.querySelector('input[name="日期"]').valueAsDate = new Date();
+
+function getFormData() {
+  const form = document.getElementById('reportForm');
+  const fd = new FormData(form);
+  return Object.fromEntries(fd.entries());
+}
+
+function formatReport(d) {
+  const num = v => v ? `${v}` : '0';
+  return `═══════════════════════════
+  人 事 日 报
+═══════════════════════════
+
+👤 姓名：${d.姓名 || '未填写'}
+📅 日期：${d.日期 || '未填写'}
+💼 岗位：${d.岗位 || '—'}
+🏢 部门：${d.部门 || '—'}
+
+───────────────────────────
+✅ 今日完成工作
+───────────────────────────
+${d.今日完成 || '（无）'}
+
+───────────────────────────
+🔄 进行中工作
+───────────────────────────
+${d.进行中 || '（无）'}
+
+───────────────────────────
+⚠️ 遇到的问题 / 需要支持
+───────────────────────────
+${d.需支持问题 || '（无）'}
+
+───────────────────────────
+📌 明日工作计划
+───────────────────────────
+${d.明日计划 || '（无）'}
+
+───────────────────────────
+📊 关键数据
+───────────────────────────
+• 面试人数：${num(d.面试人数)} 人
+• 入职人数：${num(d.入职人数)} 人
+• 离职人数：${num(d.离职人数)} 人
+${d.其他数据 ? '• 其他补充：' + d.其他数据 : ''}
+
+═══════════════════════════
+提交人：${d.姓名 || ''} · ${d.日期 || ''}
+═══════════════════════════`;
+}
+
+function buildSubject(d) {
+  return `【人事日报】${d.日期} ${d.姓名 || ''}`.trim();
+}
+
+function showToast(msg, isError) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (isError ? ' error' : '');
+  setTimeout(() => t.className = 'toast', 3000);
+}
+
+function previewReport() {
+  const d = getFormData();
+  if (!d.姓名 || !d.日期 || !d.今日完成) {
+    showToast('请先填写姓名、日期、今日完成工作', true);
+    return;
+  }
+  const el = document.getElementById('preview');
+  el.textContent = formatReport(d);
+  el.classList.add('show');
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+async function copyReport() {
+  const d = getFormData();
+  if (!d.姓名 || !d.日期 || !d.今日完成) {
+    showToast('请先填写姓名、日期、今日完成工作', true);
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(formatReport(d));
+    showToast('已复制到剪贴板 ✅');
+  } catch (e) {
+    const ta = document.createElement('textarea');
+    ta.value = formatReport(d);
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('已复制到剪贴板 ✅');
+  }
+}
+
+function sendMailto() {
+  const d = getFormData();
+  if (!d.姓名 || !d.日期 || !d.今日完成) {
+    showToast('请先填写姓名、日期、今日完成工作', true);
+    return;
+  }
+  const subject = encodeURIComponent(buildSubject(d));
+  const body = encodeURIComponent(formatReport(d));
+  window.location.href = `mailto:${TO_EMAIL}?subject=${subject}&body=${body}`;
+  showToast('已唤起邮件客户端 ✉️');
+}
+
+// 一键发送：先用 FormSubmit AJAX 发送，失败则降级到 mailto
+async function sendAuto() {
+  const d = getFormData();
+  if (!d.姓名 || !d.日期 || !d.今日完成) {
+    showToast('请先填写姓名、日期、今日完成工作', true);
+    return;
+  }
+
+  const btn = document.getElementById('sendBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading"></span>发送中...';
+
+  // 把格式化好的内容塞到隐藏字段
+  document.getElementById('emailBody').value = formatReport(d);
+  document.getElementById('emailSubject').value = buildSubject(d);
+
+  try {
+    const formData = new FormData(document.getElementById('reportForm'));
+    const resp = await fetch('https://formsubmit.co/ajax/zhongtaibu@flipped-hz.com.cn', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: formData
+    });
+    if (resp.ok) {
+      showToast('✅ 发送成功！请到邮箱确认');
+      // 3秒后清空表单
+      setTimeout(() => {
+        document.getElementById('reportForm').reset();
+        document.querySelector('input[name="日期"]').valueAsDate = new Date();
+        document.getElementById('preview').classList.remove('show');
+      }, 3000);
+    } else {
+      throw new Error('HTTP ' + resp.status);
+    }
+  } catch (e) {
+    console.error('FormSubmit 失败:', e);
+    showToast('自动发送失败，自动唤起邮件客户端...', true);
+    setTimeout(() => sendMailto(), 1500);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '📧 一键发送';
+  }
+}
+</script>
+</body>
+</html>
