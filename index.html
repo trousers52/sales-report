@@ -1724,10 +1724,11 @@
   }
   .splash-brand .heart {
     position: absolute;
-    /* Position heart below 艹字 (first char) */
-    left: 0.55em;
-    top: 0.85em;
-    font-size: 30px;
+    /* Centered horizontally below 艹 */
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%) translateY(0);
+    font-size: 32px;
     line-height: 1;
     pointer-events: none;
     z-index: 10;
@@ -1822,7 +1823,7 @@
     <div class="splash-content">
       <div class="splash-icon">🏆</div>
       <div class="splash-brand">
-        <span class="brand-char char-xin" style="--i:0">艹</span><span class="brand-char" style="--i:1">动</span><span class="brand-char" style="--i:2">未</span><span class="brand-char" style="--i:3">来</span><span class="heart">💗</span>
+        <span class="brand-char char-xin" style="--i:0">艹<span class="heart">💗</span></span><span class="brand-char" style="--i:1">动</span><span class="brand-char" style="--i:2">未</span><span class="brand-char" style="--i:3">来</span>
       </div>
       <div class="splash-title">7月夏战</div>
       <div class="splash-subtitle">SALES BATTLE REPORT</div>
