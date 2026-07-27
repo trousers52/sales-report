@@ -152,6 +152,38 @@
     background: linear-gradient(135deg, #fff1f0 0%, #ffccc7 100%);
     border-color: #ff7875; color: #cf1322;
   }
+  /* 截图列表 */
+  .screenshot-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .screenshot-item {
+    position: relative; width: 80px; height: 80px; border-radius: 6px; overflow: hidden;
+    border: 1.5px solid #e0e0e0; background: #f5f5f7;
+  }
+  .screenshot-item img { width: 100%; height: 100%; object-fit: cover; }
+  .screenshot-item .del {
+    position: absolute; top: 2px; right: 2px; background: rgba(0,0,0,0.6); color: #fff;
+    width: 20px; height: 20px; border-radius: 50%; border: none; cursor: pointer; font-size: 12px; line-height: 1;
+  }
+  .screenshot-item .status { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.6); color: #fff; font-size: 10px; padding: 2px; text-align: center; }
+  /* OCR 状态 & 结果 */
+  .ocr-status { font-size: 13px; color: #999; margin-top: 8px; min-height: 20px; }
+  .ocr-status.loading { color: #1890ff; }
+  .ocr-status.success { color: #52c41a; }
+  .ocr-status.error { color: #cf1322; }
+  .ocr-result {
+    margin-top: 10px; padding: 12px 14px; background: linear-gradient(135deg, #f0f5ff 0%, #e6f7ff 100%);
+    border: 1.5px solid #91d5ff; border-radius: 8px;
+  }
+  .ocr-title { font-weight: 700; color: #1890ff; margin-bottom: 8px; }
+  .ocr-rows { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+  .ocr-row {
+    display: flex; justify-content: space-between; align-items: center; font-size: 13px;
+    background: #fff; padding: 6px 10px; border-radius: 4px;
+  }
+  .ocr-row .label { color: #555; }
+  .ocr-row .value { color: #1890ff; font-weight: 700; font-size: 15px; }
+  .ocr-row .value.unconfident { color: #fa8c16; }
+  .ocr-row .value.zero { color: #999; }
+  .ocr-confirm { width: 100%; margin-top: 4px; }
 </style>
 </head>
 <body>
@@ -380,15 +412,30 @@
           <div class="group-title"><span class="icon">📥</span>今日招聘漏斗</div>
           <div class="row">
             <div class="field"><label>收到简历</label><input type="number" name="收到简历" value="0" min="0"></div>
-            <div class="field"><label>邀约</label><input type="number" name="邀约" value="0" min="0"></div>
+            <div class="field"><label>打招呼数量</label><input type="number" name="打招呼数量" value="0" min="0"></div>
           </div>
           <div class="row">
+            <div class="field"><label>邀约</label><input type="number" name="邀约" value="0" min="0"></div>
             <div class="field"><label>初面</label><input type="number" name="初面" value="0" min="0"></div>
-            <div class="field"><label>试岗</label><input type="number" name="试岗" value="0" min="0"></div>
           </div>
+          <div class="row">
+            <div class="field"><label>试岗</label><input type="number" name="试岗" value="0" min="0"></div>
+            <div class="field"><label>入库（人才库）</label><input type="number" name="入库" value="0" min="0"></div>
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="group-title"><span class="icon">📷</span>招聘平台截图 & AI 识别</div>
           <div class="field">
-            <label>入库（人才库）</label>
-            <input type="number" name="入库" value="0" min="0">
+            <label>上传截图 <span class="hint">支持多张，从招聘平台（BOSS/脉脉/智联等）截图</span></label>
+            <input type="file" id="screenshotInput" multiple accept="image/*">
+          </div>
+          <div class="screenshot-list" id="screenshotList"></div>
+          <div class="ocr-status" id="ocrStatus"></div>
+          <div class="ocr-result" id="ocrResult" style="display:none;">
+            <div class="ocr-title">🎯 AI 识别结果</div>
+            <div class="ocr-rows" id="ocrRows"></div>
+            <button type="button" class="btn-secondary ocr-confirm" id="ocrConfirm">应用识别结果</button>
           </div>
         </div>
 
@@ -435,6 +482,151 @@
 
 <script>
 const TO_EMAIL = 'zhongtaibu@flipped-hz.com.cn';
+
+// ============ 人事专员：截图上传 + AI 识别 ============
+const uploadedScreenshots = []; // { id, name, dataUrl, status: 'pending'|'uploading'|'uploaded'|'failed' }
+let ocrResult = null;
+
+function initScreenshotUpload() {
+  const input = document.getElementById('screenshotInput');
+  if (!input) return;
+  input.addEventListener('change', async (e) => {
+    const files = Array.from(e.target.files || []);
+    for (const file of files) {
+      const id = 'ss_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+      const dataUrl = await fileToDataUrl(file);
+      const item = { id, name: file.name, dataUrl, status: 'pending' };
+      uploadedScreenshots.push(item);
+      renderScreenshots();
+      await uploadScreenshot(item);
+    }
+    input.value = '';
+    // 上传完后自动识别
+    if (uploadedScreenshots.some(s => s.status === 'uploaded')) {
+      runOCR();
+    }
+  });
+}
+
+function fileToDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function uploadScreenshot(item) {
+  item.status = 'uploading';
+  renderScreenshots();
+  try {
+    const resp = await fetch(API_BASE + '/api/upload', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: item.name, data: item.dataUrl })
+    });
+    const data = await resp.json();
+    if (resp.ok && data.url) {
+      item.status = 'uploaded';
+      item.url = data.url;
+    } else {
+      item.status = 'failed';
+    }
+  } catch (e) {
+    item.status = 'failed';
+  }
+  renderScreenshots();
+}
+
+function renderScreenshots() {
+  const list = document.getElementById('screenshotList');
+  if (!list) return;
+  list.innerHTML = uploadedScreenshots.map(s => `
+    <div class="screenshot-item" title="${s.name}">
+      <img src="${s.dataUrl}" alt="${s.name}">
+      <button class="del" onclick="removeScreenshot('${s.id}')">×</button>
+      <div class="status">${s.status === 'uploaded' ? '已上传' : s.status === 'uploading' ? '上传中...' : s.status === 'failed' ? '失败' : '待传'}</div>
+    </div>
+  `).join('');
+}
+
+function removeScreenshot(id) {
+  const idx = uploadedScreenshots.findIndex(s => s.id === id);
+  if (idx >= 0) uploadedScreenshots.splice(idx, 1);
+  renderScreenshots();
+}
+
+async function runOCR() {
+  const status = document.getElementById('ocrStatus');
+  const uploaded = uploadedScreenshots.filter(s => s.status === 'uploaded');
+  if (uploaded.length === 0) {
+    status.className = 'ocr-status error';
+    status.textContent = '没有可识别的截图';
+    return;
+  }
+  status.className = 'ocr-status loading';
+  status.textContent = `📤 截图已上传（${uploaded.length} 张）。点缩略图可看大图`;
+  // 调用后端 OCR（依赖后端配置了 AI 识别服务）
+  try {
+    const resp = await fetch(API_BASE + '/api/ocr', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ urls: uploaded.map(s => s.url) })
+    });
+    const data = await resp.json();
+    if (resp.ok && data.success) {
+      ocrResult = data;
+      status.className = 'ocr-status success';
+      status.textContent = `✅ 识别完成，置信度 ${Math.round((data.confidence || 0) * 100)}%`;
+      renderOCRResult(data);
+    } else {
+      // AI 识别未配置是正常情况，静态不报错
+      status.className = 'ocr-status';
+      status.textContent = `📤 已上传 ${uploaded.length} 张截图，邮件中会附上链接。AI 智能识别未配置，请手动从截图填写数字`;
+    }
+  } catch (e) {
+    status.className = 'ocr-status';
+    status.textContent = `📤 已上传 ${uploaded.length} 张截图。AI 识别调用失败：${e.message}`;
+  }
+}
+
+function renderOCRResult(data) {
+  const box = document.getElementById('ocrResult');
+  const rows = document.getElementById('ocrRows');
+  if (!box || !rows) return;
+  const items = data.items || {};
+  const labels = {
+    '打招呼数量': '打招呼数量',
+    '收到简历': '收到简历',
+    '邀约': '邀约',
+    '初面': '初面',
+    '试岗': '试岗',
+    '入库': '入库',
+  };
+  rows.innerHTML = Object.keys(labels).map(k => {
+    const v = items[k];
+    const cls = v === null || v === undefined ? 'zero' : (data.low_confidence && data.low_confidence.includes(k) ? 'unconfident' : '');
+    return `<div class="ocr-row">
+      <span class="label">${labels[k]}</span>
+      <span class="value ${cls}">${v === null || v === undefined ? '未识别' : v}</span>
+    </div>`;
+  }).join('');
+  box.style.display = 'block';
+  document.getElementById('ocrConfirm').onclick = applyOCRResult;
+}
+
+function applyOCRResult() {
+  if (!ocrResult || !ocrResult.items) return;
+  const items = ocrResult.items;
+  for (const [field, val] of Object.entries(items)) {
+    if (val === null || val === undefined) continue;
+    const el = document.querySelector(`[name="${field}"]`);
+    if (el) el.value = val;
+  }
+  showToast('✅ 识别结果已填入表单，请检查后发送');
+}
+
 const API_BASE = 'https://45.144.137.80:8443';
 
 document.querySelector('input[name="日期"]').valueAsDate = new Date();
@@ -477,6 +669,7 @@ function onPositionChange() {
   if (pos === '业务中台') calcRatio();
   if (pos === '投流手') calcROI();
   if (pos === '美工') { updateProgress(); autoFillSaturation(); }
+  if (pos === '人事专员') initScreenshotUpload();
 }
 
 function calcRatio() {
@@ -820,6 +1013,13 @@ ${d.各部门预算 || '（未填写）'}
 }
 
 function formatRenshi(d) {
+  const ss = uploadedScreenshots || [];
+  const ssBlock = ss.length > 0 ? `───────────────────────────
+📷 招聘平台截图 (${ss.length} 张)
+───────────────────────────
+${ss.map((s, i) => `${i+1}. ${s.name} → ${s.url || '上传中'}`).join('\n')}
+
+` : '';
   return `═══════════════════════════
   中台部门日报
 ═══════════════════════════
@@ -833,12 +1033,13 @@ function formatRenshi(d) {
 📥 今日招聘漏斗
 ───────────────────────────
 • 收到简历：${num(d.收到简历)} 份
+• 打招呼数量：${num(d.打招呼数量)} 人
 • 邀约：${num(d.邀约)} 人
 • 初面：${num(d.初面)} 人
 • 试岗：${num(d.试岗)} 人
 • 入库（人才库）：${num(d.入库)} 人
 
-───────────────────────────
+${ssBlock}───────────────────────────
 🎯 本月入职目标
 ───────────────────────────
 • 总目标：${num(d.本月总目标)} 人
