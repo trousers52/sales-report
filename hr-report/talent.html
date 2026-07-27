@@ -87,6 +87,81 @@
     .table-wrap { overflow-x: auto; }
     table { min-width: 800px; }
   }
+  /* ========== 响应式优化 ========== */
+  /* 移动优先 */
+  body { padding: 12px; }
+  .container { max-width: 100%; border-radius: 12px; }
+  .header { padding: 20px 16px; }
+  .header h1 { font-size: 20px; }
+  .header p { font-size: 12px; }
+  .header a, .auth-bar { position: static; display: block; margin: 8px auto 0; text-align: center; }
+  .auth-bar { display: flex; justify-content: center; gap: 8px; }
+  .body { padding: 16px; }
+  .toolbar { flex-direction: column; gap: 8px; }
+  .toolbar input, .toolbar select { width: 100%; }
+  .toolbar input { min-width: 0; }
+  .form-grid { grid-template-columns: 1fr; gap: 10px; }
+  .add-form { padding: 14px 16px; }
+  .form-title { font-size: 15px; }
+  th { padding: 8px 6px; font-size: 12px; }
+  td { padding: 8px 6px; font-size: 12px; }
+  .btn { padding: 11px 14px; font-size: 13px; }
+  .auth-modal { padding: 22px; }
+  .auth-modal input { padding: 11px 12px; font-size: 16px; }
+  .toast { right: 12px; left: 12px; top: 12px; text-align: center; }
+
+  /* 大屏手机 (>= 480px) */
+  @media (min-width: 480px) {
+    body { padding: 16px; }
+    .container { max-width: 480px; margin: 0 auto; border-radius: 16px; }
+    .toolbar { flex-direction: row; flex-wrap: wrap; }
+    .toolbar input { min-width: 200px; flex: 1; }
+  }
+
+  /* 平板 (>= 768px) */
+  @media (min-width: 768px) {
+    body { padding: 24px; }
+    .container { max-width: 1100px; }
+    .form-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .form-grid .full { grid-column: 1 / -1; }
+    .toolbar { flex-direction: row; }
+    .header { padding: 28px 24px; }
+    .header h1 { font-size: 24px; }
+    .header a, .auth-bar { position: absolute; }
+    .auth-bar { top: 20px; right: 24px; display: flex; }
+    .header a { top: 20px; left: 24px; }
+    .body { padding: 24px; }
+    th, td { padding: 12px; font-size: 14px; }
+  }
+
+  /* 桌面 (>= 1024px) */
+  @media (min-width: 1024px) {
+    body { padding: 30px; }
+    .container { max-width: 1200px; }
+  }
+
+  /* Mac 大屏 (>= 1440px) */
+  @media (min-width: 1440px) {
+    .container { max-width: 1200px; }
+  }
+
+  /* iPhone 刘海安全区 */
+  @supports (padding: max(0px)) {
+    body { padding-top: max(12px, env(safe-area-inset-top)); padding-bottom: max(12px, env(safe-area-inset-bottom)); padding-left: max(12px, env(safe-area-inset-left)); padding-right: max(12px, env(safe-area-inset-right)); }
+  }
+
+  /* 横屏手机 */
+  @media (max-height: 500px) and (orientation: landscape) {
+    .header { padding: 14px 20px; }
+    .header h1 { font-size: 18px; }
+  }
+
+  /* 打印 */
+  @media print {
+    body { background: #fff; padding: 0; }
+    .container { box-shadow: none; }
+    .toolbar, .add-form, .header a, .auth-bar { display: none; }
+  }
 </style>
 </head>
 <body>

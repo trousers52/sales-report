@@ -188,6 +188,108 @@
   .ocr-row .value.zero { color: #999; }
   .ocr-confirm { width: 100%; margin-top: 4px; }
 </style>
+<style>
+  /* ========== 响应式适配：手机/平板/桌面/Mac 大屏 ========== */
+  /* 移动优先：默认手机样式（单列） */
+  body { padding: 12px; }
+  .container { max-width: 100%; border-radius: 12px; }
+  .header { padding: 20px 18px; }
+  .header h1 { font-size: 20px; }
+  .header p { font-size: 12px; }
+  .header .header-link { position: static; display: inline-block; margin-top: 10px; padding: 4px 12px; font-size: 12px; }
+  .form-body { padding: 18px; }
+  .field { margin-bottom: 14px; }
+  .field input, .field textarea, .field select { padding: 11px 12px; font-size: 15px; }
+  .field textarea { min-height: 70px; }
+  .row, .row-3 { grid-template-columns: 1fr; gap: 14px; }
+  .group { padding: 14px 16px; }
+  .group-title { font-size: 14px; padding-bottom: 6px; }
+  .actions { flex-direction: column; gap: 10px; }
+  .btn { min-width: 100%; padding: 13px 16px; font-size: 15px; }
+  .info-banner { padding: 10px 12px; font-size: 12px; }
+  .saturation-display { font-size: 14px; padding: 10px 12px; }
+  .progress-box { padding: 12px 14px; }
+  .progress-info { font-size: 12px; }
+  .preview { padding: 14px; font-size: 12px; max-height: 400px; }
+  .footer { padding: 12px; font-size: 11px; }
+  .screenshot-list { gap: 6px; }
+  .screenshot-item { width: 70px; height: 70px; }
+  .toast { right: 12px; left: 12px; top: 12px; text-align: center; }
+
+  /* 小屏手机 (>= 360px) iPhone SE 等 */
+  @media (min-width: 360px) {
+    .field input, .field textarea, .field select { font-size: 16px; } /* 避免 iOS 自动放大 */
+  }
+
+  /* 大屏手机 (>= 480px) iPhone Plus / 小平板 */
+  @media (min-width: 480px) {
+    body { padding: 16px; }
+    .container { max-width: 480px; margin: 0 auto; border-radius: 16px; }
+    .header { padding: 24px 22px; }
+    .header h1 { font-size: 22px; }
+    .form-body { padding: 22px; }
+    .actions { flex-direction: row; flex-wrap: wrap; }
+    .btn { min-width: 140px; }
+  }
+
+  /* 平板 (>= 768px) iPad */
+  @media (min-width: 768px) {
+    body { padding: 24px; }
+    .container { max-width: 720px; }
+    .row { grid-template-columns: 1fr 1fr; }
+    .row-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .header { padding: 30px 26px; }
+    .header h1 { font-size: 24px; }
+    .header .header-link { position: absolute; top: 22px; right: 26px; margin-top: 0; }
+    .form-body { padding: 26px; }
+    .actions { flex-direction: row; }
+    .btn { min-width: 140px; }
+  }
+
+  /* 桌面 (>= 1024px) */
+  @media (min-width: 1024px) {
+    body { padding: 30px; }
+    .container { max-width: 760px; }
+    .field input, .field textarea, .field select { font-size: 14px; }
+  }
+
+  /* Mac 大屏 (>= 1440px) */
+  @media (min-width: 1440px) {
+    .container { max-width: 820px; }
+    .header h1 { font-size: 26px; }
+    .form-body { padding: 30px; }
+  }
+
+  /* iPhone 刘海适配：避免内容被遮挡 */
+  @supports (padding: max(0px)) {
+    body { padding-top: max(12px, env(safe-area-inset-top)); padding-bottom: max(12px, env(safe-area-inset-bottom)); padding-left: max(12px, env(safe-area-inset-left)); padding-right: max(12px, env(safe-area-inset-right)); }
+  }
+
+  /* 横屏手机 */
+  @media (max-height: 500px) and (orientation: landscape) {
+    .header { padding: 16px 20px; }
+    .header h1 { font-size: 18px; }
+    .form-body { padding: 16px 20px; }
+  }
+
+  /* 高 DPI 屏幕优化 */
+  @media (-webkit-min-device-pixel-ratio: 2) {
+    .field input, .field textarea, .field select { font-weight: 400; }
+  }
+
+  /* 深色模式支持 */
+  @media (prefers-color-scheme: dark) {
+    /* 暂不启用，避免与紫色渐变背景冲突 */
+  }
+
+  /* 打印样式 */
+  @media print {
+    body { background: #fff; padding: 0; }
+    .container { box-shadow: none; max-width: 100%; }
+    .actions, .header .header-link, .info-banner { display: none; }
+    .field input, .field textarea, .field select { border: 1px solid #999; }
+  }
+</style>
 </head>
 <body>
 <div class="container">
