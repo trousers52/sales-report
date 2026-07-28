@@ -419,6 +419,11 @@
   .status.已联系 { background: #fef3c7; color: #92400e; }
   .status.已入职 { background: #d1fae5; color: #065f46; }
   .status.已淘汰 { background: #f1f5f9; color: #64748b; }
+  .status.黑名单 { background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%); color: #fff; font-weight: 600; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3); }
+  tr.blacklist-row { background: #fef2f2 !important; }
+  tr.blacklist-row:hover { background: #fee2e2 !important; }
+  tr.blacklist-row td { color: #991b1b; }
+  tr.blacklist-row td .name-strike { text-decoration: line-through; opacity: 0.7; }
   .empty { text-align: center; padding: 60px 20px; color: var(--text-lighter); }
   .count-badge { background: var(--primary); color: #fff; padding: 3px 12px; border-radius: 99px; font-size: 12px; font-weight: 600; margin-left: 8px; }
   .btn-edit { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: #fff; padding: 6px 12px; font-size: 12px; border-radius: 8px; border: none; cursor: pointer; font-weight: 500; transition: all 0.2s; }
@@ -497,6 +502,7 @@
         <option value="已联系">已联系</option>
         <option value="已入职">已入职</option>
         <option value="已淘汰">已淘汰</option>
+        <option value="黑名单">🚫 黑名单</option>
       </select>
       <select id="positionFilter">
         <option value="">全部岗位</option>
@@ -565,6 +571,7 @@
             <option value="已联系">已联系</option>
             <option value="已入职">已入职</option>
             <option value="已淘汰">已淘汰</option>
+            <option value="黑名单">🚫 黑名单</option>
           </select>
         </div>
         <div><label>录入人</label><input type="text" id="fCreatedBy" placeholder="你的姓名"></div>
@@ -706,17 +713,23 @@ function renderList() {
     return;
   }
   tbody.innerHTML = allItems.map(t => {
-    const actionBtns = isAdmin() ?
-      `<button class="btn btn-edit" onclick="editTalent(${t.id})">编辑</button>
-       <button class="btn btn-danger" onclick="deleteTalent(${t.id})">删除</button>` :
-      `<span style="color:#bbb;font-size:12px">只读</span>`;
-    return `<tr>
-      <td><b>${escape(t.name)}</b>${t.wechat ? '<br><span style="color:#999;font-size:12px">wx: ' + escape(t.wechat) + '</span>' : ''}</td>
+    const isBlacklist = t.status === '黑名单';
+    const actionBtns = isAdmin() ? (
+      isBlacklist ?
+        `<button class="btn btn-edit" onclick="restoreTalent(${t.id})">解除</button>
+         <button class="btn btn-danger" onclick="deleteTalent(${t.id})">删除</button>` :
+        `<button class="btn btn-edit" onclick="editTalent(${t.id})">编辑</button>
+         <button class="btn btn-danger" onclick="blacklistTalent(${t.id})">拉黑</button>
+         <button class="btn btn-danger" onclick="deleteTalent(${t.id})">删除</button>`
+    ) : `<span style="color:#bbb;font-size:12px">只读</span>`;
+    const rowClass = isBlacklist ? 'blacklist-row' : '';
+    return `<tr class="${rowClass}">
+      <td><b class="${isBlacklist ? 'name-strike' : ''}">${escape(t.name)}</b>${t.wechat ? '<br><span style="color:#999;font-size:12px">wx: ' + escape(t.wechat) + '</span>' : ''}</td>
       <td>${t.phone ? '<a href="tel:' + escape(t.phone) + '">' + escape(t.phone) + '</a>' : '—'}</td>
       <td>${escape(t.position) || '—'}</td>
       <td>${escape(t.source) || '—'}</td>
       <td><span class="rating ${t.rating}">${t.rating || 'B'}</span></td>
-      <td><span class="status ${t.status}">${t.status || '在库'}</span></td>
+      <td><span class="status ${t.status}">${isBlacklist ? '🚫 ' : ''}${t.status || '在库'}</span></td>
       <td style="color:#999;font-size:12px">${formatTime(t.updated_at)}</td>
       <td>${actionBtns}</td>
     </tr>`;
@@ -817,6 +830,54 @@ async function deleteTalent(id) {
     }
   } catch (e) {
     showToast('删除失败：' + e.message, true);
+  }
+}
+
+async function blacklistTalent(id) {
+  if (!isAdmin()) { showAuthModal(); return; }
+  const t = allItems.find(x => x.id === id);
+  const name = t ? t.name : '该人才';
+  const reason = prompt(`拉黑 ${name}\n\n请输入拉黑原因（必填）：`, '');
+  if (reason === null) return; // 取消
+  if (!reason.trim()) { showToast('请填写拉黑原因', true); return; }
+  if (!confirm(`确认将 ${name} 拉入黑名单？\n\n原因：${reason}\n\n此操作后该人选永不录用！`)) return;
+  try {
+    const resp = await fetch(API_BASE + '/api/talent/' + id + '/blacklist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + adminToken },
+      body: JSON.stringify({ reason: reason.trim() })
+    });
+    const data = await resp.json();
+    if (data.success) {
+      showToast('🚫 已拉黑：' + name);
+      loadList();
+    } else {
+      throw new Error(data.error || '操作失败');
+    }
+  } catch (e) {
+    showToast('拉黑失败：' + e.message, true);
+  }
+}
+
+async function restoreTalent(id) {
+  if (!isAdmin()) { showAuthModal(); return; }
+  const t = allItems.find(x => x.id === id);
+  const name = t ? t.name : '该人才';
+  if (!confirm(`确认将 ${name} 移出黑名单？\n\n状态会恢复为"在库"`)) return;
+  try {
+    const resp = await fetch(API_BASE + '/api/talent/' + id + '/restore', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + adminToken }
+    });
+    const data = await resp.json();
+    if (data.success) {
+      showToast('✅ 已恢复：' + name);
+      loadList();
+    } else {
+      throw new Error(data.error || '操作失败');
+    }
+  } catch (e) {
+    showToast('恢复失败：' + e.message, true);
   }
 }
 
