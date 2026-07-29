@@ -10,27 +10,38 @@
     "slogan_bottom": "寸土必争",
     "list": [
       {
-        "name": "廖闻涛",
-        "group": "SMB-二组",
-        "target": 7,
-        "actual": 2,
-        "stores": [
-          "魔方体炒姿身材管理",
-          "超越圣骑士·电动车配件大全"
-        ],
-        "month_gmv": 254.4,
-        "today_gmv": 189.6
-      },
-      {
         "name": "李亚洁",
         "group": "SMB一组",
-        "target": 19,
+        "target": 17,
         "actual": 1,
         "stores": [
           "(新签) 待补"
         ],
         "month_gmv": 0,
         "today_gmv": 0
+      },
+      {
+        "name": "张琪",
+        "group": "KA二组",
+        "target": 5,
+        "actual": 1,
+        "stores": [
+          "LK木易造型"
+        ],
+        "month_gmv": 274.2,
+        "today_gmv": 158
+      },
+      {
+        "name": "廖闻涛",
+        "group": "SMB-二组",
+        "target": 3,
+        "actual": 1,
+        "stores": [
+          "魔方体炒姿身材管理",
+          "超越圣骑士·电动车配件大全"
+        ],
+        "month_gmv": 254.4,
+        "today_gmv": 189.6
       },
       {
         "name": "张耿淳",
@@ -64,15 +75,6 @@
         "today_gmv": 1977
       },
       {
-        "name": "谭康",
-        "group": "SMB一组",
-        "target": 17,
-        "actual": 0,
-        "stores": [],
-        "month_gmv": 0,
-        "today_gmv": 0
-      },
-      {
         "name": "陈锦鹏",
         "group": "SMB-二组",
         "target": 16,
@@ -85,6 +87,15 @@
         "today_gmv": 419.9
       },
       {
+        "name": "谭康",
+        "group": "SMB一组",
+        "target": 15,
+        "actual": 0,
+        "stores": [],
+        "month_gmv": 0,
+        "today_gmv": 0
+      },
+      {
         "name": "杨竟竟",
         "group": "KA二组",
         "target": 8,
@@ -94,17 +105,6 @@
         ],
         "month_gmv": 1751.2,
         "today_gmv": 1452.7
-      },
-      {
-        "name": "张琪",
-        "group": "KA二组",
-        "target": 5,
-        "actual": 0,
-        "stores": [
-          "LK木易造型"
-        ],
-        "month_gmv": 274.2,
-        "today_gmv": 158
       },
       {
         "name": "沈中堂",
@@ -121,7 +121,7 @@
       {
         "name": "张超",
         "group": "KA一组",
-        "target": 4,
+        "target": 3,
         "actual": 0,
         "stores": [],
         "month_gmv": 0,
@@ -130,7 +130,7 @@
       {
         "name": "燕小一",
         "group": "KA一组",
-        "target": 1,
+        "target": 0,
         "actual": 0,
         "stores": [
           "进趣洋县豆木造物艺社(北环路店)"
